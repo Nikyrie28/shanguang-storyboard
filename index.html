@@ -29,8 +29,11 @@
     .auth-error{padding:12px;border-radius:10px;background:#fff5f5;color:var(--danger);font-size:13px;text-align:left}
     .auth-hint{margin-top:20px;color:var(--muted);font-size:13px}
     .app-shell{width:100%;max-width:none;margin:0;padding:12px 16px 24px}
-    .user-bar{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:8px 16px;margin-bottom:8px}
-    .user-email{color:var(--muted);font-size:13px}
+    .user-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 16px;margin-bottom:8px}
+    .user-bar-brand{display:flex;align-items:center;min-width:0}
+    .user-bar-brand-logo{display:block;height:34px;width:auto;max-width:min(188px,42vw)}
+    .user-bar-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:12px;min-width:0;flex-wrap:wrap}
+    .user-email{min-width:0;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:13px}
     .btn-logout{padding:8px 16px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
     .btn-logout:hover{background:#f8f8f6;color:var(--text)}
     .home-shell{display:grid;grid-template-columns:74px minmax(0,1fr);width:min(100%,1760px);min-height:calc(100vh - 24px);margin:0 auto;border:1px solid var(--border);border-radius:22px;overflow:hidden;background:#fff}
@@ -163,7 +166,7 @@
     .sync-indicator.syncing .sync-dot{animation:pulse 1s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
     @media(max-width:1100px){.project-info-bar{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:760px){.app-shell{padding:0}.page-head{flex-direction:column;align-items:flex-start;gap:12px}.page-head-left{gap:4px;min-width:0;max-width:none}.project-logo-wrap{width:108px;height:28px}.project-logo{width:100px}.page-head-left h2{font-size:20px;margin-bottom:2px}.page-head-left p{font-size:13px}.project-info-bar,.form-grid.two-col{grid-template-columns:1fr}.home-shell{grid-template-columns:1fr;border:none}.home-sidebar{flex-direction:row;border-right:none;border-bottom:1px solid var(--border);padding:10px 12px}.home-main{padding:18px 14px 28px}.project-grid{grid-template-columns:repeat(2,1fr);gap:22px 18px}}
+    @media(max-width:760px){.app-shell{padding:0}.user-bar{padding:12px 14px 8px;align-items:flex-start;flex-wrap:wrap}.user-bar-brand{flex-basis:100%}.user-bar-brand-logo{height:30px;max-width:156px}.user-bar-actions{width:100%;gap:8px}.user-email{max-width:none;flex:1 1 160px}.page-head{flex-direction:column;align-items:flex-start;gap:12px}.page-head-left{gap:4px;min-width:0;max-width:none}.project-logo-wrap{width:108px;height:28px}.project-logo{width:100px}.page-head-left h2{font-size:20px;margin-bottom:2px}.page-head-left p{font-size:13px}.project-info-bar,.form-grid.two-col{grid-template-columns:1fr}.home-shell{grid-template-columns:1fr;border:none}.home-sidebar{flex-direction:row;border-right:none;border-bottom:1px solid var(--border);padding:10px 12px}.home-main{padding:18px 14px 28px}.project-grid{grid-template-columns:repeat(2,1fr);gap:22px 18px}}
   </style>
 </head>
 <body>
@@ -195,9 +198,14 @@
   </div>
   <div id="app-view" class="app-shell hidden">
     <div class="user-bar">
-      <span class="sync-indicator synced" id="sync-indicator"><span class="sync-dot"></span><span class="sync-text">已同步</span></span>
-      <span class="user-email" id="user-email"></span>
-      <button class="btn-logout" id="logout-btn">退出登录</button>
+      <div class="user-bar-brand">
+        <img class="user-bar-brand-logo" src="./logo-frame-2.png" alt="闪光 Logo">
+      </div>
+      <div class="user-bar-actions">
+        <span class="sync-indicator synced" id="sync-indicator"><span class="sync-dot"></span><span class="sync-text">已同步</span></span>
+        <span class="user-email" id="user-email"></span>
+        <button class="btn-logout" id="logout-btn">退出登录</button>
+      </div>
     </div>
     <section id="home-view">
       <div class="home-shell">
