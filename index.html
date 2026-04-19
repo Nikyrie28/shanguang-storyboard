@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>闪光分镜</title>
+  <link rel="icon" href="./logo-frame-2.png" type="image/png">
+  <link rel="shortcut icon" href="./logo-frame-2.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
@@ -71,7 +73,7 @@
   <div id="loading-overlay" class="fixed inset-0 z-[2000] flex items-center justify-center bg-white/90"><div class="loading-spinner h-12 w-12 animate-spin rounded-full border-4 border-border border-t-primary"></div></div>
   <div id="auth-view" class="auth-container hidden flex min-h-screen items-center justify-center bg-[linear-gradient(135deg,#fdfbf7_0%,#faf5e8_100%)] px-5 py-8">
     <div class="auth-card w-full max-w-[400px] rounded-[24px] bg-white px-9 py-10 text-center shadow-auth">
-      <div class="auth-logo mb-3 text-[56px] leading-none">⚡</div>
+
       <h1 class="auth-title mb-2 text-[28px] font-extrabold">闪光分镜</h1>
       <p class="auth-subtitle mb-8 text-sm text-muted">分镜管理，云端同步</p>
       <div class="auth-tabs mb-7 flex gap-1 rounded-xl bg-[#f5f5f3] p-1">
@@ -97,7 +99,7 @@
   <div id="app-view" class="app-shell hidden w-full px-4 pb-6 pt-3 max-md:px-0">
     <div class="user-bar mb-2 flex items-center justify-between gap-4 px-4 py-2 max-md:flex-wrap max-md:items-start max-md:px-[14px] max-md:pb-2 max-md:pt-3">
       <div class="user-bar-brand flex min-w-0 items-center max-md:basis-full">
-        <img class="user-bar-brand-logo block h-[34px] w-auto max-w-[min(188px,42vw)] max-md:h-[30px] max-md:max-w-[156px]" src="./logo-frame-2.png" alt="闪光 Logo">
+        <img class="user-bar-brand-logo block h-[52px] w-auto max-w-[min(188px,42vw)] max-md:h-[45px] max-md:max-w-[156px]" src="./logo-frame-2.png" alt="闪光 Logo">
       </div>
       <div class="user-bar-actions ml-auto flex min-w-0 flex-wrap items-center justify-end gap-3 max-md:w-full max-md:gap-2">
         <span class="sync-indicator inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold" data-status="synced" id="sync-indicator"><span class="sync-dot h-2 w-2 rounded-full bg-current"></span><span class="sync-text">已同步</span></span>
@@ -150,7 +152,7 @@
         <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">总时长</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="duration"></div></div>
       </div>
       <div class="table-card overflow-hidden rounded-[14px] border border-border bg-white" id="project-export-area">
-        <div class="table-toolbar flex items-center justify-between gap-3 px-4 pb-0 pt-[14px]"><p class="m-0 text-sm text-muted">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p></div>
+        <div class="table-toolbar flex items-center justify-start gap-3 px-4 py-4"><p class="m-0 text-sm text-muted text-left">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p></div>
         <div class="table-wrap overflow-x-auto">
           <table id="plan-table" class="w-full min-w-[1040px] table-fixed border-collapse text-[13px] leading-[1.6]">
             <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670]"></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted">#</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">时间</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">部门</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">参考图</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">拍摄内容</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">焦段</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">运镜</th><th class="action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
@@ -196,6 +198,24 @@
       </div>
     </div>
   </div>
+  <div id="csv-import-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[520px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <div class="flex items-center justify-center mb-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-[#fff4d9] text-[28px] font-bold text-button-text">+</div>
+      </div>
+      <h3 class="mb-2 text-2xl font-extrabold text-center">导入 CSV</h3>
+      <p class="mb-6 text-center text-sm text-muted">将 CSV 文件导入当前项目，系统会自动生成分镜表并覆盖当前内容。</p>
+      <div id="csv-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
+        <div class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
+        <p class="mt-3 text-sm text-[#5f6670]">点击或拖拽 CSV 文件到这里</p>
+        <p id="csv-file-name" class="mt-2 text-xs text-muted">支持 .csv 格式</p>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-csv-import-btn">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-csv-import-btn" disabled>确定导入</button>
+      </div>
+    </div>
+  </div>
   <div id="time-picker-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
     <div class="modal time-picker-modal w-full max-w-[420px] rounded-[18px] border border-border bg-white/95 p-[22px] shadow-modal">
       <div class="time-picker-header mb-[14px] text-center">
@@ -228,7 +248,7 @@
     const supabaseAnonKey = envConfig.key || 'sb_publishable_IwWht5iZ25WP08S7kgxPvQ_wLGd388Q';
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
     const isConfigured = () => Boolean(supabaseUrl && supabaseAnonKey);
-    const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, timePicker: { activeTag: null, minute: 0, second: 0 } };
+    const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, pendingCSVImport: null, timePicker: { activeTag: null, minute: 0, second: 0 } };
     const $ = id => document.getElementById(id);
     const heroicon = name => ({
       folder: '<svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -294,6 +314,7 @@
     function bindAppEvents() {
       if (state.appEventsBound) return;
       state.appEventsBound = true;
+      ensureCSVImportControls();
       $('logout-btn').addEventListener('click', async () => { await supabase.auth.signOut(); state.user = null; showAuth(); showToast('已退出登录'); });
       $('back-home-btn').addEventListener('click', backToHome);
       $('cancel-project-modal').addEventListener('click', () => projectModalBackdrop.classList.add('hidden'));
@@ -305,6 +326,13 @@
       $('import-menu-btn').addEventListener('click', e => toggleMenu(e, 'import-menu'));
       $('export-menu-btn').addEventListener('click', e => toggleMenu(e, 'export-menu'));
       $('import-json-btn').addEventListener('click', () => { closeMenus(); $('project-json-input').click(); });
+      $('import-csv-btn').addEventListener('click', () => { closeMenus(); openCSVImportModal(); });
+      $('confirm-csv-import-btn').addEventListener('click', confirmCSVImport);
+      $('cancel-csv-import-btn').addEventListener('click', closeCSVImportModal);
+      $('csv-upload-area').addEventListener('click', () => { $('project-csv-input')?.click(); });
+      $('csv-upload-area').addEventListener('dragover', e => { e.preventDefault(); $('csv-upload-area')?.classList.add('border-[#f6d56f]'); });
+      $('csv-upload-area').addEventListener('dragleave', () => { $('csv-upload-area')?.classList.remove('border-[#f6d56f]'); });
+      $('csv-upload-area').addEventListener('drop', e => { e.preventDefault(); $('csv-upload-area')?.classList.remove('border-[#f6d56f]'); const file = e.dataTransfer.files[0]; if (file && file.name.toLowerCase().endsWith('.csv')) { handleProjectCSVImport({ target: { files: e.dataTransfer.files } }); } });
       $('export-json-btn').addEventListener('click', () => { closeMenus(); exportJSON(); });
       $('export-html-btn').addEventListener('click', () => { closeMenus(); exportHTML(); });
       $('export-pdf-btn').addEventListener('click', () => { closeMenus(); exportPDF(); });
@@ -312,6 +340,7 @@
       $('add-row-btn').addEventListener('click', () => { tableBody.appendChild(createRowElement(getSuggestedNextRowData())); updateRowNumbers(); saveCurrentProjectSilently(); });
       imageInput.addEventListener('change', handleImageInputChange);
       $('project-json-input').addEventListener('change', handleProjectJSONImport);
+      $('project-csv-input').addEventListener('change', handleProjectCSVImport);
       tableBody.addEventListener('click', handleTableClick);
       tableBody.addEventListener('dragover', e => { const ub = e.target.closest('.upload-box'); if (ub) { e.preventDefault(); ub.classList.add('drag-over'); } });
       tableBody.addEventListener('dragleave', e => { const ub = e.target.closest('.upload-box'); if (ub) ub.classList.remove('drag-over'); });
@@ -591,7 +620,19 @@
       tag.querySelector('.time-tag-value').textContent = newVal;
       const startTot = parseSingleTime(startTag.textContent).minute * 60 + parseSingleTime(startTag.textContent).second;
       const endTot = parseSingleTime(endTag.textContent).minute * 60 + parseSingleTime(endTag.textContent).second;
-      if (startTot > endTot) { if (tag.dataset.role === 'start') endTag.textContent = startTag.textContent; else startTag.textContent = endTag.textContent; }
+      let endChanged = false;
+      if (startTot > endTot) {
+        if (tag.dataset.role === 'start') { endTag.textContent = startTag.textContent; endChanged = true; }
+        else { startTag.textContent = endTag.textContent; }
+      }
+      if (tag.dataset.role === 'end' || endChanged) {
+        const currentRow = tag.closest('tr');
+        const nextRow = currentRow?.nextElementSibling;
+        if (nextRow) {
+          const nextStartTag = nextRow.querySelector('.time-tag[data-role="start"] .time-tag-value');
+          if (nextStartTag) nextStartTag.textContent = endTag.textContent;
+        }
+      }
       timePickerBackdrop.classList.add('hidden');
       saveCurrentProjectSilently();
     }
@@ -632,6 +673,26 @@
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = sanitizeFileName(p.title || '项目') + '.html'; a.click(); URL.revokeObjectURL(a.href);
       showToast('HTML 已导出');
     }
+    function ensureCSVImportControls() {
+      if (!$('project-csv-input')) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.id = 'project-csv-input';
+        input.accept = '.csv,text/csv';
+        input.hidden = true;
+        document.body.appendChild(input);
+      }
+      if (!$('import-csv-btn')) {
+        const menu = $('import-menu');
+        if (!menu) return;
+        const btn = document.createElement('button');
+        btn.className = 'action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text';
+        btn.id = 'import-csv-btn';
+        btn.type = 'button';
+        btn.textContent = '导入 CSV';
+        menu.appendChild(btn);
+      }
+    }
     async function handleProjectJSONImport(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -647,6 +708,107 @@
         e.target.value = '';
       };
       reader.readAsText(file);
+    }
+    async function handleProjectCSVImport(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async ev => {
+        try {
+          const parsed = parseCSVText(ev.target.result);
+          if (!parsed.headers.length || !parsed.rows.length) { showToast('CSV 文件为空'); return; }
+          const mappedRows = parsed.rows.map(row => mapCSVRowToProjectRow(row, parsed.headers)).filter(row => Object.values(row).some(Boolean));
+          if (!mappedRows.length) { showToast('CSV 中没有可导入的镜头数据'); return; }
+          state.pendingCSVImport = { rows: mappedRows, fileName: file.name };
+          $('csv-file-name').textContent = file.name;
+          $('confirm-csv-import-btn').disabled = false;
+          showToast('CSV 已准备好，点击确定导入当前项目');
+        } catch (err) { showToast('CSV 解析失败'); }
+        e.target.value = '';
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+    function openCSVImportModal() {
+      if (!state.currentProjectId) { showToast('请先打开一个项目'); return; }
+      state.pendingCSVImport = null;
+      $('csv-file-name').textContent = '支持 .csv 格式';
+      $('confirm-csv-import-btn').disabled = true;
+      $('csv-import-modal-backdrop').classList.remove('hidden');
+    }
+    function closeCSVImportModal() {
+      $('csv-import-modal-backdrop').classList.add('hidden');
+      const input = $('project-csv-input');
+      if (input) input.value = '';
+      state.pendingCSVImport = null;
+    }
+    async function confirmCSVImport() {
+      if (!state.currentProjectId) { showToast('请先打开一个项目'); closeCSVImportModal(); return; }
+      const importData = state.pendingCSVImport;
+      if (!importData?.rows?.length) { showToast('请先选择 CSV 文件'); return; }
+      const success = await saveProjectRows(state.currentProjectId, importData.rows);
+      if (success) {
+        await loadProjectIntoEditor(state.currentProjectId);
+        closeCSVImportModal();
+        showToast('CSV 已导入，当前项目已覆盖');
+      }
+    }
+    function parseCSVText(text) {
+      const rows = [];
+      let current = '';
+      let row = [];
+      let inQuotes = false;
+      const source = String(text || '').replace(/^\uFEFF/, '');
+      for (let i = 0; i < source.length; i++) {
+        const char = source[i];
+        const next = source[i + 1];
+        if (char === '"') {
+          if (inQuotes && next === '"') { current += '"'; i++; }
+          else inQuotes = !inQuotes;
+          continue;
+        }
+        if (char === ',' && !inQuotes) {
+          row.push(current);
+          current = '';
+          continue;
+        }
+        if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (char === '\r' && next === '\n') i++;
+          row.push(current);
+          if (row.some(cell => String(cell).trim() !== '')) rows.push(row);
+          row = [];
+          current = '';
+          continue;
+        }
+        current += char;
+      }
+      row.push(current);
+      if (row.some(cell => String(cell).trim() !== '')) rows.push(row);
+      const headers = (rows.shift() || []).map(normalizeCSVHeader);
+      return {
+        headers,
+        rows: rows.map(cols => Object.fromEntries(headers.map((header, index) => [header, String(cols[index] || '').trim()])))
+      };
+    }
+    function normalizeCSVHeader(header) {
+      return String(header || '').trim().toLowerCase().replace(/^\uFEFF/, '');
+    }
+    function mapCSVRowToProjectRow(row, headers) {
+      const pick = (...keys) => {
+        const key = keys.find(candidate => headers.includes(candidate));
+        return key ? row[key] || '' : '';
+      };
+      const start = pick('start', 'start time', 'start_time', '开始', '开始时间', '起始时间', 'in');
+      const end = pick('end', 'end time', 'end_time', '结束', '结束时间', '截止时间', 'out');
+      const directTime = pick('time', '时间', '时长', '镜头时间', '时段');
+      const time = directTime || (start || end ? normalizeTime(start || '0:00') + ' - ' + normalizeTime(end || start || '0:00') : '0:00 - 0:00');
+      return {
+        time,
+        dept: pick('dept', 'department', '部门', '场景', 'scene'),
+        img: pick('img', 'image', '图片', '参考图', 'reference', 'reference image'),
+        content: pick('content', '内容', '拍摄内容', 'description', 'shot', 'shot content'),
+        lens: pick('lens', '焦段', '镜头', 'camera lens'),
+        movement: pick('movement', '运镜', 'camera movement', 'move')
+      };
     }
     function initSortable() { if (state.sortable) state.sortable.destroy(); state.sortable = new Sortable(tableBody, { handle: '.drag-handle', animation: 160, ghostClass: 'sortable-ghost', onEnd: () => { updateRowNumbers(); saveCurrentProjectSilently(); } }); }
     function toggleMenu(e, menuId) { e.stopPropagation(); const m = $(menuId); closeMenus(); if (!m.classList.contains('open')) m.classList.add('open'); }
