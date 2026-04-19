@@ -125,6 +125,15 @@
     .upload-box:hover{border-color:#e4c978;background:#fffaf0}
     .upload-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .plus-sign{font-size:24px;color:#2f343a;font-weight:700}
+    .heroicon{display:block;width:1em;height:1em;flex:none;overflow:visible}
+    .sidebar-item-icon .heroicon{display:block}
+    .btn .heroicon,.add-row-btn .heroicon{font-size:16px}
+    .btn-caret{font-size:18px}
+    .folder-action .heroicon,.icon-btn .heroicon,.drag-handle .heroicon,.create-plus .heroicon,.plus-sign .heroicon{display:block}
+    .folder-action .heroicon,.icon-btn .heroicon{font-size:16px}
+    .drag-handle .heroicon{font-size:18px}
+    .create-plus .heroicon{font-size:34px}
+    .plus-sign .heroicon{font-size:24px}
     .img-delete-btn{position:absolute;top:-8px;right:-8px;opacity:0;pointer-events:none;background:var(--danger);color:#fff}
     .image-box.has-image:hover .img-delete-btn{opacity:1;pointer-events:auto}
     .add-row-btn{width:100%;padding:16px;border:none;border-top:1px solid var(--border);background:#fff;color:var(--muted);font-size:14px;font-weight:700;cursor:pointer}
@@ -212,7 +221,7 @@
         <aside class="home-sidebar">
           <div class="sidebar-logo">⚡</div>
           <div class="sidebar-divider"></div>
-          <div class="sidebar-item active"><div class="sidebar-item-icon">🗂</div><div>项目</div></div>
+          <div class="sidebar-item active"><div class="sidebar-item-icon"><svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div>项目</div></div>
         </aside>
         <div class="home-main">
           <div class="home-header"><h1 class="home-title">我的项目</h1></div>
@@ -229,20 +238,20 @@
           <div class="page-head-copy"><h2 id="project-page-title">项目详情</h2><p id="project-page-desc">已进入项目</p></div>
         </div>
         <div class="page-actions">
-          <button class="btn btn-ghost" id="back-home-btn">← 返回主页</button>
+          <button class="btn btn-ghost" id="back-home-btn"><svg class="heroicon heroicon-arrow-left" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>返回主页</span></button>
           <div class="action-group">
-            <button class="btn btn-ghost" id="import-menu-btn">导入 ▾</button>
+            <button class="btn btn-ghost" id="import-menu-btn"><span>导入</span><svg class="heroicon heroicon-chevron-down btn-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="action-menu" id="import-menu"><button class="action-menu-item" id="import-json-btn">导入 JSON</button></div>
           </div>
           <div class="action-group">
-            <button class="btn btn-ghost" id="export-menu-btn">导出 ▾</button>
+            <button class="btn btn-ghost" id="export-menu-btn"><span>导出</span><svg class="heroicon heroicon-chevron-down btn-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="action-menu" id="export-menu">
               <button class="action-menu-item" id="export-pdf-btn">导出 PDF</button>
               <button class="action-menu-item" id="export-json-btn">导出 JSON</button>
               <button class="action-menu-item" id="export-html-btn">导出 HTML</button>
             </div>
           </div>
-          <button class="btn btn-secondary" id="save-project-btn">💾 保存</button>
+          <button class="btn btn-secondary" id="save-project-btn"><svg class="heroicon heroicon-save" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
         </div>
       </div>
       <div class="project-info-bar" id="project-info-bar">
@@ -260,7 +269,7 @@
             <tbody id="table-body"></tbody>
           </table>
         </div>
-        <button class="add-row-btn" id="add-row-btn">＋ 添加新镜头</button>
+        <button class="add-row-btn" id="add-row-btn"><svg class="heroicon heroicon-plus" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 添加新镜头</button>
       </div>
     </section>
   </div>
@@ -333,6 +342,18 @@
     const isConfigured = () => Boolean(supabaseUrl && supabaseAnonKey);
     const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, timePicker: { activeTag: null, minute: 0, second: 0 } };
     const $ = id => document.getElementById(id);
+    const heroicon = name => ({
+      folder: '<svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      arrowLeft: '<svg class="heroicon heroicon-arrow-left" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      chevronDown: '<svg class="heroicon heroicon-chevron-down" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      save: '<svg class="heroicon heroicon-save" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      plus: '<svg class="heroicon heroicon-plus" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      drag: '<svg class="heroicon heroicon-drag" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.25 7.5h13.5M5.25 12h13.5M5.25 16.5h13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      x: '<svg class="heroicon heroicon-x" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      copy: '<svg class="heroicon heroicon-copy" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h6a2.25 2.25 0 0 1 2.25 2.25v6A2.25 2.25 0 0 1 17.25 18h-6A2.25 2.25 0 0 1 9 15.75v-6Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 14.25V8.25A2.25 2.25 0 0 0 12.75 6h-6A2.25 2.25 0 0 0 4.5 8.25v6a2.25 2.25 0 0 0 2.25 2.25h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      more: '<svg class="heroicon heroicon-more" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6.75" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="17.25" cy="12" r="1.5" fill="currentColor"/></svg>',
+      trash: '<svg class="heroicon heroicon-x" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    }[name] || '');
     const loadingOverlay = $('loading-overlay'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel');
     document.addEventListener('DOMContentLoaded', async () => {
       if (!isConfigured()) { showToast('请先配置 Supabase'); loadingOverlay.classList.add('hidden'); authView.classList.remove('hidden'); return; }
@@ -469,12 +490,12 @@
       emptyProjects.classList.toggle('hidden', state.projects.length > 0);
       const createCard = document.createElement('article');
       createCard.className = 'project-card create-card';
-      createCard.innerHTML = '<div class="project-folder" data-action="create-project"><div class="create-plus">+</div></div><div class="project-caption"><h3>创建新项目</h3></div>';
+      createCard.innerHTML = '<div class="project-folder" data-action="create-project"><div class="create-plus">' + heroicon('plus') + '</div></div><div class="project-caption"><h3>创建新项目</h3></div>';
       projectGrid.appendChild(createCard);
       state.projects.forEach(project => {
         const card = document.createElement('article');
         card.className = 'project-card';
-        card.innerHTML = '<div class="project-actions"><button class="folder-action" data-action="edit-project" data-id="' + project.id + '">⋯</button><button class="folder-action delete" data-action="delete-project" data-id="' + project.id + '">×</button></div><div class="project-folder" data-action="open-project" data-id="' + project.id + '"><div class="project-folder-cover"></div></div><div class="project-caption"><h3>' + escapeHTML(project.title || '未命名') + '</h3><div class="project-created-at">创建 ' + formatDate(project.created_at) + '</div></div>';
+        card.innerHTML = '<div class="project-actions"><button class="folder-action" data-action="edit-project" data-id="' + project.id + '" aria-label="编辑项目">' + heroicon('more') + '</button><button class="folder-action delete" data-action="delete-project" data-id="' + project.id + '" aria-label="删除项目">' + heroicon('trash') + '</button></div><div class="project-folder" data-action="open-project" data-id="' + project.id + '"><div class="project-folder-cover"></div></div><div class="project-caption"><h3>' + escapeHTML(project.title || '未命名') + '</h3><div class="project-created-at">创建 ' + formatDate(project.created_at) + '</div></div>';
         projectGrid.appendChild(card);
       });
       projectGrid.querySelectorAll('[data-action]').forEach(btn => btn.addEventListener('click', handleProjectCardAction));
@@ -588,7 +609,7 @@
     function createRowElement(row = {}) {
       const { start, end } = parseTimeRange(row.time || '0:00 - 0:00');
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td class="col-drag"><span class="drag-handle">☰</span></td><td class="col-index"></td><td class="time-cell"><div class="row-delete-anchor"><button class="icon-btn row-delete-btn">✕</button></div><div class="time-range"><button class="time-tag" data-role="start"><span class="time-tag-label">开始</span><span class="time-tag-value">' + escapeHTML(start) + '</span></button><div class="time-separator">至</div><button class="time-tag" data-role="end"><span class="time-tag-label">结束</span><span class="time-tag-value">' + escapeHTML(end) + '</span></button></div></td><td contenteditable="true">' + escapeHTMLWithBreak(row.dept || '点击输入部门') + '</td><td><div class="image-box ' + (row.img ? 'has-image' : '') + '"><button class="icon-btn img-delete-btn">✕</button><div class="upload-box"><span class="plus-sign">+</span>' + (row.img ? '<img src="' + row.img + '">' : '') + '</div></div></td><td contenteditable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td contenteditable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td contenteditable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="action-col"><button class="icon-btn row-copy-btn">⎘</button></td>';
+      tr.innerHTML = '<td class="col-drag"><span class="drag-handle">' + heroicon('drag') + '</span></td><td class="col-index"></td><td class="time-cell"><div class="row-delete-anchor"><button class="icon-btn row-delete-btn" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range"><button class="time-tag" data-role="start"><span class="time-tag-label">开始</span><span class="time-tag-value">' + escapeHTML(start) + '</span></button><div class="time-separator">至</div><button class="time-tag" data-role="end"><span class="time-tag-label">结束</span><span class="time-tag-value">' + escapeHTML(end) + '</span></button></div></td><td contenteditable="true">' + escapeHTMLWithBreak(row.dept || '点击输入部门') + '</td><td><div class="image-box ' + (row.img ? 'has-image' : '') + '"><button class="icon-btn img-delete-btn" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box"><span class="plus-sign">' + heroicon('plus') + '</span>' + (row.img ? '<img src="' + row.img + '">' : '') + '</div></div></td><td contenteditable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td contenteditable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td contenteditable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="action-col"><button class="icon-btn row-copy-btn" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
       return tr;
     }
     function handleTableClick(e) {
