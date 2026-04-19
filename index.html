@@ -4,328 +4,217 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>闪光分镜</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            border: '#ece8e1',
+            text: '#2d2f33',
+            muted: '#8b8f97',
+            'muted-soft': '#9ea3aa',
+            'surface-soft': '#faf9f7',
+            primary: '#f3cf69',
+            button: '#f6d56f',
+            'button-hover': '#efcc61',
+            'button-text': '#7f6028',
+            success: '#2bb673',
+            danger: '#e5484d',
+            'brand-violet': '#8f88d8'
+          },
+          boxShadow: {
+            auth: '0 20px 60px rgba(28,31,36,0.08)',
+            button: '0 6px 18px rgba(246,213,111,.28)',
+            menu: '0 14px 32px rgba(28,31,36,.08)',
+            modal: '0 18px 48px rgba(32,35,40,.1)'
+          },
+          fontFamily: {
+            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', '"PingFang SC"', '"Hiragino Sans GB"', '"Microsoft YaHei"', '"Noto Sans CJK SC"', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
   <style>
-    :root{--bg:#fff;--surface:#fff;--surface-soft:#faf9f7;--border:#ece8e1;--text:#2d2f33;--muted:#8b8f97;--primary:#f3cf69;--button-bg:#f6d56f;--button-hover:#efcc61;--button-text:#7f6028;--success:#2bb673;--danger:#e5484d}
     *{box-sizing:border-box}
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
-    .hidden{display:none!important}
-    .auth-container{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#fdfbf7 0%,#faf5e8 100%)}
-    .auth-card{width:100%;max-width:400px;padding:40px 36px;background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(28,31,36,0.08);text-align:center}
-    .auth-logo{font-size:56px;margin-bottom:12px}
-    .auth-title{margin:0 0 8px;font-size:28px;font-weight:800}
-    .auth-subtitle{margin:0 0 32px;color:var(--muted);font-size:14px}
-    .auth-tabs{display:flex;gap:4px;margin-bottom:28px;padding:4px;background:#f5f5f3;border-radius:12px}
-    .auth-tab{flex:1;padding:10px 16px;border:none;border-radius:10px;background:transparent;color:var(--muted);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
-    .auth-tab.active{background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(28,31,36,0.06)}
-    .auth-form{display:flex;flex-direction:column;gap:16px}
-    .auth-input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:#fff;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
-    .auth-input:focus{border-color:#e6cb7c;box-shadow:0 0 0 4px rgba(246,213,111,.15)}
-    .auth-input::placeholder{color:#c0b8ac}
-    .auth-btn{width:100%;padding:14px 20px;border:none;border-radius:12px;background:var(--button-bg);color:var(--button-text);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(246,213,111,.28);transition:all .2s}
-    .auth-btn:hover{background:var(--button-hover);transform:translateY(-1px)}
-    .auth-btn:disabled{opacity:.7;cursor:not-allowed;transform:none}
-    .auth-error{padding:12px;border-radius:10px;background:#fff5f5;color:var(--danger);font-size:13px;text-align:left}
-    .auth-hint{margin-top:20px;color:var(--muted);font-size:13px}
-    .app-shell{width:100%;max-width:none;margin:0;padding:12px 16px 24px}
-    .user-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 16px;margin-bottom:8px}
-    .user-bar-brand{display:flex;align-items:center;min-width:0}
-    .user-bar-brand-logo{display:block;height:34px;width:auto;max-width:min(188px,42vw)}
-    .user-bar-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:12px;min-width:0;flex-wrap:wrap}
-    .user-email{min-width:0;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:13px}
-    .btn-logout{padding:8px 16px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
-    .btn-logout:hover{background:#f8f8f6;color:var(--text)}
-    .home-shell{display:grid;grid-template-columns:74px minmax(0,1fr);width:min(100%,1760px);min-height:calc(100vh - 24px);margin:0 auto;border:1px solid var(--border);border-radius:22px;overflow:hidden;background:#fff}
-    .home-sidebar{display:flex;flex-direction:column;align-items:center;gap:16px;padding:18px 10px;border-right:1px solid var(--border);background:linear-gradient(180deg,#fcfcfb 0%,#f8f8f6 100%)}
-    .sidebar-logo{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;color:#f0be3d;font-size:28px;font-weight:800}
-    .sidebar-divider{width:42px;height:1px;background:var(--border);margin:2px 0 8px}
-    .sidebar-item{width:54px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border-radius:16px;color:#b0b5bc;text-align:center;font-size:11px;font-weight:700}
+    .heroicon{display:block;width:1em;height:1em;flex:none;overflow:visible}
+    .auth-tab.active{background:#fff;color:#2d2f33;box-shadow:0 2px 8px rgba(28,31,36,.06)}
     .sidebar-item.active{background:linear-gradient(180deg,#f7f4ff 0%,#eef1ff 100%);color:#8f88d8;box-shadow:inset 0 0 0 1px #ece9fb}
-    .sidebar-item-icon{font-size:22px;line-height:1}
-    .home-main{padding:26px 28px 48px;background:#fff}
-    .home-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
-    .home-title{margin:0;font-size:18px;font-weight:800;color:var(--text)}
-    .home-sortbar{display:flex;align-items:center;gap:14px;margin-bottom:24px;color:var(--muted);font-size:13px;font-weight:700}
-    .home-sortbar .active{color:var(--text)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border:1px solid transparent;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s,background .2s,color .2s}
-    .btn:hover{transform:translateY(-1px)}
-    .btn-primary,.btn-secondary{background:var(--button-bg);color:var(--button-text);box-shadow:0 6px 18px rgba(246,213,111,.28)}
-    .btn-primary:hover,.btn-secondary:hover{background:var(--button-hover)}
-    .btn-ghost{background:#fff;color:#5f6670;border:1px solid var(--border)}
-    .btn-ghost:hover{background:#f8f8f6;color:var(--text)}
-    .project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,150px));gap:28px 44px;align-items:start}
-    .project-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0;border:none;background:transparent;overflow:visible}
-    .project-folder{position:relative;display:flex;align-items:flex-end;justify-content:center;width:118px;height:94px;margin:0 auto;border:none;border-radius:10px;background:linear-gradient(180deg,#f4bf36 0%,#f7d76a 72%);box-shadow:inset 0 -10px 18px rgba(255,255,255,.24);cursor:pointer;transition:transform .18s}
+    .action-menu{display:none}
+    .action-menu.open{display:block}
+    .project-folder{position:relative}
     .project-folder::before{content:"";position:absolute;top:-7px;left:14px;width:32px;height:14px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,#edb934 0%,#f3ca61 100%)}
     .project-folder::after{content:"";position:absolute;left:9px;right:9px;top:18px;bottom:12px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,250,233,.88))}
-    .project-folder:hover{transform:translateY(-2px)}
     .project-folder-cover{position:absolute;left:11px;right:11px;top:22px;bottom:16px;z-index:1;border-radius:7px;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,249,237,.85))}
-    .project-card.create-card .project-folder{background:#f7f7f6;box-shadow:inset 0 0 0 1px #ece8e1;align-items:center}
+    .project-card.create-card .project-folder{align-items:center;background:#f7f7f6;box-shadow:inset 0 0 0 1px #ece8e1}
     .project-card.create-card .project-folder::before{background:#f0efec}
     .project-card.create-card .project-folder::after{display:none}
-    .create-plus{position:relative;z-index:1;font-size:34px;line-height:1;color:#252a31;font-weight:700}
-    .project-card h3{margin:0;font-size:14px;font-weight:700;text-align:center}
-    .project-card p,.project-created-at{margin:0;color:var(--muted);font-size:12px}
-    .project-caption{width:118px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
-    .project-created-at{color:#9ea3aa;text-align:center}
-    .project-actions{position:absolute;top:-6px;right:-8px;z-index:5;display:flex;gap:6px;opacity:0;transform:translateY(4px);transition:opacity .16s}
     .project-card:hover .project-actions{opacity:1;transform:translateY(0)}
-    .folder-action{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #ece8e1;border-radius:10px;background:#fff;color:#666d76;cursor:pointer}
-    .folder-action.delete{color:#cf5a5f}
-    .empty-state{padding:22px 0 0;color:var(--muted);font-size:13px}
-    .page-head{display:flex;justify-content:space-between;align-items:center;gap:28px;margin-bottom:14px;padding:6px 4px 0}
-    .page-head-left{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;min-width:220px;max-width:320px}
-    .project-logo-wrap{width:120px;height:32px;flex:0 0 auto;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
-    .project-logo{width:112px;height:auto;display:block;transform:none}
-    .page-head-copy{min-width:0;padding:0;display:flex;flex-direction:column;justify-content:center}
-    .page-head-left h2{margin:0 0 2px;font-size:22px;line-height:1.08;font-weight:800;letter-spacing:-.01em}
-    .page-head-left p{margin:0;color:#a3a9b2;font-size:14px;line-height:1.15;font-weight:400}
-    .page-actions{display:flex;flex-wrap:wrap;gap:10px}
-    .action-group{position:relative}
-    .action-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:30;min-width:158px;display:none;padding:8px;border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 14px 32px rgba(28,31,36,.08)}
-    .action-menu.open{display:block}
-    .action-menu-item{width:100%;padding:10px 12px;border:none;border-radius:10px;background:transparent;color:#5f6670;text-align:left;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
-    .action-menu-item:hover{background:#f8f8f6;color:var(--text)}
-    .project-info-bar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;padding:14px;margin-bottom:18px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
-    .info-field{padding:12px 14px;border-radius:12px;background:var(--surface-soft);border:1px solid var(--border)}
-    .info-field label{display:block;margin-bottom:6px;color:var(--muted);font-size:12px;font-weight:700}
-    .info-field div[contenteditable="true"]{min-height:24px;outline:none;font-weight:700}
-    .info-field div[contenteditable="true"]:focus{background:#fffdf4;border-radius:8px}
-    .table-card{position:relative;padding:0;border:1px solid var(--border);border-radius:14px;background:var(--surface);overflow:hidden}
-    .table-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px 0}
-    .table-toolbar p{margin:0;color:var(--muted);font-size:14px}
-    .table-wrap{overflow-x:auto}
-    table{width:100%;min-width:1040px;border-collapse:collapse;table-layout:fixed;font-size:13px;line-height:1.6}
-    th,td{padding:12px 14px;border-right:1px dashed #ddd8cf;border-bottom:1px solid #f3f1ec;border-top:none;border-left:none;vertical-align:top;text-align:left;background:#fff}
-    th{background:#f5f5f3;color:#5f6670;font-size:12px;font-weight:800}
-    tr:last-child td{border-bottom:none}
-    th:last-child,td:last-child{border-right:none}
-    td[contenteditable="true"]:focus{outline:2px solid rgba(246,213,111,.7);background:#fffdf6}
-    .col-drag{width:42px;text-align:center;padding:0}
-    .col-index{width:54px;text-align:center;color:var(--muted);font-weight:700}
-    .drag-handle{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:52px;cursor:grab;color:#979ca4;font-size:16px}
-    .sortable-ghost{opacity:.4;background:#fff9e6!important}
-    .time-cell{position:relative;width:140px}
-    .time-range{display:flex;flex-direction:column;gap:6px;padding-right:8px}
-    .time-tag{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border:1px solid #ebe6de;border-radius:10px;background:#fcfbf8;color:#555b63;font-weight:800;cursor:pointer;transition:background .2s}
-    .time-tag:hover{background:#fff9e7;transform:translateY(-1px)}
-    .time-tag-label{font-size:11px;color:#9a9ea6}
-    .time-tag-value{font-size:14px}
-    .time-separator{align-self:center;color:#c0b9ac;font-size:11px}
-    .row-delete-anchor{position:absolute;left:-13px;top:0;bottom:0;width:26px;display:flex;align-items:center;justify-content:center}
-    .icon-btn{width:26px;height:26px;border:none;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s}
-    .icon-btn:hover{transform:scale(1.08)}
-    .row-delete-btn{opacity:0;pointer-events:none;background:var(--danger);color:#fff}
+    .sortable-ghost{opacity:.4!important;background:#fff9e6!important}
     .time-cell:hover .row-delete-btn{opacity:1;pointer-events:auto}
-    .row-copy-btn{width:28px;height:28px;border-radius:10px;background:#f7f6f3;color:#666d76}
-    .action-col{width:62px;text-align:center}
-    .image-box{position:relative;width:92px;height:72px;margin:0 auto}
-    .upload-box{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #ece8e1;border-radius:8px;background:#fff;cursor:pointer;transition:border-color .2s}
-    .upload-box:hover{border-color:#e4c978;background:#fffaf0}
-    .upload-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .plus-sign{font-size:24px;color:#2f343a;font-weight:700}
-    .heroicon{display:block;width:1em;height:1em;flex:none;overflow:visible}
-    .sidebar-item-icon .heroicon{display:block}
-    .btn .heroicon,.add-row-btn .heroicon{font-size:16px}
-    .btn-caret{font-size:18px}
-    .folder-action .heroicon,.icon-btn .heroicon,.drag-handle .heroicon,.create-plus .heroicon,.plus-sign .heroicon{display:block}
-    .folder-action .heroicon,.icon-btn .heroicon{font-size:16px}
-    .drag-handle .heroicon{font-size:18px}
-    .create-plus .heroicon{font-size:34px}
-    .plus-sign .heroicon{font-size:24px}
-    .img-delete-btn{position:absolute;top:-8px;right:-8px;opacity:0;pointer-events:none;background:var(--danger);color:#fff}
     .image-box.has-image:hover .img-delete-btn{opacity:1;pointer-events:auto}
-    .add-row-btn{width:100%;padding:16px;border:none;border-top:1px solid var(--border);background:#fff;color:var(--muted);font-size:14px;font-weight:700;cursor:pointer}
-    .add-row-btn:hover{background:#fcfbf8;color:var(--text)}
-    .modal-backdrop{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(22,24,28,.24);backdrop-filter:blur(5px);z-index:1000}
-    .modal{width:min(560px,100%);padding:24px;border-radius:18px;background:rgba(255,255,255,.98);border:1px solid var(--border);box-shadow:0 18px 48px rgba(32,35,40,.1)}
-    .modal h3{margin:0 0 8px;font-size:24px}
-    .modal p{margin:0 0 18px;color:var(--muted);line-height:1.7}
-    .form-grid{display:grid;gap:14px}
-    .form-grid.two-col{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .field label{display:block;margin-bottom:6px;font-size:13px;font-weight:700;color:var(--muted)}
-    .field input,.field textarea{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;color:var(--text);font:inherit;outline:none}
-    .field input:focus,.field textarea:focus{border-color:#e6cb7c;box-shadow:0 0 0 4px rgba(246,213,111,.18)}
-    .field textarea{min-height:96px;resize:vertical}
-    .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
-    .hint{margin-top:10px;color:var(--muted);font-size:12px}
-    .error-text{min-height:20px;margin-top:10px;color:var(--danger);font-size:13px;font-weight:700}
-    .time-picker-modal{width:min(420px,100%);padding:22px}
-    .time-picker-header{margin-bottom:14px;text-align:center}
-    .time-picker-title{margin:0 0 6px;font-size:22px;font-weight:800}
-    .time-picker-current{display:inline-flex;align-items:center;justify-content:center;min-width:120px;padding:8px 16px;border-radius:999px;background:#fff7da;color:var(--button-text);font-size:28px;font-weight:800}
-    .time-picker-wheels{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;margin-top:14px}
-    .time-wheel-colon{padding-top:78px;color:#c0b8a7;font-size:28px;font-weight:800}
-    .time-wheel-label{margin-bottom:8px;text-align:center;color:var(--muted);font-size:12px;font-weight:700}
-    .time-wheel{height:220px;overflow-y:auto;padding:12px 10px;border:1px solid var(--border);border-radius:18px;background:#fbfaf7;scroll-behavior:smooth}
-    .time-wheel-item{display:flex;align-items:center;justify-content:center;height:42px;margin-bottom:6px;border-radius:12px;color:#848890;font-size:18px;font-weight:700;cursor:pointer;transition:background .15s}
-    .time-wheel-item:hover{background:#fff7dc;color:#5b5f66}
-    .time-wheel-item.active{background:#f6d56f;color:var(--button-text);transform:scale(1.02)}
-    .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(16px);padding:12px 18px;border-radius:999px;background:rgba(20,27,38,.94);color:#fff;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .22s;z-index:1200}
+    .upload-box.drag-over{border-color:#e4c978;background:#fffaf0}
+    [contenteditable="true"]:focus{outline:2px solid rgba(246,213,111,.7);background:#fffdf6;border-radius:8px}
+    .time-wheel-item.active{background:#f6d56f;color:#7f6028;transform:scale(1.02)}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     .pdf-exporting .drag-handle,.pdf-exporting .col-drag,.pdf-exporting .col-index,.pdf-exporting .action-col,.pdf-exporting .row-delete-anchor,.pdf-exporting .row-copy-btn,.pdf-exporting .img-delete-btn,.pdf-exporting .add-row-btn,.pdf-exporting .table-toolbar,.pdf-exporting .plus-sign{display:none!important}
-    .loading-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);z-index:2000}
-    .loading-spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .sync-indicator{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
-    .sync-indicator.synced{background:#e8f5e9;color:var(--success)}
-    .sync-indicator.syncing{background:#fff7da;color:var(--button-text)}
-    .sync-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
-    .sync-indicator.syncing .sync-dot{animation:pulse 1s infinite}
+    .sync-indicator[data-status="synced"]{background:#e8f5e9;color:#2bb673}
+    .sync-indicator[data-status="syncing"]{background:#fff7da;color:#7f6028}
+    .sync-indicator[data-status="offline"]{background:#fff1f2;color:#e5484d}
+    .sync-indicator[data-status="syncing"] .sync-dot{animation:pulse 1s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-    @media(max-width:1100px){.project-info-bar{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:760px){.app-shell{padding:0}.user-bar{padding:12px 14px 8px;align-items:flex-start;flex-wrap:wrap}.user-bar-brand{flex-basis:100%}.user-bar-brand-logo{height:30px;max-width:156px}.user-bar-actions{width:100%;gap:8px}.user-email{max-width:none;flex:1 1 160px}.page-head{flex-direction:column;align-items:flex-start;gap:12px}.page-head-left{gap:4px;min-width:0;max-width:none}.project-logo-wrap{width:108px;height:28px}.project-logo{width:100px}.page-head-left h2{font-size:20px;margin-bottom:2px}.page-head-left p{font-size:13px}.project-info-bar,.form-grid.two-col{grid-template-columns:1fr}.home-shell{grid-template-columns:1fr;border:none}.home-sidebar{flex-direction:row;border-right:none;border-bottom:1px solid var(--border);padding:10px 12px}.home-main{padding:18px 14px 28px}.project-grid{grid-template-columns:repeat(2,1fr);gap:22px 18px}}
   </style>
 </head>
-<body>
-  <div id="loading-overlay" class="loading-overlay"><div class="loading-spinner"></div></div>
-  <div id="auth-view" class="auth-container hidden">
-    <div class="auth-card">
-      <div class="auth-logo">⚡</div>
-      <h1 class="auth-title">闪光分镜</h1>
-      <p class="auth-subtitle">分镜管理，云端同步</p>
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-tab="login">登录</button>
-        <button class="auth-tab" data-tab="register">注册</button>
+<body class="m-0 bg-white font-sans text-text">
+  <div id="loading-overlay" class="fixed inset-0 z-[2000] flex items-center justify-center bg-white/90"><div class="loading-spinner h-12 w-12 animate-spin rounded-full border-4 border-border border-t-primary"></div></div>
+  <div id="auth-view" class="auth-container hidden flex min-h-screen items-center justify-center bg-[linear-gradient(135deg,#fdfbf7_0%,#faf5e8_100%)] px-5 py-8">
+    <div class="auth-card w-full max-w-[400px] rounded-[24px] bg-white px-9 py-10 text-center shadow-auth">
+      <div class="auth-logo mb-3 text-[56px] leading-none">⚡</div>
+      <h1 class="auth-title mb-2 text-[28px] font-extrabold">闪光分镜</h1>
+      <p class="auth-subtitle mb-8 text-sm text-muted">分镜管理，云端同步</p>
+      <div class="auth-tabs mb-7 flex gap-1 rounded-xl bg-[#f5f5f3] p-1">
+        <button class="auth-tab flex-1 rounded-[10px] bg-transparent px-4 py-2.5 text-sm font-bold text-muted transition-all duration-200 hover:text-text active" data-tab="login">登录</button>
+        <button class="auth-tab flex-1 rounded-[10px] bg-transparent px-4 py-2.5 text-sm font-bold text-muted transition-all duration-200 hover:text-text" data-tab="register">注册</button>
       </div>
-      <form id="login-form" class="auth-form">
-        <input type="email" class="auth-input" id="login-email" placeholder="邮箱地址" required>
-        <input type="password" class="auth-input" id="login-password" placeholder="密码" required>
-        <div id="login-error" class="auth-error hidden"></div>
-        <button type="submit" class="auth-btn" id="login-btn">登录</button>
+      <form id="login-form" class="auth-form flex flex-col gap-4">
+        <input type="email" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="login-email" placeholder="邮箱地址" required>
+        <input type="password" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="login-password" placeholder="密码" required>
+        <div id="login-error" class="auth-error hidden rounded-[10px] bg-[#fff5f5] px-3 py-3 text-left text-[13px] text-danger"></div>
+        <button type="submit" class="auth-btn w-full rounded-xl bg-button px-5 py-3.5 text-[15px] font-bold text-button-text shadow-button transition duration-200 hover:-translate-y-px hover:bg-button-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0" id="login-btn">登录</button>
       </form>
-      <form id="register-form" class="auth-form hidden">
-        <input type="email" class="auth-input" id="register-email" placeholder="邮箱地址" required>
-        <input type="password" class="auth-input" id="register-password" placeholder="密码（至少6位）" required minlength="6">
-        <input type="text" class="auth-input" id="register-username" placeholder="昵称（选填）">
-        <div id="register-error" class="auth-error hidden"></div>
-        <button type="submit" class="auth-btn" id="register-btn">注册</button>
+      <form id="register-form" class="auth-form hidden flex flex-col gap-4">
+        <input type="email" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="register-email" placeholder="邮箱地址" required>
+        <input type="password" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="register-password" placeholder="密码（至少6位）" required minlength="6">
+        <input type="text" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="register-username" placeholder="昵称（选填）">
+        <div id="register-error" class="auth-error hidden rounded-[10px] bg-[#fff5f5] px-3 py-3 text-left text-[13px] text-danger"></div>
+        <button type="submit" class="auth-btn w-full rounded-xl bg-button px-5 py-3.5 text-[15px] font-bold text-button-text shadow-button transition duration-200 hover:-translate-y-px hover:bg-button-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0" id="register-btn">注册</button>
       </form>
-      <p class="auth-hint" id="auth-hint"></p>
+      <p class="auth-hint mt-5 text-[13px] text-muted" id="auth-hint"></p>
     </div>
   </div>
-  <div id="app-view" class="app-shell hidden">
-    <div class="user-bar">
-      <div class="user-bar-brand">
-        <img class="user-bar-brand-logo" src="./logo-frame-2.png" alt="闪光 Logo">
+  <div id="app-view" class="app-shell hidden w-full px-4 pb-6 pt-3 max-md:px-0">
+    <div class="user-bar mb-2 flex items-center justify-between gap-4 px-4 py-2 max-md:flex-wrap max-md:items-start max-md:px-[14px] max-md:pb-2 max-md:pt-3">
+      <div class="user-bar-brand flex min-w-0 items-center max-md:basis-full">
+        <img class="user-bar-brand-logo block h-[34px] w-auto max-w-[min(188px,42vw)] max-md:h-[30px] max-md:max-w-[156px]" src="./logo-frame-2.png" alt="闪光 Logo">
       </div>
-      <div class="user-bar-actions">
-        <span class="sync-indicator synced" id="sync-indicator"><span class="sync-dot"></span><span class="sync-text">已同步</span></span>
-        <span class="user-email" id="user-email"></span>
-        <button class="btn-logout" id="logout-btn">退出登录</button>
+      <div class="user-bar-actions ml-auto flex min-w-0 flex-wrap items-center justify-end gap-3 max-md:w-full max-md:gap-2">
+        <span class="sync-indicator inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold" data-status="synced" id="sync-indicator"><span class="sync-dot h-2 w-2 rounded-full bg-current"></span><span class="sync-text">已同步</span></span>
+        <span class="user-email min-w-0 max-w-[240px] truncate whitespace-nowrap text-[13px] text-muted max-md:max-w-none max-md:flex-[1_1_160px]" id="user-email"></span>
+        <button class="btn-logout rounded-[10px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-muted transition duration-200 hover:bg-[#f8f8f6] hover:text-text" id="logout-btn">退出登录</button>
       </div>
     </div>
     <section id="home-view">
-      <div class="home-shell">
-        <aside class="home-sidebar">
-          <div class="sidebar-logo">⚡</div>
-          <div class="sidebar-divider"></div>
-          <div class="sidebar-item active"><div class="sidebar-item-icon"><svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div>项目</div></div>
+      <div class="home-shell mx-auto grid min-h-[calc(100vh-24px)] w-[min(100%,1760px)] grid-cols-[74px_minmax(0,1fr)] overflow-hidden rounded-[22px] border border-border bg-white max-md:grid-cols-1 max-md:border-0 max-md:rounded-none">
+        <aside class="home-sidebar flex flex-col items-center gap-4 border-r border-border bg-[linear-gradient(180deg,#fcfcfb_0%,#f8f8f6_100%)] px-[10px] py-[18px] max-md:flex-row max-md:border-b max-md:border-r-0 max-md:px-3 max-md:py-[10px]">
+          <div class="sidebar-logo grid h-[42px] w-[42px] place-items-center rounded-[14px] text-[28px] font-extrabold text-[#f0be3d]">⚡</div>
+          <div class="sidebar-divider my-[2px] mb-2 h-px w-[42px] bg-border max-md:mb-[2px] max-md:h-[42px] max-md:w-px"></div>
+          <div class="sidebar-item active flex w-[54px] flex-col items-center gap-1.5 rounded-2xl px-1.5 py-2.5 text-center text-[11px] font-bold text-[#b0b5bc]"><div class="sidebar-item-icon text-[22px] leading-none"><svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div>项目</div></div>
         </aside>
-        <div class="home-main">
-          <div class="home-header"><h1 class="home-title">我的项目</h1></div>
-          <div class="home-sortbar"><span>排序</span><span class="active">自定义</span></div>
-          <div id="project-grid" class="project-grid"></div>
-          <div id="empty-projects" class="empty-state hidden">还没有项目，点击左侧第一个卡片创建新项目。</div>
+        <div class="home-main bg-white px-7 pb-12 pt-[26px] max-md:px-[14px] max-md:pb-7 max-md:pt-[18px]">
+          <div class="home-header mb-[18px] flex items-start justify-between gap-4"><h1 class="home-title m-0 text-[18px] font-extrabold text-text">我的项目</h1></div>
+          <div class="home-sortbar mb-6 flex items-center gap-[14px] text-[13px] font-bold text-muted"><span>排序</span><span class="active text-text">自定义</span></div>
+          <div id="project-grid" class="project-grid grid auto-rows-min grid-cols-[repeat(auto-fill,minmax(150px,150px))] items-start gap-y-7 gap-x-11 max-md:grid-cols-2 max-md:gap-x-[18px] max-md:gap-y-[22px]"></div>
+          <div id="empty-projects" class="empty-state hidden pt-[22px] text-[13px] text-muted">还没有项目，点击左侧第一个卡片创建新项目。</div>
         </div>
       </div>
     </section>
     <section id="project-view" class="hidden">
-      <div class="page-head">
-        <div class="page-head-left">
-          <div class="project-logo-wrap"><img class="project-logo" src="./logo-frame-2.png" alt="闪光 Logo"></div>
-          <div class="page-head-copy"><h2 id="project-page-title">项目详情</h2><p id="project-page-desc">已进入项目</p></div>
+      <div class="page-head mb-[14px] flex items-center justify-between gap-7 px-1 pt-1.5 max-md:flex-col max-md:items-start max-md:gap-3">
+        <div class="page-head-left flex min-w-[220px] max-w-[320px] flex-col items-start justify-center gap-1 max-md:min-w-0 max-md:max-w-none">
+          <div class="page-head-copy flex min-w-0 flex-col justify-center"><h2 id="project-page-title" class="mb-0.5 text-[22px] font-extrabold leading-[1.08] tracking-[-0.01em] max-md:text-[20px]">项目详情</h2><p id="project-page-desc" class="m-0 text-sm font-normal leading-[1.15] text-[#a3a9b2] max-md:text-[13px]">已进入项目</p></div>
         </div>
-        <div class="page-actions">
-          <button class="btn btn-ghost" id="back-home-btn"><svg class="heroicon heroicon-arrow-left" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>返回主页</span></button>
-          <div class="action-group">
-            <button class="btn btn-ghost" id="import-menu-btn"><span>导入</span><svg class="heroicon heroicon-chevron-down btn-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="action-menu" id="import-menu"><button class="action-menu-item" id="import-json-btn">导入 JSON</button></div>
+        <div class="page-actions flex flex-wrap gap-2.5">
+          <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="back-home-btn"><svg class="heroicon heroicon-arrow-left text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>返回主页</span></button>
+          <div class="action-group relative">
+            <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="import-menu-btn"><span>导入</span><svg class="heroicon heroicon-chevron-down btn-caret text-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="import-menu"><button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-json-btn">导入 JSON</button></div>
           </div>
-          <div class="action-group">
-            <button class="btn btn-ghost" id="export-menu-btn"><span>导出</span><svg class="heroicon heroicon-chevron-down btn-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="action-menu" id="export-menu">
-              <button class="action-menu-item" id="export-pdf-btn">导出 PDF</button>
-              <button class="action-menu-item" id="export-json-btn">导出 JSON</button>
-              <button class="action-menu-item" id="export-html-btn">导出 HTML</button>
+          <div class="action-group relative">
+            <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="export-menu-btn"><span>导出</span><svg class="heroicon heroicon-chevron-down btn-caret text-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="export-menu">
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-pdf-btn">导出 PDF</button>
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-json-btn">导出 JSON</button>
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-html-btn">导出 HTML</button>
             </div>
           </div>
-          <button class="btn btn-secondary" id="save-project-btn"><svg class="heroicon heroicon-save" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
+          <button class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text shadow-button transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="save-project-btn"><svg class="heroicon heroicon-save text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
         </div>
       </div>
-      <div class="project-info-bar" id="project-info-bar">
-        <div class="info-field"><label>项目名称</label><div contenteditable="true" data-info-field="name"></div></div>
-        <div class="info-field"><label>拍摄日期</label><div contenteditable="true" data-info-field="date"></div></div>
-        <div class="info-field"><label>导演</label><div contenteditable="true" data-info-field="director"></div></div>
-        <div class="info-field"><label>拍摄地点</label><div contenteditable="true" data-info-field="location"></div></div>
-        <div class="info-field"><label>总时长</label><div contenteditable="true" data-info-field="duration"></div></div>
+      <div class="project-info-bar mb-[18px] grid grid-cols-5 gap-[14px] rounded-[14px] border border-border bg-white p-[14px] max-[1100px]:grid-cols-2 max-md:grid-cols-1" id="project-info-bar">
+        <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">项目名称</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="name"></div></div>
+        <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">拍摄日期</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="date"></div></div>
+        <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">导演</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="director"></div></div>
+        <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">拍摄地点</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="location"></div></div>
+        <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">总时长</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="duration"></div></div>
       </div>
-      <div class="table-card" id="project-export-area">
-        <div class="table-toolbar"><p>当前项目共有 <strong id="row-count">0</strong> 个镜头。</p></div>
-        <div class="table-wrap">
-          <table id="plan-table">
-            <thead><tr><th class="col-drag"></th><th class="col-index">#</th><th>时间</th><th>部门</th><th>参考图</th><th>拍摄内容</th><th>焦段</th><th>运镜</th><th class="action-col">复制</th></tr></thead>
+      <div class="table-card overflow-hidden rounded-[14px] border border-border bg-white" id="project-export-area">
+        <div class="table-toolbar flex items-center justify-between gap-3 px-4 pb-0 pt-[14px]"><p class="m-0 text-sm text-muted">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p></div>
+        <div class="table-wrap overflow-x-auto">
+          <table id="plan-table" class="w-full min-w-[1040px] table-fixed border-collapse text-[13px] leading-[1.6]">
+            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670]"></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted">#</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">时间</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">部门</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">参考图</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">拍摄内容</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">焦段</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">运镜</th><th class="action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
             <tbody id="table-body"></tbody>
           </table>
         </div>
-        <button class="add-row-btn" id="add-row-btn"><svg class="heroicon heroicon-plus" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 添加新镜头</button>
+        <button class="add-row-btn flex w-full items-center justify-center gap-2 border-t border-border bg-white px-4 py-4 text-sm font-bold text-muted transition duration-150 hover:bg-[#fcfbf8] hover:text-text" id="add-row-btn"><svg class="heroicon heroicon-plus text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 添加新镜头</button>
       </div>
     </section>
   </div>
-  <div id="project-modal-backdrop" class="modal-backdrop hidden">
-    <div class="modal">
-      <h3 id="project-modal-title">新建项目</h3>
-      <p>创建一个新的项目</p>
-      <div class="form-grid two-col">
-        <div class="field"><label>项目名称</label><input id="project-name-input" type="text" placeholder="例如：品牌宣传片"></div>
-        <div class="field"><label>查看密码</label><input id="project-password-input" type="password" placeholder="选填"></div>
-        <div class="field"><label>拍摄日期</label><input id="project-date-input" type="text" placeholder="例如：2026-05-18"></div>
-        <div class="field"><label>导演</label><input id="project-director-input" type="text" placeholder="例如：张导演"></div>
+  <div id="project-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[560px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <h3 id="project-modal-title" class="mb-2 text-2xl font-extrabold">新建项目</h3>
+      <p class="mb-[18px] text-muted">创建一个新的项目</p>
+      <div class="form-grid two-col grid gap-[14px] max-md:grid-cols-1">
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">项目名称</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-name-input" type="text" placeholder="例如：品牌宣传片"></div>
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">查看密码</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-password-input" type="password" placeholder="选填"></div>
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">拍摄日期</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-date-input" type="text" placeholder="例如：2026-05-18"></div>
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">导演</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-director-input" type="text" placeholder="例如：张导演"></div>
       </div>
-      <div class="form-grid" style="margin-top:14px">
-        <div class="field"><label>拍摄地点</label><input id="project-location-input" type="text" placeholder="例如：上海"></div>
-        <div class="field"><label>总时长</label><input id="project-duration-input" type="text" placeholder="例如：约3分钟"></div>
-        <div class="field"><label>项目简介</label><textarea id="project-desc-input" placeholder="简单描述"></textarea></div>
+      <div class="form-grid mt-[14px] grid gap-[14px]">
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">拍摄地点</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-location-input" type="text" placeholder="例如：上海"></div>
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">总时长</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-duration-input" type="text" placeholder="例如：约3分钟"></div>
+        <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">项目简介</label><textarea class="min-h-24 w-full resize-y rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="project-desc-input" placeholder="简单描述"></textarea></div>
       </div>
-      <div class="error-text" id="project-modal-error"></div>
-      <div class="modal-actions">
-        <button class="btn btn-ghost" id="cancel-project-modal">取消</button>
-        <button class="btn btn-primary" id="confirm-project-modal">保存项目</button>
-      </div>
-    </div>
-  </div>
-  <div id="password-modal-backdrop" class="modal-backdrop hidden">
-    <div class="modal">
-      <h3>输入项目密码</h3>
-      <p id="password-modal-desc">请输入密码后查看项目内容。</p>
-      <div class="field"><label>项目密码</label><input id="password-entry-input" type="password" placeholder="请输入密码"></div>
-      <div class="hint">留空可直接进入</div>
-      <div class="error-text" id="password-error"></div>
-      <div class="modal-actions">
-        <button class="btn btn-ghost" id="cancel-password-modal">取消</button>
-        <button class="btn btn-primary" id="confirm-password-modal">进入项目</button>
+      <div class="error-text mt-[10px] min-h-5 text-[13px] font-bold text-danger" id="project-modal-error"></div>
+      <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-project-modal">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text shadow-button transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-project-modal">保存项目</button>
       </div>
     </div>
   </div>
-  <div id="time-picker-backdrop" class="modal-backdrop hidden">
-    <div class="modal time-picker-modal">
-      <div class="time-picker-header">
-        <h3 class="time-picker-title" id="time-picker-title">设置时间</h3>
-        <div class="time-picker-current" id="time-picker-current">0:00</div>
-      </div>
-      <div class="time-picker-wheels">
-        <div><div class="time-wheel-label">分钟</div><div class="time-wheel" id="minute-wheel"></div></div>
-        <div class="time-wheel-colon">:</div>
-        <div><div class="time-wheel-label">秒钟</div><div class="time-wheel" id="second-wheel"></div></div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-ghost" id="cancel-time-picker">取消</button>
-        <button class="btn btn-primary" id="confirm-time-picker">确认</button>
+  <div id="password-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[560px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <h3 class="mb-2 text-2xl font-extrabold">输入项目密码</h3>
+      <p class="mb-[18px] text-muted" id="password-modal-desc">请输入密码后查看项目内容。</p>
+      <div class="field"><label class="mb-1.5 block text-[13px] font-bold text-muted">项目密码</label><input class="w-full rounded-xl border border-border bg-white px-[14px] py-3 text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/18" id="password-entry-input" type="password" placeholder="请输入密码"></div>
+      <div class="hint mt-[10px] text-xs text-muted">留空可直接进入</div>
+      <div class="error-text mt-[10px] min-h-5 text-[13px] font-bold text-danger" id="password-error"></div>
+      <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-password-modal">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-password-modal">进入项目</button>
       </div>
     </div>
   </div>
-  <div id="toast" class="toast"></div>
+  <div id="time-picker-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
+    <div class="modal time-picker-modal w-full max-w-[420px] rounded-[18px] border border-border bg-white/95 p-[22px] shadow-modal">
+      <div class="time-picker-header mb-[14px] text-center">
+        <h3 class="time-picker-title mb-1.5 text-[22px] font-extrabold" id="time-picker-title">设置时间</h3>
+        <div class="time-picker-current inline-flex min-w-[120px] items-center justify-center rounded-full bg-[#fff7da] px-4 py-2 text-[28px] font-extrabold text-button-text" id="time-picker-current">0:00</div>
+      </div>
+      <div class="time-picker-wheels mt-[14px] grid grid-cols-[1fr_auto_1fr] gap-2.5">
+        <div><div class="time-wheel-label mb-2 text-center text-xs font-bold text-muted">分钟</div><div class="time-wheel h-[220px] overflow-y-auto rounded-[18px] border border-border bg-[#fbfaf7] px-[10px] py-3" id="minute-wheel"></div></div>
+        <div class="time-wheel-colon pt-[78px] text-[28px] font-extrabold text-[#c0b8a7]">:</div>
+        <div><div class="time-wheel-label mb-2 text-center text-xs font-bold text-muted">秒钟</div><div class="time-wheel h-[220px] overflow-y-auto rounded-[18px] border border-border bg-[#fbfaf7] px-[10px] py-3" id="second-wheel"></div></div>
+      </div>
+      <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-time-picker">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text shadow-button transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-time-picker">确认</button>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast pointer-events-none fixed bottom-7 left-1/2 z-[1200] -translate-x-1/2 translate-y-4 rounded-full bg-[rgba(20,27,38,.94)] px-[18px] py-3 text-[13px] font-bold text-white opacity-0 transition duration-200"></div>
   <input type="file" id="global-image-input" accept="image/*" hidden>
   <input type="file" id="project-json-input" accept=".json,application/json" hidden>
   <script src="./config.js"></script>
@@ -489,13 +378,13 @@
       projectGrid.innerHTML = '';
       emptyProjects.classList.toggle('hidden', state.projects.length > 0);
       const createCard = document.createElement('article');
-      createCard.className = 'project-card create-card';
-      createCard.innerHTML = '<div class="project-folder" data-action="create-project"><div class="create-plus">' + heroicon('plus') + '</div></div><div class="project-caption"><h3>创建新项目</h3></div>';
+      createCard.className = 'project-card create-card relative flex flex-col items-center gap-2.5 overflow-visible bg-transparent';
+      createCard.innerHTML = '<div class="project-folder mx-auto flex h-[94px] w-[118px] cursor-pointer items-end justify-center rounded-[10px] bg-[linear-gradient(180deg,#f4bf36_0%,#f7d76a_72%)] shadow-[inset_0_-10px_18px_rgba(255,255,255,.24)] transition duration-200 hover:-translate-y-0.5" data-action="create-project"><div class="create-plus relative z-[1] text-[34px] font-bold leading-none text-[#252a31]">' + heroicon('plus') + '</div></div><div class="project-caption flex w-[118px] flex-col items-center gap-1 text-center"><h3 class="m-0 text-sm font-bold text-text">创建新项目</h3></div>';
       projectGrid.appendChild(createCard);
       state.projects.forEach(project => {
         const card = document.createElement('article');
-        card.className = 'project-card';
-        card.innerHTML = '<div class="project-actions"><button class="folder-action" data-action="edit-project" data-id="' + project.id + '" aria-label="编辑项目">' + heroicon('more') + '</button><button class="folder-action delete" data-action="delete-project" data-id="' + project.id + '" aria-label="删除项目">' + heroicon('trash') + '</button></div><div class="project-folder" data-action="open-project" data-id="' + project.id + '"><div class="project-folder-cover"></div></div><div class="project-caption"><h3>' + escapeHTML(project.title || '未命名') + '</h3><div class="project-created-at">创建 ' + formatDate(project.created_at) + '</div></div>';
+        card.className = 'project-card relative flex flex-col items-center gap-2.5 overflow-visible bg-transparent';
+        card.innerHTML = '<div class="project-actions absolute right-[-8px] top-[-6px] z-[5] flex gap-1.5 opacity-0 translate-y-1 transition duration-150"><button class="folder-action inline-flex h-7 w-7 items-center justify-center rounded-[10px] border border-border bg-white text-[#666d76]" data-action="edit-project" data-id="' + project.id + '" aria-label="编辑项目">' + heroicon('more') + '</button><button class="folder-action delete inline-flex h-7 w-7 items-center justify-center rounded-[10px] border border-border bg-white text-[#cf5a5f]" data-action="delete-project" data-id="' + project.id + '" aria-label="删除项目">' + heroicon('trash') + '</button></div><div class="project-folder mx-auto flex h-[94px] w-[118px] cursor-pointer items-end justify-center rounded-[10px] bg-[linear-gradient(180deg,#f4bf36_0%,#f7d76a_72%)] shadow-[inset_0_-10px_18px_rgba(255,255,255,.24)] transition duration-200 hover:-translate-y-0.5" data-action="open-project" data-id="' + project.id + '"><div class="project-folder-cover"></div></div><div class="project-caption flex w-[118px] flex-col items-center gap-1 text-center"><h3 class="m-0 text-sm font-bold text-text">' + escapeHTML(project.title || '未命名') + '</h3><div class="project-created-at m-0 text-center text-xs text-muted-soft">创建 ' + formatDate(project.created_at) + '</div></div>';
         projectGrid.appendChild(card);
       });
       projectGrid.querySelectorAll('[data-action]').forEach(btn => btn.addEventListener('click', handleProjectCardAction));
@@ -609,7 +498,7 @@
     function createRowElement(row = {}) {
       const { start, end } = parseTimeRange(row.time || '0:00 - 0:00');
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td class="col-drag"><span class="drag-handle">' + heroicon('drag') + '</span></td><td class="col-index"></td><td class="time-cell"><div class="row-delete-anchor"><button class="icon-btn row-delete-btn" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range"><button class="time-tag" data-role="start"><span class="time-tag-label">开始</span><span class="time-tag-value">' + escapeHTML(start) + '</span></button><div class="time-separator">至</div><button class="time-tag" data-role="end"><span class="time-tag-label">结束</span><span class="time-tag-value">' + escapeHTML(end) + '</span></button></div></td><td contenteditable="true">' + escapeHTMLWithBreak(row.dept || '点击输入部门') + '</td><td><div class="image-box ' + (row.img ? 'has-image' : '') + '"><button class="icon-btn img-delete-btn" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box"><span class="plus-sign">' + heroicon('plus') + '</span>' + (row.img ? '<img src="' + row.img + '">' : '') + '</div></div></td><td contenteditable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td contenteditable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td contenteditable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="action-col"><button class="icon-btn row-copy-btn" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
+      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="col-index w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"></td><td class="time-cell relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTMLWithBreak(row.dept || '点击输入部门') + '</td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto h-[72px] w-[92px]"><button class="icon-btn img-delete-btn pointer-events-none absolute right-[-8px] top-[-8px] inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="action-col w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
       return tr;
     }
     function handleTableClick(e) {
@@ -683,8 +572,8 @@
     }
     function buildTimeWheels() {
       minuteWheel.innerHTML = ''; secondWheel.innerHTML = '';
-      for (let m = 0; m <= 299; m++) { const item = document.createElement('div'); item.className = 'time-wheel-item'; item.dataset.value = m; item.textContent = m; item.addEventListener('click', () => { state.timePicker.minute = m; syncTimePickerUI(); item.scrollIntoView({ block: 'center', behavior: 'smooth' }); }); minuteWheel.appendChild(item); }
-      for (let s = 0; s <= 59; s++) { const item = document.createElement('div'); item.className = 'time-wheel-item'; item.dataset.value = s; item.textContent = String(s).padStart(2, '0'); item.addEventListener('click', () => { state.timePicker.second = s; syncTimePickerUI(); item.scrollIntoView({ block: 'center', behavior: 'smooth' }); }); secondWheel.appendChild(item); }
+      for (let m = 0; m <= 299; m++) { const item = document.createElement('div'); item.className = 'time-wheel-item mb-1.5 flex h-[42px] cursor-pointer items-center justify-center rounded-xl text-[18px] font-bold text-[#848890] transition duration-150 hover:bg-[#fff7dc] hover:text-[#5b5f66]'; item.dataset.value = m; item.textContent = m; item.addEventListener('click', () => { state.timePicker.minute = m; syncTimePickerUI(); item.scrollIntoView({ block: 'center', behavior: 'smooth' }); }); minuteWheel.appendChild(item); }
+      for (let s = 0; s <= 59; s++) { const item = document.createElement('div'); item.className = 'time-wheel-item mb-1.5 flex h-[42px] cursor-pointer items-center justify-center rounded-xl text-[18px] font-bold text-[#848890] transition duration-150 hover:bg-[#fff7dc] hover:text-[#5b5f66]'; item.dataset.value = s; item.textContent = String(s).padStart(2, '0'); item.addEventListener('click', () => { state.timePicker.second = s; syncTimePickerUI(); item.scrollIntoView({ block: 'center', behavior: 'smooth' }); }); secondWheel.appendChild(item); }
     }
     function openTimePicker(tag) {
       state.timePicker.activeTag = tag;
@@ -739,7 +628,7 @@
       if (!p) return;
       const rows = collectRowData();
       const rowsHTML = rows.map((row, i) => '<tr><td>' + (i+1) + '</td><td>' + escapeHTML(row.time) + '</td><td>' + escapeHTMLWithBreak(row.dept) + '</td><td>' + (row.img ? '<img src="' + row.img + '">' : '无') + '</td><td>' + escapeHTML(row.content) + '</td><td>' + escapeHTML(row.lens) + '</td><td>' + escapeHTML(row.movement) + '</td></tr>').join('');
-      const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + escapeHTML(p.title) + '</title><style>body{margin:0;padding:24px;font-family:system-ui}table{width:100%;border-collapse:collapse}th,td{padding:8px 12px;border:1px solid #ddd}th{background:#f5f5f5}img{width:80px;height:60px;object-fit:cover}</style></head><body><h1>' + escapeHTML(p.title) + '</h1><p>' + escapeHTML(p.description || '') + '</p><table><thead><tr><th>#</th><th>时间</th><th>部门</th><th>参考图</th><th>拍摄内容</th><th>焦段</th><th>运镜</th></tr></thead><tbody>' + rowsHTML + '</tbody></table></body></html>';
+      const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + escapeHTML(p.title) + '</title><style>body{margin:0;padding:24px;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif}table{width:100%;border-collapse:collapse}th,td{padding:8px 12px;border:1px solid #ddd}th{background:#f5f5f5}img{width:80px;height:60px;object-fit:cover}</style></head><body><h1>' + escapeHTML(p.title) + '</h1><p>' + escapeHTML(p.description || '') + '</p><table><thead><tr><th>#</th><th>时间</th><th>部门</th><th>参考图</th><th>拍摄内容</th><th>焦段</th><th>运镜</th></tr></thead><tbody>' + rowsHTML + '</tbody></table></body></html>';
       const blob = new Blob([html], { type: 'text/html' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = sanitizeFileName(p.title || '项目') + '.html'; a.click(); URL.revokeObjectURL(a.href);
       showToast('HTML 已导出');
@@ -763,7 +652,7 @@
     function initSortable() { if (state.sortable) state.sortable.destroy(); state.sortable = new Sortable(tableBody, { handle: '.drag-handle', animation: 160, ghostClass: 'sortable-ghost', onEnd: () => { updateRowNumbers(); saveCurrentProjectSilently(); } }); }
     function toggleMenu(e, menuId) { e.stopPropagation(); const m = $(menuId); closeMenus(); if (!m.classList.contains('open')) m.classList.add('open'); }
     function closeMenus() { document.querySelectorAll('.action-menu.open').forEach(m => m.classList.remove('open')); }
-    function setSync(status, text) { syncIndicator.className = 'sync-indicator ' + status; syncIndicator.querySelector('.sync-text').textContent = text; }
+    function setSync(status, text) { syncIndicator.dataset.status = status; syncIndicator.querySelector('.sync-text').textContent = text; }
     function showToast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(state.toastTimer); state.toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200); }
     function formatDate(v) { if (!v) return '未记录'; const d = new Date(v); if (isNaN(d.getTime())) return String(v); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
     function escapeHTML(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
