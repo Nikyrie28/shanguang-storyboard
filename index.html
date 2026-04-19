@@ -27,7 +27,6 @@
           },
           boxShadow: {
             auth: '0 20px 60px rgba(28,31,36,0.08)',
-            button: '0 6px 18px rgba(246,213,111,.28)',
             menu: '0 14px 32px rgba(28,31,36,.08)',
             modal: '0 18px 48px rgba(32,35,40,.1)'
           },
@@ -83,14 +82,14 @@
         <input type="email" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="login-email" placeholder="邮箱地址" required>
         <input type="password" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="login-password" placeholder="密码" required>
         <div id="login-error" class="auth-error hidden rounded-[10px] bg-[#fff5f5] px-3 py-3 text-left text-[13px] text-danger"></div>
-        <button type="submit" class="auth-btn w-full rounded-xl bg-button px-5 py-3.5 text-[15px] font-bold text-button-text shadow-button transition duration-200 hover:-translate-y-px hover:bg-button-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0" id="login-btn">登录</button>
+        <button type="submit" class="auth-btn w-full rounded-xl bg-button px-5 py-3.5 text-[15px] font-bold text-button-text transition duration-200 hover:-translate-y-px hover:bg-button-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0" id="login-btn">登录</button>
       </form>
       <form id="register-form" class="auth-form hidden flex flex-col gap-4">
         <input type="email" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="register-email" placeholder="邮箱地址" required>
         <input type="password" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="register-password" placeholder="密码（至少6位）" required minlength="6">
         <input type="text" class="auth-input w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] text-text outline-none transition duration-200 placeholder:text-[#c0b8ac] focus:border-[#e6cb7c] focus:ring-4 focus:ring-[#f6d56f]/15" id="register-username" placeholder="昵称（选填）">
         <div id="register-error" class="auth-error hidden rounded-[10px] bg-[#fff5f5] px-3 py-3 text-left text-[13px] text-danger"></div>
-        <button type="submit" class="auth-btn w-full rounded-xl bg-button px-5 py-3.5 text-[15px] font-bold text-button-text shadow-button transition duration-200 hover:-translate-y-px hover:bg-button-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0" id="register-btn">注册</button>
+        <button type="submit" class="auth-btn w-full rounded-xl bg-button px-5 py-3.5 text-[15px] font-bold text-button-text transition duration-200 hover:-translate-y-px hover:bg-button-hover disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0" id="register-btn">注册</button>
       </form>
       <p class="auth-hint mt-5 text-[13px] text-muted" id="auth-hint"></p>
     </div>
@@ -140,7 +139,7 @@
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-html-btn">导出 HTML</button>
             </div>
           </div>
-          <button class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text shadow-button transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="save-project-btn"><svg class="heroicon heroicon-save text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
+          <button class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="save-project-btn"><svg class="heroicon heroicon-save text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
         </div>
       </div>
       <div class="project-info-bar mb-[18px] grid grid-cols-5 gap-[14px] rounded-[14px] border border-border bg-white p-[14px] max-[1100px]:grid-cols-2 max-md:grid-cols-1" id="project-info-bar">
@@ -180,7 +179,7 @@
       <div class="error-text mt-[10px] min-h-5 text-[13px] font-bold text-danger" id="project-modal-error"></div>
       <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
         <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-project-modal">取消</button>
-        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text shadow-button transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-project-modal">保存项目</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-project-modal">保存项目</button>
       </div>
     </div>
   </div>
@@ -210,7 +209,7 @@
       </div>
       <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
         <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-time-picker">取消</button>
-        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text shadow-button transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-time-picker">确认</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-time-picker">确认</button>
       </div>
     </div>
   </div>
