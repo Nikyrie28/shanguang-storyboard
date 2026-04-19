@@ -71,9 +71,13 @@
     .folder-action{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #ece8e1;border-radius:10px;background:#fff;color:#666d76;cursor:pointer}
     .folder-action.delete{color:#cf5a5f}
     .empty-state{padding:22px 0 0;color:var(--muted);font-size:13px}
-    .page-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px;padding:8px 4px 0}
-    .page-head-left h2{margin:0 0 6px;font-size:22px}
-    .page-head-left p{margin:0;color:var(--muted)}
+    .page-head{display:flex;justify-content:space-between;align-items:center;gap:28px;margin-bottom:14px;padding:6px 4px 0}
+    .page-head-left{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;min-width:220px;max-width:320px}
+    .project-logo-wrap{width:120px;height:32px;flex:0 0 auto;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
+    .project-logo{width:112px;height:auto;display:block;transform:none}
+    .page-head-copy{min-width:0;padding:0;display:flex;flex-direction:column;justify-content:center}
+    .page-head-left h2{margin:0 0 2px;font-size:22px;line-height:1.08;font-weight:800;letter-spacing:-.01em}
+    .page-head-left p{margin:0;color:#a3a9b2;font-size:14px;line-height:1.15;font-weight:400}
     .page-actions{display:flex;flex-wrap:wrap;gap:10px}
     .action-group{position:relative}
     .action-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:30;min-width:158px;display:none;padding:8px;border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 14px 32px rgba(28,31,36,.08)}
@@ -159,7 +163,7 @@
     .sync-indicator.syncing .sync-dot{animation:pulse 1s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
     @media(max-width:1100px){.project-info-bar{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:760px){.app-shell{padding:0}.page-head{flex-direction:column}.project-info-bar,.form-grid.two-col{grid-template-columns:1fr}.home-shell{grid-template-columns:1fr;border:none}.home-sidebar{flex-direction:row;border-right:none;border-bottom:1px solid var(--border);padding:10px 12px}.home-main{padding:18px 14px 28px}.project-grid{grid-template-columns:repeat(2,1fr);gap:22px 18px}}
+    @media(max-width:760px){.app-shell{padding:0}.page-head{flex-direction:column;align-items:flex-start;gap:12px}.page-head-left{gap:4px;min-width:0;max-width:none}.project-logo-wrap{width:108px;height:28px}.project-logo{width:100px}.page-head-left h2{font-size:20px;margin-bottom:2px}.page-head-left p{font-size:13px}.project-info-bar,.form-grid.two-col{grid-template-columns:1fr}.home-shell{grid-template-columns:1fr;border:none}.home-sidebar{flex-direction:row;border-right:none;border-bottom:1px solid var(--border);padding:10px 12px}.home-main{padding:18px 14px 28px}.project-grid{grid-template-columns:repeat(2,1fr);gap:22px 18px}}
   </style>
 </head>
 <body>
@@ -212,7 +216,10 @@
     </section>
     <section id="project-view" class="hidden">
       <div class="page-head">
-        <div class="page-head-left"><h2 id="project-page-title">项目详情</h2><p id="project-page-desc">已进入项目</p></div>
+        <div class="page-head-left">
+          <div class="project-logo-wrap"><img class="project-logo" src="./logo-frame-2.png" alt="闪光 Logo"></div>
+          <div class="page-head-copy"><h2 id="project-page-title">项目详情</h2><p id="project-page-desc">已进入项目</p></div>
+        </div>
         <div class="page-actions">
           <button class="btn btn-ghost" id="back-home-btn">← 返回主页</button>
           <div class="action-group">
