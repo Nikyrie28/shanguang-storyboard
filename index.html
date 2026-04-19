@@ -56,8 +56,20 @@
     .project-card:hover .project-actions{opacity:1;transform:translateY(0)}
     .sortable-ghost{opacity:.4!important;background:#fff9e6!important}
     .time-cell:hover .row-delete-btn{opacity:1;pointer-events:auto}
+    .image-box{overflow:visible}
+    .image-box .img-delete-btn{opacity:0;pointer-events:none;position:absolute;top:0;right:0;transform:translate(50%,-50%);z-index:50;transition:opacity .15s ease,transform .15s ease}
+    .image-box:hover .img-delete-btn,
     .image-box.has-image:hover .img-delete-btn{opacity:1;pointer-events:auto}
+    .col-index{overflow:visible}
+    .row-insert-anchor{z-index:30;pointer-events:auto}
+    .row-insert-btn{opacity:.2;pointer-events:none;transition:opacity .15s ease,transform .15s ease}
+    .col-index:hover .row-insert-btn,
+    .row-insert-anchor:hover .row-insert-btn,
+    tr:hover .row-insert-btn,
+    .row-insert-btn:hover {opacity:1;pointer-events:auto;transform:scale(1.02)}
     .upload-box.drag-over{border-color:#e4c978;background:#fffaf0}
+    .row-select-cell{display:none}
+    .batch-mode-active .row-select-cell{display:table-cell}
     [contenteditable="true"]:focus{outline:2px solid rgba(246,213,111,.7);background:#fffdf6;border-radius:8px}
     .time-wheel-item.active{background:#f6d56f;color:#7f6028;transform:scale(1.02)}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -67,6 +79,11 @@
     .sync-indicator[data-status="offline"]{background:#fff1f2;color:#e5484d}
     .sync-indicator[data-status="syncing"] .sync-dot{animation:pulse 1s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    /* 表格样式 */
+    th { position: relative; }
+    th:hover .resize-handle { opacity: 1; }
+    .resize-handle { position: absolute; right: 0; top: 0; bottom: 0; width: 4px; cursor: col-resize; background: transparent; z-index: 10; opacity: 0; transition: opacity 0.2s; }
+    .resize-handle:hover { background: #e4c978; opacity: 1; }
   </style>
 </head>
 <body class="m-0 bg-white font-sans text-text">
@@ -151,11 +168,26 @@
         <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">拍摄地点</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="location"></div></div>
         <div class="info-field rounded-xl border border-border bg-surface-soft px-[14px] py-3"><label class="mb-1.5 block text-xs font-bold text-muted">总时长</label><div class="min-h-6 font-bold outline-none" contenteditable="true" data-info-field="duration"></div></div>
       </div>
-      <div class="table-card overflow-hidden rounded-[14px] border border-border bg-white" id="project-export-area">
-        <div class="table-toolbar flex items-center justify-start gap-3 px-4 py-4"><p class="m-0 text-sm text-muted text-left">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p></div>
+      <div class="project-toolbar mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量模式</button>
+          <button id="select-all-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">选择</button>
+          <button id="storyboard-settings-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">分镜设置</button>
+          <button id="column-settings-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">列设置</button>
+        </div>
+        <div class="min-w-[220px] text-right">
+          <p class="m-0 text-sm text-muted">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p>
+        </div>
+      </div>
+      <div id="batch-action-bar" class="batch-action-bar hidden mb-4 flex flex-wrap items-center gap-3 rounded-[14px] border border-border bg-surface-soft px-4 py-3">
+        <span class="text-sm text-muted">批量模式已开启</span>
+        <button id="delete-selected-btn" type="button" class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">删除选中</button>
+        <button id="cancel-batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">取消</button>
+      </div>
+      <div class="table-card overflow-visible rounded-[14px] border border-border bg-white" id="project-export-area">
         <div class="table-wrap overflow-x-auto">
           <table id="plan-table" class="w-full min-w-[1040px] table-fixed border-collapse text-[13px] leading-[1.6]">
-            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670]"></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted">#</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">时间</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">部门</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">参考图</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">拍摄内容</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">焦段</th><th class="bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">运镜</th><th class="action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
+            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="row-select-cell w-[38px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted border-r border-r-solid border-r-[#ddd8cf] relative">#</th><th class="col-time bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">时间<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-dept bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">部门<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-img bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">参考图<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-content bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">拍摄内容<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-lens bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">焦段<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-movement action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">运镜<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
             <tbody id="table-body"></tbody>
           </table>
         </div>
@@ -248,7 +280,7 @@
     const supabaseAnonKey = envConfig.key || 'sb_publishable_IwWht5iZ25WP08S7kgxPvQ_wLGd388Q';
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
     const isConfigured = () => Boolean(supabaseUrl && supabaseAnonKey);
-    const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, pendingCSVImport: null, timePicker: { activeTag: null, minute: 0, second: 0 } };
+    const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, pendingCSVImport: null, timePicker: { activeTag: null, minute: 0, second: 0 }, batchModeEnabled: false, visibleColumns: { time: true, dept: true, img: true, content: true, lens: true, movement: true }, storyboardSettings: { autoSyncNextStart: true } };
     const $ = id => document.getElementById(id);
     const heroicon = name => ({
       folder: '<svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -352,6 +384,10 @@
       timePickerBackdrop.addEventListener('click', e => { if (e.target === timePickerBackdrop) timePickerBackdrop.classList.add('hidden'); });
       document.addEventListener('keydown', e => { if (!timePickerBackdrop.classList.contains('hidden')) { if (e.key === 'Escape') timePickerBackdrop.classList.add('hidden'); if (e.key === 'Enter') confirmTimePicker(); } });
       document.addEventListener('click', e => { if (!e.target.closest('.action-group')) closeMenus(); });
+      $('batch-mode-btn').addEventListener('click', toggleBatchMode);
+      $('select-all-btn').addEventListener('click', toggleSelectAll);
+      $('delete-selected-btn').addEventListener('click', deleteSelectedRows);
+      $('plan-table').addEventListener('mousedown', handleColumnResize);
       initSortable();
     }
     async function loadProjects() {
@@ -526,11 +562,12 @@
     function createRowElement(row = {}) {
       const { start, end } = parseTimeRange(row.time || '0:00 - 0:00');
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="col-index w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"></td><td class="time-cell relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTMLWithBreak(row.dept || '点击输入部门') + '</td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto h-[72px] w-[92px]"><button class="icon-btn img-delete-btn pointer-events-none absolute right-[-8px] top-[-8px] inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="action-col w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
+      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="row-select-cell w-[38px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center align-top"><input type="checkbox" class="row-select-checkbox h-4 w-4 rounded border border-border text-primary focus:ring-0"></td><td class="col-index relative w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"><div class="row-insert-anchor absolute bottom-0 left-1/2 flex w-[26px] -translate-x-1/2 translate-y-1/2 z-20 items-center justify-center"><button class="icon-btn row-insert-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white border border-border text-[#5f6670] opacity-0 transition duration-150 hover:bg-[#f8f8f6] hover:scale-105" aria-label="插入镜头">' + heroicon('plus') + '</button></div></td><td class="time-cell col-time relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="col-dept border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTMLWithBreak(row.dept || '点击输入部门') + '</td><td class="col-img border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto h-[72px] w-[92px]"><button class="icon-btn img-delete-btn pointer-events-none absolute right-[-8px] top-[-8px] inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="col-content border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="col-lens border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="col-movement border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="action-col w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
       return tr;
     }
     function handleTableClick(e) {
       if (e.target.closest('.row-delete-btn')) { e.target.closest('tr').remove(); updateRowNumbers(); saveCurrentProjectSilently(); return; }
+      if (e.target.closest('.row-insert-btn')) { const tr = e.target.closest('tr'); tr.after(createRowElement({ time: '0:00 - 0:00' })); updateRowNumbers(); saveCurrentProjectSilently(); showToast('已插入新镜头'); return; }
       if (e.target.closest('.row-copy-btn')) { const tr = e.target.closest('tr'); tr.after(createRowElement(collectRowDataFromTr(tr))); updateRowNumbers(); saveCurrentProjectSilently(); showToast('已复制'); return; }
       if (e.target.closest('.img-delete-btn')) { clearImageBox(e.target.closest('.image-box')); saveCurrentProjectSilently(); return; }
       if (e.target.closest('.time-tag')) { openTimePicker(e.target.closest('.time-tag')); return; }
@@ -568,10 +605,80 @@
       const cells = tr.querySelectorAll('td');
       const img = tr.querySelector('.upload-box img');
       const tvs = tr.querySelectorAll('.time-tag-value');
-      return { time: (tvs[0]?.textContent.trim() || '0:00') + ' - ' + (tvs[1]?.textContent.trim() || '0:00'), dept: htmlToPlain(cells[3]?.innerHTML || ''), img: img?.src || '', content: cells[5]?.innerText.trim() || '', lens: cells[6]?.innerText.trim() || '', movement: cells[7]?.innerText.trim() || '' };
+      return { time: (tvs[0]?.textContent.trim() || '0:00') + ' - ' + (tvs[1]?.textContent.trim() || '0:00'), dept: htmlToPlain(cells[4]?.innerHTML || ''), img: img?.src || '', content: cells[6]?.innerText.trim() || '', lens: cells[7]?.innerText.trim() || '', movement: cells[8]?.innerText.trim() || '' };
     }
     function htmlToPlain(html) { return html.replace(/<br\s*\/?>/gi, '\n').replace(/&nbsp;/g, ' ').replace(/<[^>]+>/g, '').trim(); }
     function updateRowNumbers() { Array.from(tableBody.querySelectorAll('tr')).forEach((tr, i) => { const c = tr.querySelector('.col-index'); if (c) c.textContent = i + 1; }); rowCount.textContent = tableBody.querySelectorAll('tr').length; }
+    function toggleBatchMode() {
+      state.batchModeEnabled = !state.batchModeEnabled;
+      const table = $('storyboard-table');
+      if (state.batchModeEnabled) {
+        table.classList.add('batch-mode-active');
+        $('project-toolbar').classList.add('hidden');
+        $('batch-action-bar').classList.remove('hidden');
+      } else {
+        table.classList.remove('batch-mode-active');
+        $('project-toolbar').classList.remove('hidden');
+        $('batch-action-bar').classList.add('hidden');
+      }
+    }
+    function toggleSelectAll() {
+      const checkboxes = tableBody.querySelectorAll('.row-select-checkbox');
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      checkboxes.forEach(cb => cb.checked = !allChecked);
+    }
+    function deleteSelectedRows() {
+      const selectedRows = Array.from(tableBody.querySelectorAll('.row-select-checkbox:checked')).map(cb => cb.closest('tr'));
+      if (selectedRows.length === 0) { showToast('请先选择要删除的行'); return; }
+      selectedRows.forEach(tr => tr.remove());
+      updateRowNumbers();
+      saveCurrentProjectSilently();
+      showToast(`已删除 ${selectedRows.length} 行`);
+    }
+    function cancelBatchMode() {
+      state.batchModeEnabled = false;
+      const table = $('storyboard-table');
+      table.classList.remove('batch-mode-active');
+      $('project-toolbar').classList.remove('hidden');
+      $('batch-action-bar').classList.add('hidden');
+      // 取消所有选择
+      tableBody.querySelectorAll('.row-select-checkbox').forEach(cb => cb.checked = false);
+    }
+    function handleColumnResize(e) {
+      if (!e.target.classList.contains('resize-handle')) return;
+      
+      e.preventDefault();
+      const th = e.target.closest('th');
+      const table = th.closest('table');
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+      const startX = e.clientX;
+      const startWidth = th.offsetWidth;
+      const colIndex = Array.from(th.parentNode.children).indexOf(th);
+      
+      function onMouseMove(e) {
+        const newWidth = Math.max(30, startWidth + (e.clientX - startX)); // 最小宽度30px
+        th.style.width = newWidth + 'px';
+        
+        // 同步调整tbody中对应列的所有td
+        const tbodyRows = tbody.querySelectorAll('tr');
+        tbodyRows.forEach(row => {
+          const cells = row.querySelectorAll('td');
+          if (cells[colIndex]) {
+            cells[colIndex].style.width = newWidth + 'px';
+          }
+        });
+      }
+      
+      function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        saveCurrentProjectSilently(); // 保存列宽设置
+      }
+      
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
     async function saveCurrentProject() {
       if (!state.currentProjectId) return;
       updateCurrentProjectFromEditor();
