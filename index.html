@@ -153,22 +153,17 @@
     .welcome-step{display:none}
     .welcome-step.is-active{display:block}
     .welcome-step-pill{display:block;font-size:36px;font-weight:900;line-height:1.08;color:#7f6028}
-    .welcome-step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
+    .welcome-step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:24px}
     .welcome-step-dot{width:10px;height:10px;border-radius:999px;background:#e6dfd4;transition:transform .18s ease,background .18s ease}
     .welcome-step-dot.is-active{background:#f0c85a;transform:scale(1.18)}
     .welcome-note-card{border:1px solid #efe7d6;border-radius:24px;background:linear-gradient(140deg,#fff9e8 0%,#fffef9 55%,#f7f5ff 100%);padding:28px 26px}
     .welcome-note-card h3{margin:16px 0 0;font-size:30px;line-height:1.08;font-weight:900;color:#2d2f33}
     .welcome-note-card p{margin:16px 0 0;max-width:560px;font-size:16px;line-height:1.9;color:#5f6670}
     .welcome-note-signoff{margin-top:18px;font-size:14px;font-weight:800;color:#7f6028;letter-spacing:.02em}
-    #project-view .page-head{position:relative;padding-left:0;padding-top:4px}
-    #project-view .page-actions #back-home-btn{position:absolute;left:0;top:-22px}
-    #project-view .page-head-left{padding-top:44px}
     @media (max-width: 760px){
       .column-setting-item{grid-template-columns:minmax(0,1fr)}
       .icon-picker-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .batch-action-bar{bottom:14px;width:min(calc(100% - 20px), 1240px)}
-      #project-view .page-actions #back-home-btn{position:static}
-      #project-view .page-head-left{padding-top:0}
     }
     /* 表格样式 */
     th { position: relative; }
@@ -221,9 +216,9 @@
       </div>
     </div>
     <section id="home-view">
-      <div class="home-shell mx-auto grid min-h-[calc(100vh-24px)] w-[min(100%,1760px)] grid-cols-[74px_minmax(0,1fr)] overflow-hidden rounded-[22px] border border-border bg-white max-md:grid-cols-1 max-md:border-0 max-md:rounded-none">
+      <div class="home-shell w-full grid min-h-[calc(100vh-24px)] grid-cols-[74px_minmax(0,1fr)] overflow-hidden rounded-[22px] border border-border bg-white max-md:grid-cols-1 max-md:border-0 max-md:rounded-none">
         <aside class="home-sidebar flex flex-col items-center gap-4 border-r border-border bg-[linear-gradient(180deg,#fcfcfb_0%,#f8f8f6_100%)] px-[10px] py-[18px] max-md:flex-row max-md:border-b max-md:border-r-0 max-md:px-3 max-md:py-[10px]">
-          <div class="sidebar-logo grid h-[42px] w-[42px] place-items-center rounded-[14px] text-[28px] font-extrabold text-[#f0be3d]">⚡</div>
+          <div class="sidebar-logo grid h-[42px] w-[42px] place-items-center rounded-[14px] text-[28px] font-extrabold text-[#f0be3d]"><svg class="heroicon heroicon-bolt" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13.5 2.25 5.25 13.5h5.25l-1.5 8.25L18.75 10.5H13.5l0-8.25Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
           <div class="sidebar-divider my-[2px] mb-2 h-px w-[42px] bg-border max-md:mb-[2px] max-md:h-[42px] max-md:w-px"></div>
           <div class="sidebar-item active flex w-[54px] flex-col items-center gap-1.5 rounded-2xl px-1.5 py-2.5 text-center text-[11px] font-bold text-[#b0b5bc]"><div class="sidebar-item-icon text-[22px] leading-none"><svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div>项目</div></div>
         </aside>
@@ -236,25 +231,48 @@
       </div>
     </section>
     <section id="project-view" class="hidden">
-      <div class="page-head mb-[14px] flex items-start justify-between gap-7 px-1 pt-1.5 max-md:flex-col max-md:items-start max-md:gap-3">
-        <div class="page-head-left flex min-w-[220px] flex-col items-start justify-center gap-3 max-md:min-w-0 max-md:w-full">
-          <div class="page-head-copy flex min-w-0 flex-col justify-center"><h2 id="project-page-title" class="mb-0.5 text-[22px] font-extrabold leading-[1.08] tracking-[-0.01em] max-md:text-[20px]">项目详情</h2><p id="project-page-desc" class="m-0 text-sm font-normal leading-[1.15] text-[#a3a9b2] max-md:text-[13px]">已进入项目</p></div>
-        </div>
-        <div class="page-actions flex flex-wrap gap-2.5">
-          <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="back-home-btn"><svg class="heroicon heroicon-arrow-left text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>返回主页</span></button>
-          <div class="action-group relative">
-            <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="import-menu-btn"><span>导入</span><svg class="heroicon heroicon-chevron-down btn-caret text-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="import-menu"><button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-json-btn">导入 JSON</button></div>
+      <!-- 重新设计的项目顶部工具栏 -->
+      <div class="project-toolbar mb-[18px] flex items-center justify-between rounded-[18px] border border-border bg-white p-2.5 pr-3 shadow-sm max-md:flex-col max-md:items-start max-md:gap-4 max-md:p-4">
+        <!-- 左侧：返回与标题 -->
+        <div class="flex items-center gap-4">
+          <button class="group flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-[14px] border border-transparent bg-transparent text-[#5f6670] transition-all duration-200 hover:bg-[#f8f8f6] hover:text-text" id="back-home-btn" title="返回主页">
+            <svg class="heroicon heroicon-arrow-left h-[22px] w-[22px] transition-transform duration-200 group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="h-5 w-[2px] rounded-full bg-border max-md:hidden"></div>
+          <div class="flex flex-col justify-center">
+            <h2 id="project-page-title" class="text-[17px] font-extrabold leading-tight text-text">项目详情</h2>
+            <p id="project-page-desc" class="mt-[2px] text-[12px] font-medium text-[#a3a9b2]">编辑中</p>
           </div>
+        </div>
+
+        <!-- 右侧：操作按钮组 -->
+        <div class="flex flex-wrap items-center gap-2.5 max-md:w-full max-md:justify-end">
           <div class="action-group relative">
-            <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="export-menu-btn"><span>导出</span><svg class="heroicon heroicon-chevron-down btn-caret text-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="btn btn-ghost inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] border border-border bg-white px-4 text-[13px] font-bold text-[#5f6670] transition-all duration-200 hover:-translate-y-px hover:border-[#d9dce0] hover:bg-[#f8f8f6] hover:text-text hover:shadow-sm" id="import-menu-btn">
+              <span>导入</span>
+              <svg class="heroicon heroicon-chevron-down h-[16px] w-[16px] opacity-70" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="import-menu">
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-json-btn">导入 JSON</button>
+            </div>
+          </div>
+          
+          <div class="action-group relative">
+            <button class="btn btn-ghost inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] border border-border bg-white px-4 text-[13px] font-bold text-[#5f6670] transition-all duration-200 hover:-translate-y-px hover:border-[#d9dce0] hover:bg-[#f8f8f6] hover:text-text hover:shadow-sm" id="export-menu-btn">
+              <span>导出</span>
+              <svg class="heroicon heroicon-chevron-down h-[16px] w-[16px] opacity-70" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
             <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="export-menu">
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-pdf-btn">导出 PDF</button>
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-json-btn">导出 JSON</button>
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-html-btn">导出 HTML</button>
             </div>
           </div>
-          <button class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="save-project-btn"><svg class="heroicon heroicon-save text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
+          
+          <button class="btn inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] bg-button px-5 text-[13px] font-bold text-button-text transition-all duration-200 hover:-translate-y-px hover:bg-button-hover hover:shadow-md" id="save-project-btn">
+            <svg class="heroicon heroicon-save h-[16px] w-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>保存</span>
+          </button>
         </div>
       </div>
       <div class="project-info-bar mb-[18px] grid grid-cols-5 gap-[14px] rounded-[14px] border border-border bg-white p-[14px] max-[1100px]:grid-cols-2 max-md:grid-cols-1" id="project-info-bar">
@@ -298,13 +316,9 @@
   <div id="welcome-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1100] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[8px]">
     <div class="welcome-modal-shell modal w-full max-w-[760px] rounded-[28px] border border-border bg-white/95 p-7 shadow-modal max-md:p-5">
       <div class="relative z-[1]">
-        <div class="welcome-step-indicator" aria-hidden="true">
-          <span id="welcome-step-dot-1" class="welcome-step-dot is-active"></span>
-          <span id="welcome-step-dot-2" class="welcome-step-dot"></span>
-        </div>
         <section id="welcome-step-1" class="welcome-step is-active">
           <div class="welcome-note-card">
-            <div class="welcome-step-pill">第一步 · 写在前面</div>
+            <div class="welcome-step-pill">写在前面</div>
             <h3>感谢你使用闪光分镜</h3>
             <p>这是一个完全免费的开源项目，希望它可以帮助到你创作。<br>让我们一起，无限进步！</p>
             <div class="welcome-note-signoff">欢迎开始你的创作流程</div>
@@ -315,7 +329,7 @@
         </section>
         <section id="welcome-step-2" class="welcome-step">
           <div class="mb-6 rounded-[24px] bg-[linear-gradient(135deg,#fff8df_0%,#fffef7_52%,#f7f4ff_100%)] px-6 py-6 max-md:px-4">
-            <div class="welcome-step-pill">第二步 · 快速上手</div>
+            <div class="welcome-step-pill">快速上手</div>
             <p class="mt-4 max-w-[560px] text-[15px] leading-7 text-[#5f6670]">这里是你整理拍摄计划、搭建镜头结构、快速协同沟通的工作台。看完下面这一步，<br>你就可以开始使用了。</p>
           </div>
           <div class="mb-7">
@@ -348,6 +362,10 @@
             <button id="welcome-modal-confirm" class="inline-flex min-w-[220px] items-center justify-center rounded-[16px] bg-button px-6 py-3.5 text-[15px] font-extrabold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">我明白了，开始使用</button>
           </div>
         </section>
+        <div class="welcome-step-indicator" aria-hidden="true">
+          <span id="welcome-step-dot-1" class="welcome-step-dot is-active"></span>
+          <span id="welcome-step-dot-2" class="welcome-step-dot"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -1077,7 +1095,6 @@
       try {
         state.currentProjectId = projectId;
         await loadProjectIntoEditor(projectId);
-        userBarBrand?.classList.add('hidden');
         homeView.classList.add('hidden');
         projectView.classList.remove('hidden');
       } finally {
@@ -1089,7 +1106,6 @@
       state.currentProjectId = null;
       setBatchActionBarVisible(false);
       state.batchModeEnabled = false;
-      userBarBrand?.classList.remove('hidden');
       projectView.classList.add('hidden');
       homeView.classList.remove('hidden');
       loadProjects();
