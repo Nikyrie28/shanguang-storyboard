@@ -143,6 +143,23 @@
     .icon-picker-option .heroicon{font-size:20px}
     .icon-picker-option:hover,.icon-picker-option:focus-visible{transform:scale(1.06);border-color:#e6cb7c;background:#fff9e7;outline:none}
     .icon-picker-option.is-active{border-color:#e6cb7c;background:#fff3c4;color:#7f6028}
+    .welcome-modal-shell{position:relative;overflow:hidden}
+    .welcome-modal-shell::before{content:"";position:absolute;inset:-80px auto auto -70px;width:220px;height:220px;border-radius:999px;background:radial-gradient(circle,rgba(246,213,111,.38) 0%,rgba(246,213,111,0) 72%);pointer-events:none}
+    .welcome-modal-shell::after{content:"";position:absolute;right:-80px;bottom:-90px;width:240px;height:240px;border-radius:999px;background:radial-gradient(circle,rgba(143,136,216,.14) 0%,rgba(143,136,216,0) 72%);pointer-events:none}
+    .welcome-feature-card{position:relative;border:1px solid #ece8e1;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(252,249,242,.96) 100%);padding:18px}
+    .welcome-feature-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:#fff6d9;color:#7f6028;box-shadow:inset 0 0 0 1px rgba(240,200,90,.24)}
+    .welcome-feature-card h4{margin:14px 0 6px;font-size:15px;font-weight:800;color:#2d2f33}
+    .welcome-feature-card p{margin:0;font-size:13px;line-height:1.7;color:#6d737c}
+    .welcome-step{display:none}
+    .welcome-step.is-active{display:block}
+    .welcome-step-pill{display:block;font-size:36px;font-weight:900;line-height:1.08;color:#7f6028}
+    .welcome-step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
+    .welcome-step-dot{width:10px;height:10px;border-radius:999px;background:#e6dfd4;transition:transform .18s ease,background .18s ease}
+    .welcome-step-dot.is-active{background:#f0c85a;transform:scale(1.18)}
+    .welcome-note-card{border:1px solid #efe7d6;border-radius:24px;background:linear-gradient(140deg,#fff9e8 0%,#fffef9 55%,#f7f5ff 100%);padding:28px 26px}
+    .welcome-note-card h3{margin:16px 0 0;font-size:30px;line-height:1.08;font-weight:900;color:#2d2f33}
+    .welcome-note-card p{margin:16px 0 0;max-width:560px;font-size:16px;line-height:1.9;color:#5f6670}
+    .welcome-note-signoff{margin-top:18px;font-size:14px;font-weight:800;color:#7f6028;letter-spacing:.02em}
     @media (max-width: 760px){
       .column-setting-item{grid-template-columns:minmax(0,1fr)}
       .icon-picker-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -272,6 +289,62 @@
         <button class="add-row-btn flex w-full items-center justify-center gap-2 border-t border-border bg-white px-4 py-4 text-sm font-bold text-muted transition duration-150 hover:bg-[#fcfbf8] hover:text-text" id="add-row-btn"><svg class="heroicon heroicon-plus text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 添加新镜头</button>
       </div>
     </section>
+  </div>
+  <div id="welcome-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1100] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[8px]">
+    <div class="welcome-modal-shell modal w-full max-w-[760px] rounded-[28px] border border-border bg-white/95 p-7 shadow-modal max-md:p-5">
+      <div class="relative z-[1]">
+        <div class="welcome-step-indicator" aria-hidden="true">
+          <span id="welcome-step-dot-1" class="welcome-step-dot is-active"></span>
+          <span id="welcome-step-dot-2" class="welcome-step-dot"></span>
+        </div>
+        <section id="welcome-step-1" class="welcome-step is-active">
+          <div class="welcome-note-card">
+            <div class="welcome-step-pill">第一步 · 写在前面</div>
+            <h3>感谢你使用闪光分镜</h3>
+            <p>这是一个完全免费的开源项目，希望它可以帮助到你创作。<br>让我们一起，无限进步！</p>
+            <div class="welcome-note-signoff">欢迎开始你的创作流程</div>
+          </div>
+          <div class="mt-7 flex justify-center">
+            <button id="welcome-modal-next" class="inline-flex min-w-[180px] items-center justify-center rounded-[16px] bg-button px-6 py-3.5 text-[15px] font-extrabold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">下一步</button>
+          </div>
+        </section>
+        <section id="welcome-step-2" class="welcome-step">
+          <div class="mb-6 rounded-[24px] bg-[linear-gradient(135deg,#fff8df_0%,#fffef7_52%,#f7f4ff_100%)] px-6 py-6 max-md:px-4">
+            <div class="welcome-step-pill">第二步 · 快速上手</div>
+            <p class="mt-4 max-w-[560px] text-[15px] leading-7 text-[#5f6670]">这里是你整理拍摄计划、搭建镜头结构、快速协同沟通的工作台。看完下面这一步，<br>你就可以开始使用了。</p>
+          </div>
+          <div class="mb-7">
+            <div class="mb-3 text-sm font-extrabold tracking-[0.02em] text-[#7f6028]">开始了解这个分镜</div>
+            <div class="grid grid-cols-3 gap-4 max-md:grid-cols-1">
+              <article class="welcome-feature-card">
+                <div class="welcome-feature-icon">
+                  <svg class="heroicon text-[22px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h4>先从项目开始</h4>
+                <p>回到首页后，你可以先新建一个项目，把项目名称、拍摄日期、导演和地点先填好。</p>
+              </article>
+              <article class="welcome-feature-card">
+                <div class="welcome-feature-icon">
+                  <svg class="heroicon text-[22px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 8.25A2.25 2.25 0 0 1 6.75 6h3l1.5 1.5h6A2.25 2.25 0 0 1 19.5 9.75v7.5a2.25 2.25 0 0 1-2.25 2.25h-10.5A2.25 2.25 0 0 1 4.5 17.25v-9Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+                </div>
+                <h4>逐镜头填写内容</h4>
+                <p>进入项目后，可以按镜头顺序补充拍摄对象、参考图、画面内容、焦段和运镜信息。</p>
+              </article>
+              <article class="welcome-feature-card">
+                <div class="welcome-feature-icon">
+                  <svg class="heroicon text-[22px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h4>随时扩展和导出</h4>
+                <p>你可以继续增减镜头、调整列设置，并在完成后导出成适合沟通和交付的版本。</p>
+              </article>
+            </div>
+          </div>
+          <div class="flex justify-center">
+            <button id="welcome-modal-confirm" class="inline-flex min-w-[220px] items-center justify-center rounded-[16px] bg-button px-6 py-3.5 text-[15px] font-extrabold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">我明白了，开始使用</button>
+          </div>
+        </section>
+      </div>
+    </div>
   </div>
   <div id="project-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
     <div class="modal w-full max-w-[560px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
@@ -425,7 +498,7 @@
       { value: 'target', label: '重点' },
       { value: 'box', label: '容器' }
     ];
-    const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, pendingCSVImport: null, timePicker: { activeTag: null, minute: 0, second: 0 }, datePicker: { target: null, year: 2026, month: 1, day: 1 }, batchModeEnabled: false, batchCellAnchor: null, batchRowAnchor: null, batchTypingActive: false, visibleColumns: { time: true, dept: true, img: true, content: true, lens: true, movement: true }, storyboardSettings: { autoSyncNextStart: true }, columnDefinitions: createDefaultColumnDefinitions(), columnDefinitionsDraft: null };
+    const state = { user: null, projects: [], currentProjectId: null, pendingProjectId: null, editingProjectId: null, currentUploadBox: null, toastTimer: null, sortable: null, authEventsBound: false, appEventsBound: false, pendingCSVImport: null, timePicker: { activeTag: null, minute: 0, second: 0 }, datePicker: { target: null, year: 2026, month: 1, day: 1 }, batchModeEnabled: false, batchCellAnchor: null, batchRowAnchor: null, batchTypingActive: false, visibleColumns: { time: true, dept: true, img: true, content: true, lens: true, movement: true }, storyboardSettings: { autoSyncNextStart: true }, columnDefinitions: createDefaultColumnDefinitions(), columnDefinitionsDraft: null, hasShownWelcomeModal: false, welcomeStep: 1 };
     const $ = id => document.getElementById(id);
     const heroicon = name => ({
       folder: '<svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -463,7 +536,7 @@
     }[name] || '');
     const getVisibleColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible !== false);
     const getHiddenColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible === false);
-    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
+    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
     document.addEventListener('DOMContentLoaded', async () => {
       if (!isConfigured()) { showToast('请先配置 Supabase'); loadingOverlay.classList.add('hidden'); authView.classList.remove('hidden'); return; }
       await checkAuth();
@@ -483,6 +556,43 @@
     }
     function showAuth() { authView.classList.remove('hidden'); appView.classList.add('hidden'); bindAuthEvents(); }
     function showApp() { authView.classList.add('hidden'); appView.classList.remove('hidden'); userEmailEl.textContent = state.user.email; bindAppEvents(); buildTimeWheels(); buildDateWheels(); renderColumnHeaders(); }
+    function getWelcomeGuideStorageKey(user = state.user) {
+      return user?.id ? 'shanguang-welcome-seen:' + user.id : '';
+    }
+    function hasSeenWelcomeGuide(user = state.user) {
+      const key = getWelcomeGuideStorageKey(user);
+      if (!key) return true;
+      try {
+        return localStorage.getItem(key) === '1';
+      } catch (error) {
+        return false;
+      }
+    }
+    function markWelcomeGuideSeen(user = state.user) {
+      const key = getWelcomeGuideStorageKey(user);
+      if (!key) return;
+      try {
+        localStorage.setItem(key, '1');
+      } catch (error) {}
+    }
+    function setWelcomeStep(step) {
+      state.welcomeStep = step === 2 ? 2 : 1;
+      $('welcome-step-1').classList.toggle('is-active', state.welcomeStep === 1);
+      $('welcome-step-2').classList.toggle('is-active', state.welcomeStep === 2);
+      $('welcome-step-dot-1').classList.toggle('is-active', state.welcomeStep === 1);
+      $('welcome-step-dot-2').classList.toggle('is-active', state.welcomeStep === 2);
+    }
+    function openWelcomeModal() {
+      if (state.hasShownWelcomeModal || hasSeenWelcomeGuide()) return;
+      state.hasShownWelcomeModal = true;
+      setWelcomeStep(1);
+      welcomeModalBackdrop.classList.remove('hidden');
+    }
+    function closeWelcomeModal() {
+      markWelcomeGuideSeen();
+      state.hasShownWelcomeModal = false;
+      welcomeModalBackdrop.classList.add('hidden');
+    }
     function bindAuthEvents() {
       if (state.authEventsBound) return;
       state.authEventsBound = true;
@@ -502,7 +612,7 @@
         $('login-btn').disabled = true; $('login-error').classList.add('hidden');
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) { $('login-error').textContent = error.message; $('login-error').classList.remove('hidden'); }
-        else { state.user = data.user; showApp(); await loadProjects(); }
+        else { state.user = data.user; state.hasShownWelcomeModal = false; showApp(); await loadProjects(); openWelcomeModal(); }
         $('login-btn').disabled = false;
       });
       $('register-form').addEventListener('submit', async e => {
@@ -515,8 +625,8 @@
         $('register-btn').disabled = false;
       });
       supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN' && session?.user) { state.user = session.user; showApp(); loadProjects(); }
-        else if (event === 'SIGNED_OUT') { state.user = null; showAuth(); }
+        if (event === 'SIGNED_IN' && session?.user) { state.user = session.user; state.hasShownWelcomeModal = false; showApp(); loadProjects().then(() => openWelcomeModal()); }
+        else if (event === 'SIGNED_OUT') { state.user = null; state.hasShownWelcomeModal = false; setWelcomeStep(1); showAuth(); }
       });
     }
     function bindAppEvents() {
@@ -526,6 +636,9 @@
       ensureBatchLiveInput();
       ensureCSVImportControls();
       $('logout-btn').addEventListener('click', async () => { await supabase.auth.signOut(); state.user = null; showAuth(); showToast('已退出登录'); });
+      $('welcome-modal-next').addEventListener('click', () => setWelcomeStep(2));
+      $('welcome-modal-confirm').addEventListener('click', closeWelcomeModal);
+      welcomeModalBackdrop.addEventListener('click', e => { if (e.target === welcomeModalBackdrop) closeWelcomeModal(); });
       $('back-home-btn').addEventListener('click', backToHome);
       $('cancel-project-modal').addEventListener('click', () => projectModalBackdrop.classList.add('hidden'));
       $('confirm-project-modal').addEventListener('click', submitProjectModal);
