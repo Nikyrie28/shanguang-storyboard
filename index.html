@@ -160,10 +160,15 @@
     .welcome-note-card h3{margin:16px 0 0;font-size:30px;line-height:1.08;font-weight:900;color:#2d2f33}
     .welcome-note-card p{margin:16px 0 0;max-width:560px;font-size:16px;line-height:1.9;color:#5f6670}
     .welcome-note-signoff{margin-top:18px;font-size:14px;font-weight:800;color:#7f6028;letter-spacing:.02em}
+    #project-view .page-head{position:relative;padding-left:0;padding-top:4px}
+    #project-view .page-actions #back-home-btn{position:absolute;left:0;top:-22px}
+    #project-view .page-head-left{padding-top:44px}
     @media (max-width: 760px){
       .column-setting-item{grid-template-columns:minmax(0,1fr)}
       .icon-picker-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .batch-action-bar{bottom:14px;width:min(calc(100% - 20px), 1240px)}
+      #project-view .page-actions #back-home-btn{position:static}
+      #project-view .page-head-left{padding-top:0}
     }
     /* 表格样式 */
     th { position: relative; }
@@ -231,8 +236,8 @@
       </div>
     </section>
     <section id="project-view" class="hidden">
-      <div class="page-head mb-[14px] flex items-center justify-between gap-7 px-1 pt-1.5 max-md:flex-col max-md:items-start max-md:gap-3">
-        <div class="page-head-left flex min-w-[220px] max-w-[320px] flex-col items-start justify-center gap-1 max-md:min-w-0 max-md:max-w-none">
+      <div class="page-head mb-[14px] flex items-start justify-between gap-7 px-1 pt-1.5 max-md:flex-col max-md:items-start max-md:gap-3">
+        <div class="page-head-left flex min-w-[220px] flex-col items-start justify-center gap-3 max-md:min-w-0 max-md:w-full">
           <div class="page-head-copy flex min-w-0 flex-col justify-center"><h2 id="project-page-title" class="mb-0.5 text-[22px] font-extrabold leading-[1.08] tracking-[-0.01em] max-md:text-[20px]">项目详情</h2><p id="project-page-desc" class="m-0 text-sm font-normal leading-[1.15] text-[#a3a9b2] max-md:text-[13px]">已进入项目</p></div>
         </div>
         <div class="page-actions flex flex-wrap gap-2.5">
@@ -536,7 +541,7 @@
     }[name] || '');
     const getVisibleColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible !== false);
     const getHiddenColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible === false);
-    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
+    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), userBarBrand = document.querySelector('.user-bar-brand'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
     document.addEventListener('DOMContentLoaded', async () => {
       if (!isConfigured()) { showToast('请先配置 Supabase'); loadingOverlay.classList.add('hidden'); authView.classList.remove('hidden'); return; }
       await checkAuth();
@@ -1072,6 +1077,7 @@
       try {
         state.currentProjectId = projectId;
         await loadProjectIntoEditor(projectId);
+        userBarBrand?.classList.add('hidden');
         homeView.classList.add('hidden');
         projectView.classList.remove('hidden');
       } finally {
@@ -1083,6 +1089,7 @@
       state.currentProjectId = null;
       setBatchActionBarVisible(false);
       state.batchModeEnabled = false;
+      userBarBrand?.classList.remove('hidden');
       projectView.classList.add('hidden');
       homeView.classList.remove('hidden');
       loadProjects();
