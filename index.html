@@ -412,13 +412,35 @@
       <h3 class="mb-2 text-2xl font-extrabold text-center">导入 CSV</h3>
       <p class="mb-6 text-center text-sm text-muted">将 CSV 文件导入当前项目，系统会自动生成分镜表并覆盖当前内容。</p>
       <div id="csv-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
-        <div class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
-        <p class="mt-3 text-sm text-[#5f6670]">点击或拖拽 CSV 文件到这里</p>
+        <button id="csv-remove-file-btn" class="hidden absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/5 text-muted hover:bg-black/10 transition duration-150" aria-label="移除文件" title="移除文件"><svg class="heroicon heroicon-x text-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="csv-plus-sign" class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
+        <div id="csv-file-icon" class="hidden mb-1 text-[#2bb673]"><svg class="heroicon text-[42px]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div>
+        <p id="csv-upload-hint" class="mt-3 text-sm text-[#5f6670]">点击或拖拽 CSV 文件到这里</p>
         <p id="csv-file-name" class="mt-2 text-xs text-muted">支持 .csv 格式</p>
       </div>
       <div class="flex justify-end gap-2">
         <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-csv-import-btn">取消</button>
         <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-csv-import-btn" disabled>确定导入</button>
+      </div>
+    </div>
+  </div>
+  <div id="json-import-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[520px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <div class="flex items-center justify-center mb-4">
+        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-[#fff4d9] text-[28px] font-bold text-button-text">+</div>
+      </div>
+      <h3 class="mb-2 text-2xl font-extrabold text-center">导入 JSON</h3>
+      <p class="mb-6 text-center text-sm text-muted">将 JSON 文件导入系统，系统会自动解析并将其创建为一个新的分镜表项目。</p>
+      <div id="json-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
+        <button id="json-remove-file-btn" class="hidden absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/5 text-muted hover:bg-black/10 transition duration-150" aria-label="移除文件" title="移除文件"><svg class="heroicon heroicon-x text-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="json-plus-sign" class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
+        <div id="json-file-icon" class="hidden mb-1 text-[#2bb673]"><svg class="heroicon text-[42px]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div>
+        <p id="json-upload-hint" class="mt-3 text-sm text-[#5f6670]">点击或拖拽 JSON 文件到这里</p>
+        <p id="json-file-name" class="mt-2 text-xs text-muted">支持 .json 格式</p>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-json-import-btn">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-json-import-btn" disabled>确定导入</button>
       </div>
     </div>
   </div>
@@ -676,10 +698,18 @@
       columnSettingsBackdrop.addEventListener('click', e => { if (e.target === columnSettingsBackdrop) closeColumnSettingsModal(); });
       $('import-menu-btn').addEventListener('click', e => toggleMenu(e, 'import-menu'));
       $('export-menu-btn').addEventListener('click', e => toggleMenu(e, 'export-menu'));
-      $('import-json-btn').addEventListener('click', () => { closeMenus(); $('project-json-input').click(); });
+      $('import-json-btn').addEventListener('click', () => { closeMenus(); openJSONImportModal(); });
+      $('confirm-json-import-btn').addEventListener('click', confirmJSONImport);
+      $('cancel-json-import-btn').addEventListener('click', closeJSONImportModal);
+      $('json-remove-file-btn').addEventListener('click', (e) => { e.stopPropagation(); openJSONImportModal(); });
+      $('json-upload-area').addEventListener('click', () => { $('project-json-input')?.click(); });
+      $('json-upload-area').addEventListener('dragover', e => { e.preventDefault(); $('json-upload-area')?.classList.add('border-[#f6d56f]'); });
+      $('json-upload-area').addEventListener('dragleave', () => { $('json-upload-area')?.classList.remove('border-[#f6d56f]'); });
+      $('json-upload-area').addEventListener('drop', e => { e.preventDefault(); $('json-upload-area')?.classList.remove('border-[#f6d56f]'); const file = e.dataTransfer.files[0]; if (file && file.name.toLowerCase().endsWith('.json')) { handleProjectJSONImport({ target: { files: e.dataTransfer.files } }); } });
       $('import-csv-btn').addEventListener('click', () => { closeMenus(); openCSVImportModal(); });
       $('confirm-csv-import-btn').addEventListener('click', confirmCSVImport);
       $('cancel-csv-import-btn').addEventListener('click', closeCSVImportModal);
+      $('csv-remove-file-btn').addEventListener('click', (e) => { e.stopPropagation(); openCSVImportModal(); });
       $('csv-upload-area').addEventListener('click', () => { $('project-csv-input')?.click(); });
       $('csv-upload-area').addEventListener('dragover', e => { e.preventDefault(); $('csv-upload-area')?.classList.add('border-[#f6d56f]'); });
       $('csv-upload-area').addEventListener('dragleave', () => { $('csv-upload-area')?.classList.remove('border-[#f6d56f]'); });
@@ -1790,12 +1820,51 @@
           const data = JSON.parse(ev.target.result);
           const payload = data?.project || data;
           if (!payload?.rows) { showToast('无效的项目文件'); return; }
-          const newP = await createNewProject({ title: payload.title || '导入的项目', description: payload.description || '', password: payload.password || '', ...(payload.info || {}), columnSettings: payload.info?.columnSettings });
-          if (newP) { await saveProjectRows(newP.id, payload.rows.map(r => ({ time: r.time || '0:00 - 0:00', dept: r.dept || '', img: r.img || '', content: r.content || '', lens: r.lens || '', movement: r.movement || '' }))); await loadProjects(); showToast('项目已导入'); }
+          state.pendingJSONImport = { payload, fileName: file.name };
+          $('json-file-name').textContent = file.name;
+          $('json-file-name').classList.replace('text-muted', 'text-[#2bb673]');
+          $('json-file-name').classList.add('font-bold');
+          $('json-upload-hint').textContent = '文件已准备就绪';
+          $('json-plus-sign').classList.add('hidden');
+          $('json-file-icon').classList.remove('hidden');
+          $('json-remove-file-btn').classList.remove('hidden');
+          $('confirm-json-import-btn').disabled = false;
+          showToast('JSON 文件已就绪，点击确定即可创建新项目');
         } catch (err) { showToast('文件解析失败'); }
         e.target.value = '';
       };
       reader.readAsText(file);
+    }
+    function openJSONImportModal() {
+      state.pendingJSONImport = null;
+      $('json-file-name').textContent = '支持 .json 格式';
+      $('json-file-name').classList.replace('text-[#2bb673]', 'text-muted');
+      $('json-file-name').classList.remove('font-bold');
+      $('json-upload-hint').textContent = '点击或拖拽 JSON 文件到这里';
+      $('json-plus-sign').classList.remove('hidden');
+      $('json-file-icon').classList.add('hidden');
+      $('json-remove-file-btn').classList.add('hidden');
+      $('confirm-json-import-btn').disabled = true;
+      $('json-import-modal-backdrop').classList.remove('hidden');
+    }
+    function closeJSONImportModal() {
+      $('json-import-modal-backdrop').classList.add('hidden');
+      const input = $('project-json-input');
+      if (input) input.value = '';
+      state.pendingJSONImport = null;
+    }
+    async function confirmJSONImport() {
+      const importData = state.pendingJSONImport;
+      if (!importData?.payload?.rows) { showToast('请选择 JSON 文件'); return; }
+      const payload = importData.payload;
+      const newP = await createNewProject({ title: payload.title || '导入的项目', description: payload.description || '', password: payload.password || '', ...(payload.info || {}), columnSettings: payload.info?.columnSettings });
+      if (newP) { 
+        await saveProjectRows(newP.id, payload.rows.map(r => ({ time: r.time || '0:00 - 0:00', dept: r.dept || '', img: r.img || '', content: r.content || '', lens: r.lens || '', movement: r.movement || '' }))); 
+        await loadProjects(); 
+        showToast('项目已成功导入'); 
+        closeJSONImportModal();
+        openProject(newP.id);
+      }
     }
     async function handleProjectCSVImport(e) {
       const file = e.target.files[0];
@@ -1809,6 +1878,12 @@
           if (!mappedRows.length) { showToast('CSV 中没有可导入的镜头数据'); return; }
           state.pendingCSVImport = { rows: mappedRows, fileName: file.name };
           $('csv-file-name').textContent = file.name;
+          $('csv-file-name').classList.replace('text-muted', 'text-[#2bb673]');
+          $('csv-file-name').classList.add('font-bold');
+          $('csv-upload-hint').textContent = '文件已准备就绪';
+          $('csv-plus-sign').classList.add('hidden');
+          $('csv-file-icon').classList.remove('hidden');
+          $('csv-remove-file-btn').classList.remove('hidden');
           $('confirm-csv-import-btn').disabled = false;
           showToast('CSV 已准备好，点击确定导入当前项目');
         } catch (err) { showToast('CSV 解析失败'); }
@@ -1820,6 +1895,12 @@
       if (!state.currentProjectId) { showToast('请先打开一个项目'); return; }
       state.pendingCSVImport = null;
       $('csv-file-name').textContent = '支持 .csv 格式';
+      $('csv-file-name').classList.replace('text-[#2bb673]', 'text-muted');
+      $('csv-file-name').classList.remove('font-bold');
+      $('csv-upload-hint').textContent = '点击或拖拽 CSV 文件到这里';
+      $('csv-plus-sign').classList.remove('hidden');
+      $('csv-file-icon').classList.add('hidden');
+      $('csv-remove-file-btn').classList.add('hidden');
       $('confirm-csv-import-btn').disabled = true;
       $('csv-import-modal-backdrop').classList.remove('hidden');
     }
