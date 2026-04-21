@@ -254,6 +254,7 @@
             </button>
             <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="import-menu">
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-json-btn">导入 JSON</button>
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-csv-btn">导入 CSV</button>
             </div>
           </div>
           
@@ -284,8 +285,7 @@
       </div>
       <div id="project-toolbar" class="project-toolbar mb-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-3">
-          <button id="batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量模式</button>
-          <button id="select-all-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">选择</button>
+          <button id="batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">选择</button>
           <button id="storyboard-settings-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">分镜设置</button>
           <button id="column-settings-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">列设置</button>
         </div>
@@ -293,19 +293,23 @@
           <p class="m-0 text-sm text-muted">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p>
         </div>
       </div>
-      <div id="batch-action-bar" class="batch-action-bar hidden mb-4 flex flex-wrap items-center gap-3 rounded-[14px] border border-border bg-surface-soft px-4 py-3">
-        <span id="batch-selection-summary" class="batch-summary text-sm font-bold text-[#3b4048]">已选中 0 个单元格</span>
-        <button id="batch-fill-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量输入</button>
-        <button id="batch-paste-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量粘贴</button>
-        <button id="batch-clear-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">清空内容</button>
-        <button id="copy-selected-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">复制选中行</button>
-        <button id="delete-selected-btn" type="button" class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">删除选中</button>
-        <button id="cancel-batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">取消</button>
+      <div id="batch-action-bar" class="batch-action-bar hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[1000] flex flex-wrap items-center gap-3 rounded-[24px] border border-border bg-white/95 px-6 py-4 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-md">
+        <span id="batch-selection-summary" class="batch-summary text-[15px] font-extrabold text-[#1a1d20] mr-2">已选中 0 个单元格</span>
+        <button id="select-all-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">全选</button>
+        <div class="h-5 w-px bg-border mx-1"></div>
+        <button id="batch-fill-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">批量输入</button>
+        <button id="batch-paste-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">批量粘贴</button>
+        <button id="batch-clear-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">清空内容</button>
+        <div class="h-5 w-px bg-border mx-1"></div>
+        <button id="copy-selected-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">复制整行</button>
+        <button id="delete-selected-btn" type="button" class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[12px] bg-danger px-4 py-2 text-[13px] font-bold text-white transition duration-150 hover:-translate-y-px hover:bg-[#ef4444] disabled:!bg-[#e9ecef] disabled:!text-[#adb5bd] disabled:pointer-events-none">删除整行</button>
+        <div class="h-5 w-px bg-border mx-1"></div>
+        <button id="cancel-batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] bg-[#f1f3f5] px-4 py-2 text-[13px] font-bold text-[#495057] transition duration-150 hover:-translate-y-px hover:bg-[#e9ecef]">退出选择</button>
       </div>
-      <div class="table-card overflow-visible rounded-[14px] border border-border bg-white" id="project-export-area">
+      <div class="table-card overflow-hidden rounded-[14px] border border-border bg-white" id="project-export-area">
         <div class="table-wrap overflow-x-auto">
           <table id="plan-table" class="w-full min-w-[1040px] table-fixed border-collapse text-[13px] leading-[1.6]">
-            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="row-select-cell w-[38px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted border-r border-r-solid border-r-[#ddd8cf] relative">#</th><th data-column-key="time" class="col-time bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">时间<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="dept" class="col-dept bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">部门<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="img" class="col-img bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">参考图<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="content" class="col-content bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">拍摄内容<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="lens" class="col-lens bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">焦段<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="movement" class="col-movement action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">运镜<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="copy" class="col-copy action-col min-w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
+            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="row-select-cell w-[38px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted border-r border-r-solid border-r-[#ddd8cf] relative">#</th><th data-column-key="time" class="col-time bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">时间<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="dept" class="col-dept bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">部门<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="img" class="col-img bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">参考图<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="content" class="col-content bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">拍摄内容<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="lens" class="col-lens bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">焦段<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="movement" class="col-movement bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">运镜<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="copy" class="col-copy action-col min-w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
             <tbody id="table-body"></tbody>
           </table>
         </div>
@@ -406,9 +410,6 @@
   </div>
   <div id="csv-import-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
     <div class="modal w-full max-w-[520px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
-      <div class="flex items-center justify-center mb-4">
-        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-[#fff4d9] text-[28px] font-bold text-button-text">+</div>
-      </div>
       <h3 class="mb-2 text-2xl font-extrabold text-center">导入 CSV</h3>
       <p class="mb-6 text-center text-sm text-muted">将 CSV 文件导入当前项目，系统会自动生成分镜表并覆盖当前内容。</p>
       <div id="csv-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
@@ -426,11 +427,8 @@
   </div>
   <div id="json-import-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
     <div class="modal w-full max-w-[520px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
-      <div class="flex items-center justify-center mb-4">
-        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-[#fff4d9] text-[28px] font-bold text-button-text">+</div>
-      </div>
       <h3 class="mb-2 text-2xl font-extrabold text-center">导入 JSON</h3>
-      <p class="mb-6 text-center text-sm text-muted">将 JSON 文件导入系统，系统会自动解析并将其创建为一个新的分镜表项目。</p>
+      <p class="mb-6 text-center text-sm text-muted">将 JSON 文件导入当前项目，系统会自动解析并覆盖当前内容。</p>
       <div id="json-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
         <button id="json-remove-file-btn" class="hidden absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/5 text-muted hover:bg-black/10 transition duration-150" aria-label="移除文件" title="移除文件"><svg class="heroicon heroicon-x text-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div id="json-plus-sign" class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
@@ -492,11 +490,39 @@
         <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-column-settings-btn">取消</button>
         <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-column-settings-btn">应用列设置</button>
       </div>
+      </div>
+    </div>
+  </div>
+  <div id="storyboard-settings-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[420px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <h3 class="mb-4 text-2xl font-extrabold">分镜设置</h3>
+      <div class="mb-6">
+        <label class="mb-3 block text-[13px] font-bold text-muted">参考图比例</label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="16/9" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">16:9 (标准)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="4/3" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">4:3 (旧屏幕)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="1/1" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">1:1 (方形)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="2.35/1" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">2.35:1 (电影)</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-storyboard-settings">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-storyboard-settings">确定</button>
+      </div>
     </div>
   </div>
   <div id="toast" class="toast pointer-events-none fixed bottom-7 left-1/2 z-[1200] -translate-x-1/2 translate-y-4 rounded-full bg-[rgba(20,27,38,.94)] px-[18px] py-3 text-[13px] font-bold text-white opacity-0 transition duration-200"></div>
   <input type="file" id="global-image-input" accept="image/*" hidden>
   <input type="file" id="project-json-input" accept=".json,application/json" hidden>
+  <input type="file" id="project-csv-input" accept=".csv,text/csv" hidden>
   <script src="./config.js"></script>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
@@ -581,7 +607,7 @@
     }[name] || '');
     const getVisibleColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible !== false);
     const getHiddenColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible === false);
-    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), userBarBrand = document.querySelector('.user-bar-brand'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
+    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), userBarBrand = document.querySelector('.user-bar-brand'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), storyboardSettingsBackdrop = $('storyboard-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
     document.addEventListener('DOMContentLoaded', async () => {
       if (!isConfigured()) { showToast('请先配置 Supabase'); loadingOverlay.classList.add('hidden'); authView.classList.remove('hidden'); return; }
       await checkAuth();
@@ -679,7 +705,6 @@
       state.appEventsBound = true;
       mountBatchActionBar();
       ensureBatchLiveInput();
-      ensureCSVImportControls();
       $('logout-btn').addEventListener('click', async () => { await supabase.auth.signOut(); state.user = null; showAuth(); showToast('已退出登录'); });
       $('welcome-modal-next').addEventListener('click', () => setWelcomeStep(2));
       $('welcome-modal-confirm').addEventListener('click', closeWelcomeModal);
@@ -696,6 +721,10 @@
       $('confirm-column-settings-btn').addEventListener('click', () => applyColumnSettingsFromModal(false));
       $('save-column-settings-template-btn').addEventListener('click', () => applyColumnSettingsFromModal(true));
       columnSettingsBackdrop.addEventListener('click', e => { if (e.target === columnSettingsBackdrop) closeColumnSettingsModal(); });
+      $('storyboard-settings-btn').addEventListener('click', openStoryboardSettingsModal);
+      $('cancel-storyboard-settings').addEventListener('click', closeStoryboardSettingsModal);
+      $('confirm-storyboard-settings').addEventListener('click', confirmStoryboardSettings);
+      storyboardSettingsBackdrop.addEventListener('click', e => { if (e.target === storyboardSettingsBackdrop) closeStoryboardSettingsModal(); });
       $('import-menu-btn').addEventListener('click', e => toggleMenu(e, 'import-menu'));
       $('export-menu-btn').addEventListener('click', e => toggleMenu(e, 'export-menu'));
       $('import-json-btn').addEventListener('click', () => { closeMenus(); openJSONImportModal(); });
@@ -955,6 +984,25 @@
         }
       });
     }
+    function openStoryboardSettingsModal() {
+      const currentRatio = state.storyboardSettings?.imageAspectRatio || '4/3';
+      const radio = document.querySelector(`input[name="img-ratio"][value="${currentRatio}"]`);
+      if (radio) radio.checked = true;
+      storyboardSettingsBackdrop.classList.remove('hidden');
+    }
+    function closeStoryboardSettingsModal() {
+      storyboardSettingsBackdrop.classList.add('hidden');
+    }
+    function confirmStoryboardSettings() {
+      const selected = document.querySelector('input[name="img-ratio"]:checked');
+      if (selected) {
+        state.storyboardSettings = state.storyboardSettings || {};
+        state.storyboardSettings.imageAspectRatio = selected.value;
+        document.documentElement.style.setProperty('--img-ratio', selected.value);
+        saveCurrentProjectSilently();
+      }
+      closeStoryboardSettingsModal();
+    }
     function openColumnSettingsModal() {
       state.columnDefinitionsDraft = normalizeColumnDefinitions(state.columnDefinitions);
       renderColumnSettingsList();
@@ -1147,6 +1195,7 @@
       projectPageDesc.textContent = p.description || '已进入项目';
       applyProjectInfo(p.info || {});
       applyProjectColumnSettings(p.info || {});
+      applyProjectStoryboardSettings(p.info || {});
       const rows = await loadProjectRows(projectId);
       await renderProjectRows(rows);
     }
@@ -1154,6 +1203,10 @@
     function applyProjectColumnSettings(info) {
       state.columnDefinitions = normalizeColumnDefinitions(info?.columnSettings);
       renderColumnHeaders();
+    }
+    function applyProjectStoryboardSettings(info) {
+      state.storyboardSettings = { autoSyncNextStart: true, imageAspectRatio: '4/3', ...(info?.storyboardSettings || {}) };
+      document.documentElement.style.setProperty('--img-ratio', state.storyboardSettings.imageAspectRatio);
     }
     async function renderProjectRows(rows) {
       tableBody.innerHTML = '';
@@ -1189,7 +1242,7 @@
       const { start, end } = parseTimeRange(row.time || '0:00 - 0:00');
       const deptValue = normalizeDeptValue(row.dept);
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="row-select-cell w-[38px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center align-top"><input type="checkbox" class="row-select-checkbox h-4 w-4 rounded border border-border text-primary focus:ring-0"></td><td class="col-index relative w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"><div class="row-insert-anchor absolute bottom-0 left-1/2 flex w-[26px] -translate-x-1/2 translate-y-1/2 z-20 items-center justify-center"><button class="icon-btn row-insert-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white border border-border text-[#5f6670] opacity-0 transition duration-150 hover:bg-[#f8f8f6] hover:scale-105" aria-label="插入镜头">' + heroicon('plus') + '</button></div></td><td class="time-cell col-time relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="col-dept border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTMLWithBreak(deptValue || '点击输入拍摄对象') + '</td><td class="col-img border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto h-[72px] w-[92px]"><button class="icon-btn img-delete-btn pointer-events-none absolute inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="col-content border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="col-lens border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="col-movement border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="col-copy action-col min-w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
+      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="row-select-cell w-[38px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center align-top"><input type="checkbox" class="row-select-checkbox h-4 w-4 rounded border border-border text-primary focus:ring-0"></td><td class="col-index relative w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"><div class="row-insert-anchor absolute bottom-0 left-1/2 flex w-[26px] -translate-x-1/2 translate-y-1/2 z-20 items-center justify-center"><button class="icon-btn row-insert-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white border border-border text-[#5f6670] opacity-0 transition duration-150 hover:bg-[#f8f8f6] hover:scale-105" aria-label="插入镜头">' + heroicon('plus') + '</button></div></td><td class="time-cell col-time relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="col-dept border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTMLWithBreak(deptValue || '点击输入拍摄对象') + '</td><td class="col-img border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto w-[85%]" style="aspect-ratio: var(--img-ratio, 4/3)"><button class="icon-btn img-delete-btn pointer-events-none absolute inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="col-content border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="col-lens border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="col-movement border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="col-copy action-col min-w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
       applyColumnVisibilityToRow(tr);
       return tr;
     }
@@ -1226,18 +1279,46 @@
       e.target.value = '';
       state.currentUploadBox = null;
     }
-    function displayImageInBox(file, uploadBox) {
-      const reader = new FileReader();
-      reader.onload = e => {
+    function compressImage(file, maxWidth = 800, quality = 0.6) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth || height > maxWidth) {
+              if (width > height) { height = Math.round(height * (maxWidth / width)); width = maxWidth; }
+              else { width = Math.round(width * (maxWidth / height)); height = maxWidth; }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    async function displayImageInBox(file, uploadBox) {
+      if (!file.type.startsWith('image/')) return;
+      try {
+        const compressedBase64 = await compressImage(file, 800, 0.6);
         let img = uploadBox.querySelector('img');
-        if (!img) { img = document.createElement('img'); uploadBox.appendChild(img); }
-        img.src = e.target.result;
+        if (!img) { img = document.createElement('img'); img.className = 'absolute inset-0 h-full w-full object-cover'; uploadBox.appendChild(img); }
+        img.src = compressedBase64;
         const plus = uploadBox.querySelector('.plus-sign');
         if (plus) plus.style.display = 'none';
         uploadBox.closest('.image-box').classList.add('has-image');
         saveCurrentProjectSilently();
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error('图片压缩失败:', err);
+      }
     }
     function clearImageBox(imageBox) {
       const uploadBox = imageBox.querySelector('.upload-box');
@@ -1324,11 +1405,51 @@
       updateBatchActionAvailability(cellCount, rowCountSelected);
     }
     function updateBatchActionAvailability(cellCount = getSelectedBatchCells().length, rowCountSelected = getSelectedRows().length) {
-      const shouldDisableCellActions = rowCountSelected > 0;
       const fillButton = $('batch-fill-btn');
       const pasteButton = $('batch-paste-btn');
-      if (fillButton) fillButton.disabled = shouldDisableCellActions;
-      if (pasteButton) pasteButton.disabled = shouldDisableCellActions;
+      const clearButton = $('batch-clear-btn');
+      const copyRowBtn = $('copy-selected-btn');
+      const deleteRowBtn = $('delete-selected-btn');
+
+      if (cellCount === 0 && rowCountSelected === 0) {
+        if (fillButton) fillButton.disabled = true;
+        if (pasteButton) pasteButton.disabled = true;
+        if (clearButton) clearButton.disabled = true;
+        if (copyRowBtn) copyRowBtn.disabled = true;
+        if (deleteRowBtn) deleteRowBtn.disabled = true;
+      } else if (cellCount > 0 && rowCountSelected > 0) {
+        if (fillButton) fillButton.disabled = true;
+        if (pasteButton) pasteButton.disabled = true;
+        if (clearButton) clearButton.disabled = true;
+        if (copyRowBtn) copyRowBtn.disabled = true;
+        if (deleteRowBtn) deleteRowBtn.disabled = true;
+      } else if (cellCount > 0) {
+        if (fillButton) fillButton.disabled = false;
+        if (pasteButton) pasteButton.disabled = false;
+        if (clearButton) clearButton.disabled = false;
+        if (copyRowBtn) copyRowBtn.disabled = true;
+        if (deleteRowBtn) deleteRowBtn.disabled = true;
+      } else if (rowCountSelected > 0) {
+        if (fillButton) fillButton.disabled = true;
+        if (pasteButton) pasteButton.disabled = true;
+        if (clearButton) clearButton.disabled = true;
+        if (copyRowBtn) copyRowBtn.disabled = false;
+        if (deleteRowBtn) deleteRowBtn.disabled = false;
+      }
+      
+      const checkboxes = document.querySelectorAll('.row-select-checkbox');
+      const cells = document.querySelectorAll('td[data-batch-editable="true"]');
+      
+      if (cellCount > 0) {
+        checkboxes.forEach(cb => { cb.disabled = true; cb.classList.add('opacity-40', 'cursor-not-allowed'); });
+        cells.forEach(c => c.classList.remove('opacity-40', 'cursor-not-allowed', 'pointer-events-none'));
+      } else if (rowCountSelected > 0) {
+        checkboxes.forEach(cb => { cb.disabled = false; cb.classList.remove('opacity-40', 'cursor-not-allowed'); });
+        cells.forEach(c => c.classList.add('opacity-40', 'cursor-not-allowed', 'pointer-events-none'));
+      } else {
+        checkboxes.forEach(cb => { cb.disabled = false; cb.classList.remove('opacity-40', 'cursor-not-allowed'); });
+        cells.forEach(c => c.classList.remove('opacity-40', 'cursor-not-allowed', 'pointer-events-none'));
+      }
     }
     function handleBatchRowSelection(checkbox, event) {
       const rows = Array.from(tableBody.querySelectorAll('tr'));
@@ -1436,6 +1557,11 @@
       updateColumnResizeHandleState($('plan-table'));
     }
     function toggleSelectAll() {
+      const cellCount = getSelectedBatchCells().length;
+      if (cellCount > 0) {
+        showToast('请勿同时选择行与单元格');
+        return;
+      }
       const checkboxes = tableBody.querySelectorAll('.row-select-checkbox');
       const allChecked = Array.from(checkboxes).every(cb => cb.checked);
       checkboxes.forEach(cb => cb.checked = !allChecked);
@@ -1610,7 +1736,7 @@
       if (!p) return;
       const info = {};
       document.querySelectorAll('[data-info-field]').forEach(el => { info[el.dataset.infoField] = el.textContent.trim(); });
-      p.info = { ...p.info, ...info, columnSettings: normalizeColumnDefinitions(state.columnDefinitions) };
+      p.info = { ...p.info, ...info, columnSettings: normalizeColumnDefinitions(state.columnDefinitions), storyboardSettings: state.storyboardSettings };
       p.title = info.name || p.title;
       projectPageTitle.textContent = p.title;
     }
@@ -1791,26 +1917,6 @@
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = sanitizeFileName(p.title || '项目') + '.html'; a.click(); URL.revokeObjectURL(a.href);
       showToast('HTML 已导出');
     }
-    function ensureCSVImportControls() {
-      if (!$('project-csv-input')) {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.id = 'project-csv-input';
-        input.accept = '.csv,text/csv';
-        input.hidden = true;
-        document.body.appendChild(input);
-      }
-      if (!$('import-csv-btn')) {
-        const menu = $('import-menu');
-        if (!menu) return;
-        const btn = document.createElement('button');
-        btn.className = 'action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text';
-        btn.id = 'import-csv-btn';
-        btn.type = 'button';
-        btn.textContent = '导入 CSV';
-        menu.appendChild(btn);
-      }
-    }
     async function handleProjectJSONImport(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1829,13 +1935,14 @@
           $('json-file-icon').classList.remove('hidden');
           $('json-remove-file-btn').classList.remove('hidden');
           $('confirm-json-import-btn').disabled = false;
-          showToast('JSON 文件已就绪，点击确定即可创建新项目');
+          showToast('JSON 文件已就绪，点击确定导入当前项目');
         } catch (err) { showToast('文件解析失败'); }
         e.target.value = '';
       };
       reader.readAsText(file);
     }
     function openJSONImportModal() {
+      if (!state.currentProjectId) { showToast('请先打开一个项目'); return; }
       state.pendingJSONImport = null;
       $('json-file-name').textContent = '支持 .json 格式';
       $('json-file-name').classList.replace('text-[#2bb673]', 'text-muted');
@@ -1854,16 +1961,15 @@
       state.pendingJSONImport = null;
     }
     async function confirmJSONImport() {
+      if (!state.currentProjectId) { showToast('请先打开一个项目'); closeJSONImportModal(); return; }
       const importData = state.pendingJSONImport;
       if (!importData?.payload?.rows) { showToast('请选择 JSON 文件'); return; }
       const payload = importData.payload;
-      const newP = await createNewProject({ title: payload.title || '导入的项目', description: payload.description || '', password: payload.password || '', ...(payload.info || {}), columnSettings: payload.info?.columnSettings });
-      if (newP) { 
-        await saveProjectRows(newP.id, payload.rows.map(r => ({ time: r.time || '0:00 - 0:00', dept: r.dept || '', img: r.img || '', content: r.content || '', lens: r.lens || '', movement: r.movement || '' }))); 
-        await loadProjects(); 
-        showToast('项目已成功导入'); 
+      const success = await saveProjectRows(state.currentProjectId, payload.rows.map(r => ({ time: r.time || '0:00 - 0:00', dept: r.dept || '', img: r.img || '', content: r.content || '', lens: r.lens || '', movement: r.movement || '' })));
+      if (success) {
+        await loadProjectIntoEditor(state.currentProjectId);
         closeJSONImportModal();
-        openProject(newP.id);
+        showToast('JSON 已导入，当前项目已覆盖');
       }
     }
     async function handleProjectCSVImport(e) {
@@ -1885,7 +1991,7 @@
           $('csv-file-icon').classList.remove('hidden');
           $('csv-remove-file-btn').classList.remove('hidden');
           $('confirm-csv-import-btn').disabled = false;
-          showToast('CSV 已准备好，点击确定导入当前项目');
+          showToast('CSV 文件已就绪，点击确定导入当前项目');
         } catch (err) { showToast('CSV 解析失败'); }
         e.target.value = '';
       };
@@ -1973,7 +2079,7 @@
       return {
         time,
         dept: pick('dept', 'department', '部门', '场景', 'scene'),
-        img: pick('img', 'image', '图片', '参考图', 'reference', 'reference image'),
+        img: '', // 关闭导入CSV的参考图功能
         content: pick('content', '内容', '拍摄内容', 'description', 'shot', 'shot content'),
         lens: pick('lens', '焦段', '镜头', 'camera lens'),
         movement: pick('movement', '运镜', 'camera movement', 'move')
