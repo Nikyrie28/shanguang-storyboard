@@ -7,6 +7,7 @@
   <link rel="icon" href="./logo-frame-2.png" type="image/png">
   <link rel="shortcut icon" href="./logo-frame-2.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
   <script>
@@ -153,22 +154,17 @@
     .welcome-step{display:none}
     .welcome-step.is-active{display:block}
     .welcome-step-pill{display:block;font-size:36px;font-weight:900;line-height:1.08;color:#7f6028}
-    .welcome-step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
+    .welcome-step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:24px}
     .welcome-step-dot{width:10px;height:10px;border-radius:999px;background:#e6dfd4;transition:transform .18s ease,background .18s ease}
     .welcome-step-dot.is-active{background:#f0c85a;transform:scale(1.18)}
     .welcome-note-card{border:1px solid #efe7d6;border-radius:24px;background:linear-gradient(140deg,#fff9e8 0%,#fffef9 55%,#f7f5ff 100%);padding:28px 26px}
     .welcome-note-card h3{margin:16px 0 0;font-size:30px;line-height:1.08;font-weight:900;color:#2d2f33}
     .welcome-note-card p{margin:16px 0 0;max-width:560px;font-size:16px;line-height:1.9;color:#5f6670}
     .welcome-note-signoff{margin-top:18px;font-size:14px;font-weight:800;color:#7f6028;letter-spacing:.02em}
-    #project-view .page-head{position:relative;padding-left:0;padding-top:4px}
-    #project-view .page-actions #back-home-btn{position:absolute;left:0;top:-22px}
-    #project-view .page-head-left{padding-top:44px}
     @media (max-width: 760px){
       .column-setting-item{grid-template-columns:minmax(0,1fr)}
       .icon-picker-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .batch-action-bar{bottom:14px;width:min(calc(100% - 20px), 1240px)}
-      #project-view .page-actions #back-home-btn{position:static}
-      #project-view .page-head-left{padding-top:0}
     }
     /* 表格样式 */
     th { position: relative; }
@@ -221,9 +217,9 @@
       </div>
     </div>
     <section id="home-view">
-      <div class="home-shell mx-auto grid min-h-[calc(100vh-24px)] w-[min(100%,1760px)] grid-cols-[74px_minmax(0,1fr)] overflow-hidden rounded-[22px] border border-border bg-white max-md:grid-cols-1 max-md:border-0 max-md:rounded-none">
+      <div class="home-shell w-full grid min-h-[calc(100vh-24px)] grid-cols-[74px_minmax(0,1fr)] overflow-hidden rounded-[22px] border border-border bg-white max-md:grid-cols-1 max-md:border-0 max-md:rounded-none">
         <aside class="home-sidebar flex flex-col items-center gap-4 border-r border-border bg-[linear-gradient(180deg,#fcfcfb_0%,#f8f8f6_100%)] px-[10px] py-[18px] max-md:flex-row max-md:border-b max-md:border-r-0 max-md:px-3 max-md:py-[10px]">
-          <div class="sidebar-logo grid h-[42px] w-[42px] place-items-center rounded-[14px] text-[28px] font-extrabold text-[#f0be3d]">⚡</div>
+          <div class="sidebar-logo grid h-[42px] w-[42px] place-items-center rounded-[14px] text-[28px] font-extrabold text-[#f0be3d]"><svg class="heroicon heroicon-bolt" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13.5 2.25 5.25 13.5h5.25l-1.5 8.25L18.75 10.5H13.5l0-8.25Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
           <div class="sidebar-divider my-[2px] mb-2 h-px w-[42px] bg-border max-md:mb-[2px] max-md:h-[42px] max-md:w-px"></div>
           <div class="sidebar-item active flex w-[54px] flex-col items-center gap-1.5 rounded-2xl px-1.5 py-2.5 text-center text-[11px] font-bold text-[#b0b5bc]"><div class="sidebar-item-icon text-[22px] leading-none"><svg class="heroicon heroicon-folder" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div>项目</div></div>
         </aside>
@@ -236,25 +232,49 @@
       </div>
     </section>
     <section id="project-view" class="hidden">
-      <div class="page-head mb-[14px] flex items-start justify-between gap-7 px-1 pt-1.5 max-md:flex-col max-md:items-start max-md:gap-3">
-        <div class="page-head-left flex min-w-[220px] flex-col items-start justify-center gap-3 max-md:min-w-0 max-md:w-full">
-          <div class="page-head-copy flex min-w-0 flex-col justify-center"><h2 id="project-page-title" class="mb-0.5 text-[22px] font-extrabold leading-[1.08] tracking-[-0.01em] max-md:text-[20px]">项目详情</h2><p id="project-page-desc" class="m-0 text-sm font-normal leading-[1.15] text-[#a3a9b2] max-md:text-[13px]">已进入项目</p></div>
-        </div>
-        <div class="page-actions flex flex-wrap gap-2.5">
-          <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="back-home-btn"><svg class="heroicon heroicon-arrow-left text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>返回主页</span></button>
-          <div class="action-group relative">
-            <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="import-menu-btn"><span>导入</span><svg class="heroicon heroicon-chevron-down btn-caret text-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="import-menu"><button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-json-btn">导入 JSON</button></div>
+      <!-- 重新设计的项目顶部工具栏 -->
+      <div class="project-toolbar mb-[18px] flex items-center justify-between rounded-[18px] border border-border bg-white p-2.5 pr-3 shadow-sm max-md:flex-col max-md:items-start max-md:gap-4 max-md:p-4">
+        <!-- 左侧：返回与标题 -->
+        <div class="flex items-center gap-4">
+          <button class="group flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-[14px] border border-transparent bg-transparent text-[#5f6670] transition-all duration-200 hover:bg-[#f8f8f6] hover:text-text" id="back-home-btn" title="返回主页">
+            <svg class="heroicon heroicon-arrow-left h-[22px] w-[22px] transition-transform duration-200 group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="h-5 w-[2px] rounded-full bg-border max-md:hidden"></div>
+          <div class="flex flex-col justify-center">
+            <h2 id="project-page-title" class="text-[17px] font-extrabold leading-tight text-text">项目详情</h2>
+            <p id="project-page-desc" class="mt-[2px] text-[12px] font-medium text-[#a3a9b2]">编辑中</p>
           </div>
+        </div>
+
+        <!-- 右侧：操作按钮组 -->
+        <div class="flex flex-wrap items-center gap-2.5 max-md:w-full max-md:justify-end">
           <div class="action-group relative">
-            <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="export-menu-btn"><span>导出</span><svg class="heroicon heroicon-chevron-down btn-caret text-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="btn btn-ghost inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] border border-border bg-white px-4 text-[13px] font-bold text-[#5f6670] transition-all duration-200 hover:-translate-y-px hover:border-[#d9dce0] hover:bg-[#f8f8f6] hover:text-text hover:shadow-sm" id="import-menu-btn">
+              <span>导入</span>
+              <svg class="heroicon heroicon-chevron-down h-[16px] w-[16px] opacity-70" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="import-menu">
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-json-btn">导入 JSON</button>
+              <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="import-csv-btn">导入 CSV</button>
+            </div>
+          </div>
+          
+          <div class="action-group relative">
+            <button class="btn btn-ghost inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] border border-border bg-white px-4 text-[13px] font-bold text-[#5f6670] transition-all duration-200 hover:-translate-y-px hover:border-[#d9dce0] hover:bg-[#f8f8f6] hover:text-text hover:shadow-sm" id="export-menu-btn">
+              <span>导出</span>
+              <svg class="heroicon heroicon-chevron-down h-[16px] w-[16px] opacity-70" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
             <div class="action-menu absolute right-0 top-[calc(100%+8px)] z-30 min-w-[158px] rounded-[14px] border border-border bg-white p-2 shadow-menu" id="export-menu">
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-pdf-btn">导出 PDF</button>
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-json-btn">导出 JSON</button>
               <button class="action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text" id="export-html-btn">导出 HTML</button>
             </div>
           </div>
-          <button class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="save-project-btn"><svg class="heroicon heroicon-save text-base" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>保存</span></button>
+          
+          <button class="btn inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] bg-button px-5 text-[13px] font-bold text-button-text transition-all duration-200 hover:-translate-y-px hover:bg-button-hover hover:shadow-md" id="save-project-btn">
+            <svg class="heroicon heroicon-save h-[16px] w-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.75 6.75h5.1l1.8 1.8h9.6v7.95A2.25 2.25 0 0 1 18 18.75H6A2.25 2.25 0 0 1 3.75 16.5V6.75Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10.5v5.25m0 0 2.25-2.25M12 15.75l-2.25-2.25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>保存</span>
+          </button>
         </div>
       </div>
       <div class="project-info-bar mb-[18px] grid grid-cols-5 gap-[14px] rounded-[14px] border border-border bg-white p-[14px] max-[1100px]:grid-cols-2 max-md:grid-cols-1" id="project-info-bar">
@@ -266,8 +286,7 @@
       </div>
       <div id="project-toolbar" class="project-toolbar mb-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-3">
-          <button id="batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量模式</button>
-          <button id="select-all-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">选择</button>
+          <button id="batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">选择</button>
           <button id="storyboard-settings-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">分镜设置</button>
           <button id="column-settings-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">列设置</button>
         </div>
@@ -275,19 +294,23 @@
           <p class="m-0 text-sm text-muted">当前项目共有 <strong id="row-count">0</strong> 个镜头。</p>
         </div>
       </div>
-      <div id="batch-action-bar" class="batch-action-bar hidden mb-4 flex flex-wrap items-center gap-3 rounded-[14px] border border-border bg-surface-soft px-4 py-3">
-        <span id="batch-selection-summary" class="batch-summary text-sm font-bold text-[#3b4048]">已选中 0 个单元格</span>
-        <button id="batch-fill-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量输入</button>
-        <button id="batch-paste-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">批量粘贴</button>
-        <button id="batch-clear-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">清空内容</button>
-        <button id="copy-selected-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">复制选中行</button>
-        <button id="delete-selected-btn" type="button" class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">删除选中</button>
-        <button id="cancel-batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">取消</button>
+      <div id="batch-action-bar" class="batch-action-bar hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[1000] flex flex-wrap items-center gap-3 rounded-[24px] border border-border bg-white/95 px-6 py-4 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-md">
+        <span id="batch-selection-summary" class="batch-summary text-[15px] font-extrabold text-[#1a1d20] mr-2">已选中 0 个单元格</span>
+        <button id="select-all-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text">全选</button>
+        <div class="h-5 w-px bg-border mx-1"></div>
+        <button id="batch-fill-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">批量输入</button>
+        <button id="batch-paste-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">批量粘贴</button>
+        <button id="batch-clear-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">清空内容</button>
+        <div class="h-5 w-px bg-border mx-1"></div>
+        <button id="copy-selected-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] border border-border bg-white px-4 py-2 text-[13px] font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text disabled:opacity-40 disabled:pointer-events-none">复制整行</button>
+        <button id="delete-selected-btn" type="button" class="btn btn-secondary inline-flex items-center justify-center gap-2 rounded-[12px] bg-danger px-4 py-2 text-[13px] font-bold text-white transition duration-150 hover:-translate-y-px hover:bg-[#ef4444] disabled:!bg-[#e9ecef] disabled:!text-[#adb5bd] disabled:pointer-events-none">删除整行</button>
+        <div class="h-5 w-px bg-border mx-1"></div>
+        <button id="cancel-batch-mode-btn" type="button" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[12px] bg-[#f1f3f5] px-4 py-2 text-[13px] font-bold text-[#495057] transition duration-150 hover:-translate-y-px hover:bg-[#e9ecef]">退出选择</button>
       </div>
-      <div class="table-card overflow-visible rounded-[14px] border border-border bg-white" id="project-export-area">
+      <div class="table-card overflow-hidden rounded-[14px] border border-border bg-white" id="project-export-area">
         <div class="table-wrap overflow-x-auto">
           <table id="plan-table" class="w-full min-w-[1040px] table-fixed border-collapse text-[13px] leading-[1.6]">
-            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="row-select-cell w-[38px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted border-r border-r-solid border-r-[#ddd8cf] relative">#</th><th data-column-key="time" class="col-time bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">时间<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="dept" class="col-dept bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">部门<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="img" class="col-img bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">参考图<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="content" class="col-content bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">拍摄内容<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="lens" class="col-lens bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">焦段<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="movement" class="col-movement action-col w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">运镜<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="copy" class="col-copy action-col min-w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
+            <thead><tr><th class="col-drag w-[42px] bg-[#f5f5f3] px-0 py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="row-select-cell w-[38px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative"><div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th class="col-index w-[54px] bg-[#f5f5f3] px-[14px] py-3 text-center text-xs font-extrabold text-muted border-r border-r-solid border-r-[#ddd8cf] relative">#</th><th data-column-key="time" class="col-time bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">时间<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="dept" class="col-dept bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">部门<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="img" class="col-img bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">参考图<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="content" class="col-content bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">拍摄内容<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="lens" class="col-lens bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">焦段<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="movement" class="col-movement bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670] border-r border-r-solid border-r-[#ddd8cf] relative">运镜<div class="resize-handle absolute right-0 top-0 bottom-0 w-1 cursor-col-resize bg-transparent hover:bg-[#e4c978] opacity-0 hover:opacity-100 transition-opacity"></div></th><th data-column-key="copy" class="col-copy action-col min-w-[62px] bg-[#f5f5f3] px-[14px] py-3 text-left text-xs font-extrabold text-[#5f6670]">复制</th></tr></thead>
             <tbody id="table-body"></tbody>
           </table>
         </div>
@@ -298,13 +321,9 @@
   <div id="welcome-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1100] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[8px]">
     <div class="welcome-modal-shell modal w-full max-w-[760px] rounded-[28px] border border-border bg-white/95 p-7 shadow-modal max-md:p-5">
       <div class="relative z-[1]">
-        <div class="welcome-step-indicator" aria-hidden="true">
-          <span id="welcome-step-dot-1" class="welcome-step-dot is-active"></span>
-          <span id="welcome-step-dot-2" class="welcome-step-dot"></span>
-        </div>
         <section id="welcome-step-1" class="welcome-step is-active">
           <div class="welcome-note-card">
-            <div class="welcome-step-pill">第一步 · 写在前面</div>
+            <div class="welcome-step-pill">写在前面</div>
             <h3>感谢你使用闪光分镜</h3>
             <p>这是一个完全免费的开源项目，希望它可以帮助到你创作。<br>让我们一起，无限进步！</p>
             <div class="welcome-note-signoff">欢迎开始你的创作流程</div>
@@ -315,7 +334,7 @@
         </section>
         <section id="welcome-step-2" class="welcome-step">
           <div class="mb-6 rounded-[24px] bg-[linear-gradient(135deg,#fff8df_0%,#fffef7_52%,#f7f4ff_100%)] px-6 py-6 max-md:px-4">
-            <div class="welcome-step-pill">第二步 · 快速上手</div>
+            <div class="welcome-step-pill">快速上手</div>
             <p class="mt-4 max-w-[560px] text-[15px] leading-7 text-[#5f6670]">这里是你整理拍摄计划、搭建镜头结构、快速协同沟通的工作台。看完下面这一步，<br>你就可以开始使用了。</p>
           </div>
           <div class="mb-7">
@@ -348,6 +367,10 @@
             <button id="welcome-modal-confirm" class="inline-flex min-w-[220px] items-center justify-center rounded-[16px] bg-button px-6 py-3.5 text-[15px] font-extrabold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover">我明白了，开始使用</button>
           </div>
         </section>
+        <div class="welcome-step-indicator" aria-hidden="true">
+          <span id="welcome-step-dot-1" class="welcome-step-dot is-active"></span>
+          <span id="welcome-step-dot-2" class="welcome-step-dot"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -388,19 +411,35 @@
   </div>
   <div id="csv-import-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
     <div class="modal w-full max-w-[520px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
-      <div class="flex items-center justify-center mb-4">
-        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-[#fff4d9] text-[28px] font-bold text-button-text">+</div>
-      </div>
       <h3 class="mb-2 text-2xl font-extrabold text-center">导入 CSV</h3>
       <p class="mb-6 text-center text-sm text-muted">将 CSV 文件导入当前项目，系统会自动生成分镜表并覆盖当前内容。</p>
       <div id="csv-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
-        <div class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
-        <p class="mt-3 text-sm text-[#5f6670]">点击或拖拽 CSV 文件到这里</p>
+        <button id="csv-remove-file-btn" class="hidden absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/5 text-muted hover:bg-black/10 transition duration-150" aria-label="移除文件" title="移除文件"><svg class="heroicon heroicon-x text-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="csv-plus-sign" class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
+        <div id="csv-file-icon" class="hidden mb-1 text-[#2bb673]"><svg class="heroicon text-[42px]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div>
+        <p id="csv-upload-hint" class="mt-3 text-sm text-[#5f6670]">点击或拖拽 CSV 文件到这里</p>
         <p id="csv-file-name" class="mt-2 text-xs text-muted">支持 .csv 格式</p>
       </div>
       <div class="flex justify-end gap-2">
         <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-csv-import-btn">取消</button>
         <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-csv-import-btn" disabled>确定导入</button>
+      </div>
+    </div>
+  </div>
+  <div id="json-import-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[520px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <h3 class="mb-2 text-2xl font-extrabold text-center">导入 JSON</h3>
+      <p class="mb-6 text-center text-sm text-muted">将 JSON 文件导入当前项目，系统会自动解析并覆盖当前内容。</p>
+      <div id="json-upload-area" class="upload-box relative mb-6 flex h-[180px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[18px] border border-border bg-[#fcfbf8] text-center transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]">
+        <button id="json-remove-file-btn" class="hidden absolute top-3 right-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/5 text-muted hover:bg-black/10 transition duration-150" aria-label="移除文件" title="移除文件"><svg class="heroicon heroicon-x text-[16px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="json-plus-sign" class="plus-sign text-[36px] font-bold text-[#f6d56f]">+</div>
+        <div id="json-file-icon" class="hidden mb-1 text-[#2bb673]"><svg class="heroicon text-[42px]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div>
+        <p id="json-upload-hint" class="mt-3 text-sm text-[#5f6670]">点击或拖拽 JSON 文件到这里</p>
+        <p id="json-file-name" class="mt-2 text-xs text-muted">支持 .json 格式</p>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-json-import-btn">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-json-import-btn" disabled>确定导入</button>
       </div>
     </div>
   </div>
@@ -452,11 +491,61 @@
         <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-column-settings-btn">取消</button>
         <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-column-settings-btn">应用列设置</button>
       </div>
+      </div>
+    </div>
+  </div>
+  <div id="storyboard-settings-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.24)] p-5 backdrop-blur-[5px]">
+    <div class="modal w-full max-w-[420px] rounded-[18px] border border-border bg-white/95 p-6 shadow-modal">
+      <h3 class="mb-4 text-2xl font-extrabold">分镜设置</h3>
+      <div class="mb-6">
+        <label class="mb-3 block text-[13px] font-bold text-muted">参考图比例</label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="16/9" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">16:9 (标准)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="4/3" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">4:3 (旧屏幕)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="1/1" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">1:1 (方形)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer rounded-xl border border-border bg-[#fcfbf8] p-3 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]">
+            <input type="radio" name="img-ratio" value="2.35/1" class="h-4 w-4 text-[#eeb422] focus:ring-0"> <span class="text-sm font-bold text-[#3b4048]">2.35:1 (电影)</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-actions mt-[18px] flex justify-end gap-2.5">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-storyboard-settings">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-storyboard-settings">确定</button>
+      </div>
+    </div>
+  </div>
+  <div id="pdf-export-modal-backdrop" class="modal-backdrop hidden fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(22,24,28,.3)] p-5 backdrop-blur-[5px]">
+    <div class="modal rounded-[20px] border border-border bg-white/95 p-6 shadow-modal" style="width:80vw;max-width:900px;">
+      <div class="mb-4 flex items-center justify-between"><h3 class="text-2xl font-extrabold">导出 PDF</h3><button class="flex h-9 w-9 items-center justify-center rounded-full text-muted transition hover:bg-[#f5f5f3] hover:text-text" id="close-pdf-export-modal"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="mb-5"><p class="mb-3 text-[13px] font-bold text-muted">选择纸张方向</p><div class="grid grid-cols-2 gap-3">
+        <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-[#fcfbf8] p-4 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]"><input type="radio" name="pdf-orientation" value="landscape" checked class="h-4 w-4 text-[#eeb422] focus:ring-0"><div><span class="block text-sm font-bold text-[#3b4048]">横排（横向）</span><span class="mt-0.5 block text-xs text-muted">适合分镜列较多的情况</span></div></label>
+        <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-[#fcfbf8] p-4 transition hover:bg-[#fff9e7] hover:border-[#f6d56f]"><input type="radio" name="pdf-orientation" value="portrait" class="h-4 w-4 text-[#eeb422] focus:ring-0"><div><span class="block text-sm font-bold text-[#3b4048]">竖排（纵向）</span><span class="mt-0.5 block text-xs text-muted">适合分镜列较少的情况</span></div></label>
+      </div></div>
+      <div id="pdf-preview-area" class="mb-5 rounded-[12px] border border-border bg-[#f9f8f5] overflow-hidden" style="position:relative;height:calc(80vh - 240px);min-height:280px;">
+        <div id="pdf-preview-loading" class="absolute inset-0 flex flex-col items-center justify-center text-sm text-muted bg-[#f9f8f5] z-10"><div class="mx-auto mb-2 h-6 w-6 animate-spin rounded-full border-2 border-muted/30 border-t-button"></div>正在生成分页预览...</div>
+        <div id="pdf-preview-pages" class="hidden h-full overflow-y-auto"></div>
+        <div id="pdf-preview-nav" class="hidden absolute bottom-0 left-0 right-0 bg-white/95 border-t border-border flex items-center justify-between px-4 py-2.5 z-20">
+          <button id="pdf-preview-prev" class="flex items-center gap-1 text-sm font-bold text-[#5f6670] hover:text-text transition disabled:opacity-30 disabled:pointer-events-none"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>上一页</button>
+          <span id="pdf-preview-page-info" class="text-sm font-bold text-[#5f6670]"></span>
+          <button id="pdf-preview-next" class="flex items-center gap-1 text-sm font-bold text-[#5f6670] hover:text-text transition disabled:opacity-30 disabled:pointer-events-none">下一页<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+      <div class="modal-actions flex justify-end gap-2.5">
+        <button class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-[14px] border border-border bg-white px-[18px] py-[11px] text-sm font-bold text-[#5f6670] transition duration-150 hover:-translate-y-px hover:bg-[#f8f8f6] hover:text-text" id="cancel-pdf-export-modal">取消</button>
+        <button class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-[14px] bg-button px-[18px] py-[11px] text-sm font-bold text-button-text transition duration-150 hover:-translate-y-px hover:bg-button-hover" id="confirm-pdf-export-modal">导出</button>
+      </div>
     </div>
   </div>
   <div id="toast" class="toast pointer-events-none fixed bottom-7 left-1/2 z-[1200] -translate-x-1/2 translate-y-4 rounded-full bg-[rgba(20,27,38,.94)] px-[18px] py-3 text-[13px] font-bold text-white opacity-0 transition duration-200"></div>
   <input type="file" id="global-image-input" accept="image/*" hidden>
   <input type="file" id="project-json-input" accept=".json,application/json" hidden>
+  <input type="file" id="project-csv-input" accept=".csv,text/csv" hidden>
   <script src="./config.js"></script>
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
@@ -541,7 +630,7 @@
     }[name] || '');
     const getVisibleColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible !== false);
     const getHiddenColumnKeys = (source = state.columnDefinitions) => COLUMN_EDIT_ORDER.filter(key => getColumnDefinition(key, source).visible === false);
-    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), userBarBrand = document.querySelector('.user-bar-brand'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
+    const loadingOverlay = $('loading-overlay'), loadingText = $('loading-text'), authView = $('auth-view'), appView = $('app-view'), homeView = $('home-view'), projectView = $('project-view'), projectGrid = $('project-grid'), emptyProjects = $('empty-projects'), tableBody = $('table-body'), rowCount = $('row-count'), projectPageTitle = $('project-page-title'), projectPageDesc = $('project-page-desc'), imageInput = $('global-image-input'), toastEl = $('toast'), syncIndicator = $('sync-indicator'), userEmailEl = $('user-email'), userBarBrand = document.querySelector('.user-bar-brand'), welcomeModalBackdrop = $('welcome-modal-backdrop'), projectModalBackdrop = $('project-modal-backdrop'), passwordModalBackdrop = $('password-modal-backdrop'), timePickerBackdrop = $('time-picker-backdrop'), datePickerBackdrop = $('date-picker-backdrop'), columnSettingsBackdrop = $('column-settings-backdrop'), storyboardSettingsBackdrop = $('storyboard-settings-backdrop'), minuteWheel = $('minute-wheel'), secondWheel = $('second-wheel'), yearWheel = $('year-wheel'), monthWheel = $('month-wheel'), dayWheel = $('day-wheel');
     document.addEventListener('DOMContentLoaded', async () => {
       if (!isConfigured()) { showToast('请先配置 Supabase'); loadingOverlay.classList.add('hidden'); authView.classList.remove('hidden'); return; }
       await checkAuth();
@@ -639,7 +728,6 @@
       state.appEventsBound = true;
       mountBatchActionBar();
       ensureBatchLiveInput();
-      ensureCSVImportControls();
       $('logout-btn').addEventListener('click', async () => { await supabase.auth.signOut(); state.user = null; showAuth(); showToast('已退出登录'); });
       $('welcome-modal-next').addEventListener('click', () => setWelcomeStep(2));
       $('welcome-modal-confirm').addEventListener('click', closeWelcomeModal);
@@ -656,19 +744,37 @@
       $('confirm-column-settings-btn').addEventListener('click', () => applyColumnSettingsFromModal(false));
       $('save-column-settings-template-btn').addEventListener('click', () => applyColumnSettingsFromModal(true));
       columnSettingsBackdrop.addEventListener('click', e => { if (e.target === columnSettingsBackdrop) closeColumnSettingsModal(); });
+      $('storyboard-settings-btn').addEventListener('click', openStoryboardSettingsModal);
+      $('cancel-storyboard-settings').addEventListener('click', closeStoryboardSettingsModal);
+      $('confirm-storyboard-settings').addEventListener('click', confirmStoryboardSettings);
+      storyboardSettingsBackdrop.addEventListener('click', e => { if (e.target === storyboardSettingsBackdrop) closeStoryboardSettingsModal(); });
       $('import-menu-btn').addEventListener('click', e => toggleMenu(e, 'import-menu'));
       $('export-menu-btn').addEventListener('click', e => toggleMenu(e, 'export-menu'));
-      $('import-json-btn').addEventListener('click', () => { closeMenus(); $('project-json-input').click(); });
+      $('import-json-btn').addEventListener('click', () => { closeMenus(); openJSONImportModal(); });
+      $('confirm-json-import-btn').addEventListener('click', confirmJSONImport);
+      $('cancel-json-import-btn').addEventListener('click', closeJSONImportModal);
+      $('json-remove-file-btn').addEventListener('click', (e) => { e.stopPropagation(); openJSONImportModal(); });
+      $('json-upload-area').addEventListener('click', () => { $('project-json-input')?.click(); });
+      $('json-upload-area').addEventListener('dragover', e => { e.preventDefault(); $('json-upload-area')?.classList.add('border-[#f6d56f]'); });
+      $('json-upload-area').addEventListener('dragleave', () => { $('json-upload-area')?.classList.remove('border-[#f6d56f]'); });
+      $('json-upload-area').addEventListener('drop', e => { e.preventDefault(); $('json-upload-area')?.classList.remove('border-[#f6d56f]'); const file = e.dataTransfer.files[0]; if (file && file.name.toLowerCase().endsWith('.json')) { handleProjectJSONImport({ target: { files: e.dataTransfer.files } }); } });
       $('import-csv-btn').addEventListener('click', () => { closeMenus(); openCSVImportModal(); });
       $('confirm-csv-import-btn').addEventListener('click', confirmCSVImport);
       $('cancel-csv-import-btn').addEventListener('click', closeCSVImportModal);
+      $('csv-remove-file-btn').addEventListener('click', (e) => { e.stopPropagation(); openCSVImportModal(); });
       $('csv-upload-area').addEventListener('click', () => { $('project-csv-input')?.click(); });
       $('csv-upload-area').addEventListener('dragover', e => { e.preventDefault(); $('csv-upload-area')?.classList.add('border-[#f6d56f]'); });
       $('csv-upload-area').addEventListener('dragleave', () => { $('csv-upload-area')?.classList.remove('border-[#f6d56f]'); });
       $('csv-upload-area').addEventListener('drop', e => { e.preventDefault(); $('csv-upload-area')?.classList.remove('border-[#f6d56f]'); const file = e.dataTransfer.files[0]; if (file && file.name.toLowerCase().endsWith('.csv')) { handleProjectCSVImport({ target: { files: e.dataTransfer.files } }); } });
       $('export-json-btn').addEventListener('click', () => { closeMenus(); exportJSON(); });
       $('export-html-btn').addEventListener('click', () => { closeMenus(); exportHTML(); });
-      $('export-pdf-btn').addEventListener('click', () => { closeMenus(); exportPDF(); });
+      $('export-pdf-btn').addEventListener('click', () => { closeMenus(); openPDFExportModal(); });
+      $('close-pdf-export-modal').addEventListener('click', closePDFExportModal);
+      $('cancel-pdf-export-modal').addEventListener('click', closePDFExportModal);
+      $('confirm-pdf-export-modal').addEventListener('click', () => { const orientation = document.querySelector('input[name="pdf-orientation"]:checked')?.value || 'landscape'; closePDFExportModal(); exportPDF(orientation); });
+      document.querySelectorAll('input[name="pdf-orientation"]').forEach(radio => { radio.addEventListener('change', () => { renderPDFPreview(radio.value); }); });
+      $('pdf-preview-prev').addEventListener('click', () => { pdfPreviewState.currentPage = Math.max(1, pdfPreviewState.currentPage - 1); renderPDFPreviewPage(); });
+      $('pdf-preview-next').addEventListener('click', () => { pdfPreviewState.currentPage = Math.min(pdfPreviewState.totalPages, pdfPreviewState.currentPage + 1); renderPDFPreviewPage(); });
       $('save-project-btn').addEventListener('click', saveCurrentProject);
       $('add-row-btn').addEventListener('click', () => { tableBody.appendChild(createRowElement(getSuggestedNextRowData())); updateRowNumbers(); saveCurrentProjectSilently(); });
       imageInput.addEventListener('change', handleImageInputChange);
@@ -907,11 +1013,156 @@
         }
       });
     }
+    function openStoryboardSettingsModal() {
+      const currentRatio = state.storyboardSettings?.imageAspectRatio || '4/3';
+      const radio = document.querySelector(`input[name="img-ratio"][value="${currentRatio}"]`);
+      if (radio) radio.checked = true;
+      storyboardSettingsBackdrop.classList.remove('hidden');
+    }
+    function closeStoryboardSettingsModal() {
+      storyboardSettingsBackdrop.classList.add('hidden');
+    }
+    function confirmStoryboardSettings() {
+      const selected = document.querySelector('input[name="img-ratio"]:checked');
+      if (selected) {
+        state.storyboardSettings = state.storyboardSettings || {};
+        state.storyboardSettings.imageAspectRatio = selected.value;
+        document.documentElement.style.setProperty('--img-ratio', selected.value);
+        saveCurrentProjectSilently();
+      }
+      closeStoryboardSettingsModal();
+    }
     function openColumnSettingsModal() {
       state.columnDefinitionsDraft = normalizeColumnDefinitions(state.columnDefinitions);
       renderColumnSettingsList();
       columnSettingsBackdrop.classList.remove('hidden');
       $('column-settings-list')?.querySelector('.column-setting-input')?.focus();
+    }
+    function openPDFExportModal() {
+      const orientation = document.querySelector('input[name="pdf-orientation"]:checked')?.value || 'landscape';
+      $('pdf-export-modal-backdrop').classList.remove('hidden');
+      renderPDFPreview(orientation);
+    }
+    var pdfPreviewState = { orientation: 'landscape', pages: [], currentPage: 1, totalPages: 0, rows: [] };
+    function closePDFExportModal() {
+      $('pdf-export-modal-backdrop').classList.add('hidden');
+      var pagesEl = document.getElementById('pdf-preview-pages');
+      var navEl = document.getElementById('pdf-preview-nav');
+      var loadingEl = document.getElementById('pdf-preview-loading');
+      if (pagesEl) { pagesEl.classList.add('hidden'); pagesEl.innerHTML = ''; }
+      if (navEl) navEl.classList.add('hidden');
+      if (loadingEl) loadingEl.classList.remove('hidden');
+    }
+    async function renderPDFPreview(orientation) {
+      if (!state.currentProjectId) return;
+      var loadingEl = document.getElementById('pdf-preview-loading');
+      var pagesEl = document.getElementById('pdf-preview-pages');
+      var navEl = document.getElementById('pdf-preview-nav');
+      if (loadingEl) loadingEl.classList.remove('hidden');
+      if (pagesEl) { pagesEl.classList.add('hidden'); pagesEl.innerHTML = ''; }
+      if (navEl) navEl.classList.add('hidden');
+      await new Promise(r => setTimeout(r, 30));
+      try {
+        var visibleKeys = getVisibleColumnKeys();
+        var rows = collectRowData();
+        var cols = state.columnDefinitions || createDefaultColumnDefinitions();
+        // A4 尺寸 (px @ 96dpi): 横排 1123×794, 竖排 794×1123
+        var isLandscape = orientation === 'landscape';
+        var pageW = isLandscape ? 1123 : 794;
+        var pageH = isLandscape ? 794 : 1123;
+        var marginX = 30, marginY = 25;
+        var usableW = pageW - marginX * 2;
+        var usableH = pageH - marginY * 2 - 32; // 扣掉页码区
+        var headerH = 30;
+        var rowH = 64; // 每行基准高度（有图行约64px）
+        // 根据可见列数调整列宽
+        var colCount = visibleKeys.length + 1; // +1 for 行号
+        var colWidthMap = { time: 80, dept: 90, img: 100, content: 160, lens: 60, movement: 90, copy: 80, default: 80 };
+        // 计算总列宽
+        var totalColW = 30; // 行号列宽
+        visibleKeys.forEach(k => { totalColW += (colWidthMap[k] || colWidthMap.default); });
+        // 按比例缩放列宽
+        var scale = totalColW > usableW ? usableW / totalColW : 1;
+        var scaledColWidth = {};
+        visibleKeys.forEach(k => { scaledColWidth[k] = Math.round((colWidthMap[k] || colWidthMap.default) * scale); });
+        var scaledIdxW = Math.round(30 * scale);
+        var scaledTotalW = scaledIdxW + Object.values(scaledColWidth).reduce((a, b) => a + b, 0);
+        var rowsPerPage = Math.max(1, Math.floor((usableH - headerH) / rowH));
+        // 分页（不允许行截断）
+        var pages = [];
+        for (var i = 0; i < rows.length; i += rowsPerPage) {
+          pages.push(rows.slice(i, i + rowsPerPage));
+        }
+        pdfPreviewState = { orientation, pages, currentPage: 1, totalPages: pages.length, rows, scaledColWidth, scaledIdxW, scaledTotalW, visibleKeys, cols, scale, pageW, pageH, marginX, marginY };
+        if (loadingEl) loadingEl.classList.add('hidden');
+        if (pagesEl) pagesEl.classList.remove('hidden');
+        if (navEl) navEl.classList.remove('hidden');
+        renderPDFPreviewPage();
+      } catch (e) {
+        console.error('PDF preview error:', e);
+        if (loadingEl) loadingEl.classList.add('hidden');
+        showToast('预览生成失败: ' + e.message);
+      }
+    }
+    function renderPDFPreviewPage() {
+      var s = pdfPreviewState;
+      if (!s.pages || !s.pages.length) return;
+      var pageRows = s.pages[s.currentPage - 1] || [];
+      var pagesEl = document.getElementById('pdf-preview-pages');
+      var navEl = document.getElementById('pdf-preview-nav');
+      var pageInfo = document.getElementById('pdf-preview-page-info');
+      var prevBtn = document.getElementById('pdf-preview-prev');
+      var nextBtn = document.getElementById('pdf-preview-next');
+      // 列宽 map
+      var cw = s.scaledColWidth;
+      var visK = s.visibleKeys;
+      var colHdrs = visK.map(k => {
+        var label = (s.cols[k] && s.cols[k].label) || k;
+        var w = cw[k] || 80;
+        return `<th style="padding:4px 6px;background:#f5f4f0;font-size:11px;font-weight:700;color:#6b7280;border-bottom:2px solid #ddd8cf;border-right:1px solid #e5e3db;white-space:nowrap;text-align:left;width:${w}px;min-width:${w}px;">${label}</th>`;
+      }).join('');
+      var bodyRows = pageRows.map((row, idx) => {
+        var bg = idx % 2 === 0 ? '#fff' : '#fafaf8';
+        var cells = visK.map(k => {
+          var w = cw[k] || 80;
+          var val = '';
+          if (k === 'time') val = escapeHtml(row.time || '');
+          else if (k === 'dept') val = escapeHtml(row.dept || '');
+          else if (k === 'img') {
+            val = row.img ? `<img src="${row.img}" style="width:${Math.round(w*0.7)}px;height:${Math.round(w*0.7*0.7)}px;object-fit:cover;border-radius:3px;" onerror="this.style.display='none'">` : '';
+          }
+          else if (k === 'content') val = escapeHtml(row.content || '').replace(/\n/g,'<br>');
+          else if (k === 'lens') val = escapeHtml(row.lens || '');
+          else if (k === 'movement') val = escapeHtml(row.movement || '');
+          else if (k === 'copy') val = escapeHtml(row.copy || '');
+          return `<td style="padding:4px 6px;font-size:10px;color:#374151;border-bottom:1px solid #eeece6;border-right:1px solid #eeece6;background:${bg};vertical-align:top;width:${w}px;min-width:${w}px;max-width:${w}px;overflow:hidden;word-break:break-word;">${val}</td>`;
+        }).join('');
+        return `<tr><td style="padding:4px 6px;font-size:10px;color:#9ca3af;border-bottom:1px solid #eeece6;border-right:1px solid #eeece6;background:${bg};text-align:center;width:${s.scaledIdxW}px;min-width:${s.scaledIdxW}px;">${idx+1}</td>${cells}</tr>`;
+      }).join('');
+      var scaleX = s.scale < 1 ? s.scale : 1;
+      var scaleY = s.scale < 1 ? s.scale : 1;
+      var displayW = Math.round(s.pageW * scaleX);
+      var displayH = Math.round(s.pageH * scaleY);
+      var scaledMarginX = Math.round(s.marginX * scaleX);
+      var scaledMarginY = Math.round(s.marginY * scaleY);
+      pagesEl.innerHTML = `
+<div style="width:${displayW}px;min-height:${displayH}px;background:#fff;margin:${scaledMarginY}px auto;border:1px solid #e5e3db;box-shadow:0 2px 12px rgba(0,0,0,0.08);overflow:hidden;">
+  <div style="padding:${scaledMarginY}px ${scaledMarginX}px 0;">
+    <table style="width:${Math.round(s.scaledTotalW * scaleX)}px;border-collapse:collapse;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;table-layout:fixed;">
+      <thead><tr>
+        <th style="padding:4px 6px;background:#f5f4f0;font-size:11px;font-weight:700;color:#6b7280;border-bottom:2px solid #ddd8cf;border-right:1px solid #e5e3db;white-space:nowrap;text-align:center;width:${s.scaledIdxW}px;min-width:${s.scaledIdxW}px;">#</th>
+        ${colHdrs}
+      </tr></thead>
+      <tbody>${bodyRows}</tbody>
+    </table>
+  </div>
+</div>`;
+      if (pageInfo) pageInfo.textContent = `${s.currentPage} / ${s.totalPages} 页`;
+      if (prevBtn) prevBtn.disabled = s.currentPage <= 1;
+      if (nextBtn) nextBtn.disabled = s.currentPage >= s.totalPages;
+    }
+    function escapeHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
     function closeColumnSettingsModal() {
       columnSettingsBackdrop.classList.add('hidden');
@@ -1077,7 +1328,6 @@
       try {
         state.currentProjectId = projectId;
         await loadProjectIntoEditor(projectId);
-        userBarBrand?.classList.add('hidden');
         homeView.classList.add('hidden');
         projectView.classList.remove('hidden');
       } finally {
@@ -1089,7 +1339,6 @@
       state.currentProjectId = null;
       setBatchActionBarVisible(false);
       state.batchModeEnabled = false;
-      userBarBrand?.classList.remove('hidden');
       projectView.classList.add('hidden');
       homeView.classList.remove('hidden');
       loadProjects();
@@ -1101,6 +1350,7 @@
       projectPageDesc.textContent = p.description || '已进入项目';
       applyProjectInfo(p.info || {});
       applyProjectColumnSettings(p.info || {});
+      applyProjectStoryboardSettings(p.info || {});
       const rows = await loadProjectRows(projectId);
       await renderProjectRows(rows);
     }
@@ -1108,6 +1358,10 @@
     function applyProjectColumnSettings(info) {
       state.columnDefinitions = normalizeColumnDefinitions(info?.columnSettings);
       renderColumnHeaders();
+    }
+    function applyProjectStoryboardSettings(info) {
+      state.storyboardSettings = { autoSyncNextStart: true, imageAspectRatio: '4/3', ...(info?.storyboardSettings || {}) };
+      document.documentElement.style.setProperty('--img-ratio', state.storyboardSettings.imageAspectRatio);
     }
     async function renderProjectRows(rows) {
       tableBody.innerHTML = '';
@@ -1143,7 +1397,7 @@
       const { start, end } = parseTimeRange(row.time || '0:00 - 0:00');
       const deptValue = normalizeDeptValue(row.dept);
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="row-select-cell w-[38px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center align-top"><input type="checkbox" class="row-select-checkbox h-4 w-4 rounded border border-border text-primary focus:ring-0"></td><td class="col-index relative w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"><div class="row-insert-anchor absolute bottom-0 left-1/2 flex w-[26px] -translate-x-1/2 translate-y-1/2 z-20 items-center justify-center"><button class="icon-btn row-insert-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white border border-border text-[#5f6670] opacity-0 transition duration-150 hover:bg-[#f8f8f6] hover:scale-105" aria-label="插入镜头">' + heroicon('plus') + '</button></div></td><td class="time-cell col-time relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="col-dept border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTMLWithBreak(deptValue || '点击输入拍摄对象') + '</td><td class="col-img border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto h-[72px] w-[92px]"><button class="icon-btn img-delete-btn pointer-events-none absolute inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="col-content border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="col-lens border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="col-movement border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="col-copy action-col min-w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
+      tr.innerHTML = '<td class="col-drag w-[42px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-0 py-0 text-center align-top"><span class="drag-handle inline-flex min-h-[52px] h-full w-full cursor-grab items-center justify-center text-base text-[#979ca4]">' + heroicon('drag') + '</span></td><td class="row-select-cell w-[38px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center align-top"><input type="checkbox" class="row-select-checkbox h-4 w-4 rounded border border-border text-primary focus:ring-0"></td><td class="col-index relative w-[54px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-center font-bold text-muted align-top"><div class="row-insert-anchor absolute bottom-0 left-1/2 flex w-[26px] -translate-x-1/2 translate-y-1/2 z-20 items-center justify-center"><button class="icon-btn row-insert-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white border border-border text-[#5f6670] opacity-0 transition duration-150 hover:bg-[#f8f8f6] hover:scale-105" aria-label="插入镜头">' + heroicon('plus') + '</button></div></td><td class="time-cell col-time relative w-[140px] border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="row-delete-anchor absolute bottom-0 left-[-13px] top-0 flex w-[26px] items-center justify-center"><button class="icon-btn row-delete-btn pointer-events-none inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150 hover:scale-105" aria-label="删除镜头">' + heroicon('x') + '</button></div><div class="time-range flex flex-col gap-1.5 pr-2"><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="start"><span class="time-tag-label text-[11px] text-[#9a9ea6]">开始</span><span class="time-tag-value text-sm">' + escapeHTML(start) + '</span></button><div class="time-separator self-center text-[11px] text-[#c0b9ac]">至</div><button class="time-tag inline-flex items-center justify-between gap-2 rounded-[10px] border border-[#ebe6de] bg-[#fcfbf8] px-2.5 py-[7px] font-extrabold text-[#555b63] transition duration-150 hover:-translate-y-px hover:bg-[#fff9e7]" data-role="end"><span class="time-tag-label text-[11px] text-[#9a9ea6]">结束</span><span class="time-tag-value text-sm">' + escapeHTML(end) + '</span></button></div></td><td class="col-dept border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTMLWithBreak(deptValue || '点击输入拍摄对象') + '</td><td class="col-img border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top"><div class="image-box ' + (row.img ? 'has-image ' : '') + 'relative mx-auto w-[85%]" style="aspect-ratio: var(--img-ratio, 4/3)"><button class="icon-btn img-delete-btn pointer-events-none absolute inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-danger text-white opacity-0 transition duration-150" aria-label="删除图片">' + heroicon('x') + '</button><div class="upload-box relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-border bg-white transition duration-200 hover:border-[#e4c978] hover:bg-[#fffaf0]"><span class="plus-sign text-2xl font-bold text-[#2f343a]">' + heroicon('plus') + '</span>' + (row.img ? '<img class="absolute inset-0 h-full w-full object-cover" src="' + row.img + '">' : '') + '</div></div></td><td class="col-content border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.content || '点击输入拍摄内容') + '</td><td class="col-lens border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.lens || '点击输入焦段') + '</td><td class="col-movement border-b border-r border-b-[#f3f1ec] border-r-dashed border-r-[#ddd8cf] bg-white px-[14px] py-3 text-left align-top" contenteditable="true" data-batch-editable="true">' + escapeHTML(row.movement || '点击输入运镜') + '</td><td class="col-copy action-col min-w-[62px] border-b border-b-[#f3f1ec] bg-white px-[14px] py-3 text-center align-top"><button class="icon-btn row-copy-btn inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-[#f7f6f3] text-[#666d76] transition duration-150 hover:scale-105" aria-label="复制镜头">' + heroicon('copy') + '</button></td>';
       applyColumnVisibilityToRow(tr);
       return tr;
     }
@@ -1180,18 +1434,46 @@
       e.target.value = '';
       state.currentUploadBox = null;
     }
-    function displayImageInBox(file, uploadBox) {
-      const reader = new FileReader();
-      reader.onload = e => {
+    function compressImage(file, maxWidth = 800, quality = 0.6) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth || height > maxWidth) {
+              if (width > height) { height = Math.round(height * (maxWidth / width)); width = maxWidth; }
+              else { width = Math.round(width * (maxWidth / height)); height = maxWidth; }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    async function displayImageInBox(file, uploadBox) {
+      if (!file.type.startsWith('image/')) return;
+      try {
+        const compressedBase64 = await compressImage(file, 800, 0.6);
         let img = uploadBox.querySelector('img');
-        if (!img) { img = document.createElement('img'); uploadBox.appendChild(img); }
-        img.src = e.target.result;
+        if (!img) { img = document.createElement('img'); img.className = 'absolute inset-0 h-full w-full object-cover'; uploadBox.appendChild(img); }
+        img.src = compressedBase64;
         const plus = uploadBox.querySelector('.plus-sign');
         if (plus) plus.style.display = 'none';
         uploadBox.closest('.image-box').classList.add('has-image');
         saveCurrentProjectSilently();
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error('图片压缩失败:', err);
+      }
     }
     function clearImageBox(imageBox) {
       const uploadBox = imageBox.querySelector('.upload-box');
@@ -1278,11 +1560,51 @@
       updateBatchActionAvailability(cellCount, rowCountSelected);
     }
     function updateBatchActionAvailability(cellCount = getSelectedBatchCells().length, rowCountSelected = getSelectedRows().length) {
-      const shouldDisableCellActions = rowCountSelected > 0;
       const fillButton = $('batch-fill-btn');
       const pasteButton = $('batch-paste-btn');
-      if (fillButton) fillButton.disabled = shouldDisableCellActions;
-      if (pasteButton) pasteButton.disabled = shouldDisableCellActions;
+      const clearButton = $('batch-clear-btn');
+      const copyRowBtn = $('copy-selected-btn');
+      const deleteRowBtn = $('delete-selected-btn');
+
+      if (cellCount === 0 && rowCountSelected === 0) {
+        if (fillButton) fillButton.disabled = true;
+        if (pasteButton) pasteButton.disabled = true;
+        if (clearButton) clearButton.disabled = true;
+        if (copyRowBtn) copyRowBtn.disabled = true;
+        if (deleteRowBtn) deleteRowBtn.disabled = true;
+      } else if (cellCount > 0 && rowCountSelected > 0) {
+        if (fillButton) fillButton.disabled = true;
+        if (pasteButton) pasteButton.disabled = true;
+        if (clearButton) clearButton.disabled = true;
+        if (copyRowBtn) copyRowBtn.disabled = true;
+        if (deleteRowBtn) deleteRowBtn.disabled = true;
+      } else if (cellCount > 0) {
+        if (fillButton) fillButton.disabled = false;
+        if (pasteButton) pasteButton.disabled = false;
+        if (clearButton) clearButton.disabled = false;
+        if (copyRowBtn) copyRowBtn.disabled = true;
+        if (deleteRowBtn) deleteRowBtn.disabled = true;
+      } else if (rowCountSelected > 0) {
+        if (fillButton) fillButton.disabled = true;
+        if (pasteButton) pasteButton.disabled = true;
+        if (clearButton) clearButton.disabled = true;
+        if (copyRowBtn) copyRowBtn.disabled = false;
+        if (deleteRowBtn) deleteRowBtn.disabled = false;
+      }
+      
+      const checkboxes = document.querySelectorAll('.row-select-checkbox');
+      const cells = document.querySelectorAll('td[data-batch-editable="true"]');
+      
+      if (cellCount > 0) {
+        checkboxes.forEach(cb => { cb.disabled = true; cb.classList.add('opacity-40', 'cursor-not-allowed'); });
+        cells.forEach(c => c.classList.remove('opacity-40', 'cursor-not-allowed', 'pointer-events-none'));
+      } else if (rowCountSelected > 0) {
+        checkboxes.forEach(cb => { cb.disabled = false; cb.classList.remove('opacity-40', 'cursor-not-allowed'); });
+        cells.forEach(c => c.classList.add('opacity-40', 'cursor-not-allowed', 'pointer-events-none'));
+      } else {
+        checkboxes.forEach(cb => { cb.disabled = false; cb.classList.remove('opacity-40', 'cursor-not-allowed'); });
+        cells.forEach(c => c.classList.remove('opacity-40', 'cursor-not-allowed', 'pointer-events-none'));
+      }
     }
     function handleBatchRowSelection(checkbox, event) {
       const rows = Array.from(tableBody.querySelectorAll('tr'));
@@ -1390,6 +1712,11 @@
       updateColumnResizeHandleState($('plan-table'));
     }
     function toggleSelectAll() {
+      const cellCount = getSelectedBatchCells().length;
+      if (cellCount > 0) {
+        showToast('请勿同时选择行与单元格');
+        return;
+      }
       const checkboxes = tableBody.querySelectorAll('.row-select-checkbox');
       const allChecked = Array.from(checkboxes).every(cb => cb.checked);
       checkboxes.forEach(cb => cb.checked = !allChecked);
@@ -1564,7 +1891,7 @@
       if (!p) return;
       const info = {};
       document.querySelectorAll('[data-info-field]').forEach(el => { info[el.dataset.infoField] = el.textContent.trim(); });
-      p.info = { ...p.info, ...info, columnSettings: normalizeColumnDefinitions(state.columnDefinitions) };
+      p.info = { ...p.info, ...info, columnSettings: normalizeColumnDefinitions(state.columnDefinitions), storyboardSettings: state.storyboardSettings };
       p.title = info.name || p.title;
       projectPageTitle.textContent = p.title;
     }
@@ -1706,13 +2033,52 @@
     function getDaysInMonth(year, month) {
       return new Date(year, month, 0).getDate();
     }
-    async function exportPDF() {
+    async function exportPDF(orientation) {
       if (!state.currentProjectId) return;
       saveCurrentProjectSilently();
       const p = state.projects.find(x => x.id === state.currentProjectId);
       const area = $('project-export-area');
+      const table = $('plan-table');
+      // 计算 PDF 可用宽度（单位 px @ 96dpi）
+      // A4: 横排 297×210mm → 1123×794px，竖排 210×297mm → 794×1123px
+      // 边距 0.35in = 33.7px（两侧共 67.4px）
+      const isLandscape = orientation === 'landscape';
+      const pageW = isLandscape ? 1123 : 794;
+      const pageH = isLandscape ? 794 : 1123;
+      const marginPx = Math.round(0.35 * 96);
+      const usableW = pageW - marginPx * 2; // 实际可用宽度
+      // 保存原始样式以便恢复
+      const origAreaW = area.style.width;
+      const origTableW = table ? table.style.width : '';
+      // 注入防截断 + 宽度适配 CSS
+      var styleEl = document.createElement('style');
+      styleEl.id = '__pdf-export-style';
+      styleEl.textContent = `tr{page-break-inside:avoid;page-break-after:auto;}
+#project-export-area{width:${usableW}px !important;min-width:0 !important;max-width:none !important;}
+#plan-table{width:${usableW}px !important;min-width:0 !important;table-layout:fixed !important;}
+#plan-table td,#plan-table th{overflow:hidden;word-break:break-word;}`;
+      area.appendChild(styleEl);
       area.classList.add('pdf-exporting');
-      try { await html2pdf().set({ margin: [0.35, 0.35, 0.35, 0.35], filename: (p?.title || '项目') + '.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } }).from(area).save(); } catch (e) { showToast('导出 PDF 失败'); } finally { area.classList.remove('pdf-exporting'); }
+      // 等待样式应用
+      await new Promise(r => setTimeout(r, 80));
+      try {
+        const opt = {
+          margin: [0.35, 0.35, 0.35, 0.35],
+          filename: (p?.title || '项目') + '.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'in', format: 'a4', orientation: orientation }
+        };
+        await html2pdf().set(opt).from(area).save();
+      } catch (e) {
+        console.error(e);
+        showToast('导出 PDF 失败');
+      } finally {
+        area.classList.remove('pdf-exporting');
+        area.style.width = origAreaW;
+        if (table) table.style.width = origTableW;
+        styleEl.remove();
+      }
     }
     function exportJSON() {
       if (!state.currentProjectId) return;
@@ -1745,26 +2111,6 @@
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = sanitizeFileName(p.title || '项目') + '.html'; a.click(); URL.revokeObjectURL(a.href);
       showToast('HTML 已导出');
     }
-    function ensureCSVImportControls() {
-      if (!$('project-csv-input')) {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.id = 'project-csv-input';
-        input.accept = '.csv,text/csv';
-        input.hidden = true;
-        document.body.appendChild(input);
-      }
-      if (!$('import-csv-btn')) {
-        const menu = $('import-menu');
-        if (!menu) return;
-        const btn = document.createElement('button');
-        btn.className = 'action-menu-item w-full rounded-[10px] px-3 py-2.5 text-left text-[13px] font-bold text-[#5f6670] transition duration-150 hover:bg-[#f8f8f6] hover:text-text';
-        btn.id = 'import-csv-btn';
-        btn.type = 'button';
-        btn.textContent = '导入 CSV';
-        menu.appendChild(btn);
-      }
-    }
     async function handleProjectJSONImport(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1774,12 +2120,51 @@
           const data = JSON.parse(ev.target.result);
           const payload = data?.project || data;
           if (!payload?.rows) { showToast('无效的项目文件'); return; }
-          const newP = await createNewProject({ title: payload.title || '导入的项目', description: payload.description || '', password: payload.password || '', ...(payload.info || {}), columnSettings: payload.info?.columnSettings });
-          if (newP) { await saveProjectRows(newP.id, payload.rows.map(r => ({ time: r.time || '0:00 - 0:00', dept: r.dept || '', img: r.img || '', content: r.content || '', lens: r.lens || '', movement: r.movement || '' }))); await loadProjects(); showToast('项目已导入'); }
+          state.pendingJSONImport = { payload, fileName: file.name };
+          $('json-file-name').textContent = file.name;
+          $('json-file-name').classList.replace('text-muted', 'text-[#2bb673]');
+          $('json-file-name').classList.add('font-bold');
+          $('json-upload-hint').textContent = '文件已准备就绪';
+          $('json-plus-sign').classList.add('hidden');
+          $('json-file-icon').classList.remove('hidden');
+          $('json-remove-file-btn').classList.remove('hidden');
+          $('confirm-json-import-btn').disabled = false;
+          showToast('JSON 文件已就绪，点击确定导入当前项目');
         } catch (err) { showToast('文件解析失败'); }
         e.target.value = '';
       };
       reader.readAsText(file);
+    }
+    function openJSONImportModal() {
+      if (!state.currentProjectId) { showToast('请先打开一个项目'); return; }
+      state.pendingJSONImport = null;
+      $('json-file-name').textContent = '支持 .json 格式';
+      $('json-file-name').classList.replace('text-[#2bb673]', 'text-muted');
+      $('json-file-name').classList.remove('font-bold');
+      $('json-upload-hint').textContent = '点击或拖拽 JSON 文件到这里';
+      $('json-plus-sign').classList.remove('hidden');
+      $('json-file-icon').classList.add('hidden');
+      $('json-remove-file-btn').classList.add('hidden');
+      $('confirm-json-import-btn').disabled = true;
+      $('json-import-modal-backdrop').classList.remove('hidden');
+    }
+    function closeJSONImportModal() {
+      $('json-import-modal-backdrop').classList.add('hidden');
+      const input = $('project-json-input');
+      if (input) input.value = '';
+      state.pendingJSONImport = null;
+    }
+    async function confirmJSONImport() {
+      if (!state.currentProjectId) { showToast('请先打开一个项目'); closeJSONImportModal(); return; }
+      const importData = state.pendingJSONImport;
+      if (!importData?.payload?.rows) { showToast('请选择 JSON 文件'); return; }
+      const payload = importData.payload;
+      const success = await saveProjectRows(state.currentProjectId, payload.rows.map(r => ({ time: r.time || '0:00 - 0:00', dept: r.dept || '', img: r.img || '', content: r.content || '', lens: r.lens || '', movement: r.movement || '' })));
+      if (success) {
+        await loadProjectIntoEditor(state.currentProjectId);
+        closeJSONImportModal();
+        showToast('JSON 已导入，当前项目已覆盖');
+      }
     }
     async function handleProjectCSVImport(e) {
       const file = e.target.files[0];
@@ -1793,8 +2178,14 @@
           if (!mappedRows.length) { showToast('CSV 中没有可导入的镜头数据'); return; }
           state.pendingCSVImport = { rows: mappedRows, fileName: file.name };
           $('csv-file-name').textContent = file.name;
+          $('csv-file-name').classList.replace('text-muted', 'text-[#2bb673]');
+          $('csv-file-name').classList.add('font-bold');
+          $('csv-upload-hint').textContent = '文件已准备就绪';
+          $('csv-plus-sign').classList.add('hidden');
+          $('csv-file-icon').classList.remove('hidden');
+          $('csv-remove-file-btn').classList.remove('hidden');
           $('confirm-csv-import-btn').disabled = false;
-          showToast('CSV 已准备好，点击确定导入当前项目');
+          showToast('CSV 文件已就绪，点击确定导入当前项目');
         } catch (err) { showToast('CSV 解析失败'); }
         e.target.value = '';
       };
@@ -1804,6 +2195,12 @@
       if (!state.currentProjectId) { showToast('请先打开一个项目'); return; }
       state.pendingCSVImport = null;
       $('csv-file-name').textContent = '支持 .csv 格式';
+      $('csv-file-name').classList.replace('text-[#2bb673]', 'text-muted');
+      $('csv-file-name').classList.remove('font-bold');
+      $('csv-upload-hint').textContent = '点击或拖拽 CSV 文件到这里';
+      $('csv-plus-sign').classList.remove('hidden');
+      $('csv-file-icon').classList.add('hidden');
+      $('csv-remove-file-btn').classList.add('hidden');
       $('confirm-csv-import-btn').disabled = true;
       $('csv-import-modal-backdrop').classList.remove('hidden');
     }
@@ -1876,7 +2273,7 @@
       return {
         time,
         dept: pick('dept', 'department', '部门', '场景', 'scene'),
-        img: pick('img', 'image', '图片', '参考图', 'reference', 'reference image'),
+        img: '', // 关闭导入CSV的参考图功能
         content: pick('content', '内容', '拍摄内容', 'description', 'shot', 'shot content'),
         lens: pick('lens', '焦段', '镜头', 'camera lens'),
         movement: pick('movement', '运镜', 'camera movement', 'move')
